@@ -2,9 +2,9 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Register from "./pages/Register";
+import Register from "./pages/Auth/Register";
 import Products from "./pages/Product";
-import Login from "./pages/Login";
+import Login from "./pages/Auth/Login";
 import { checkLogin } from "./features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AddProduct from "./pages/addProduct";
