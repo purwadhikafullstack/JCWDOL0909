@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, increaseQuantity } from "../features/cart/cartSlice";
+import { addItem, increaseQuantity } from "../../features/cart/cartSlice";
 import Axios from "axios";
 
 import { Input, Select, Button } from "@chakra-ui/react";

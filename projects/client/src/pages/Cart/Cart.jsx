@@ -3,7 +3,7 @@ import {
   removeItem,
   decreaseQuantity,
   increaseQuantity,
-} from "../features/cart/cartSlice";
+} from "../../features/cart/cartSlice";
 
 function Cart() {
   const dispatch = useDispatch();
