@@ -22,6 +22,9 @@ app.use(express.json());
 
 // ===========================
 // NOTE : Add your routes here
+app.use("/auth", authRoutes);
+app.use("/product", productRoutes);
+app.use("/category", categoryRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
@@ -66,10 +69,6 @@ app.get("*", (req, res) => {
 });
 
 //#endregion
-
-app.use("/auth", authRoutes);
-app.use("/product", productRoutes);
-app.use("/category", categoryRoutes);
 
 app.listen(PORT, (err) => {
   if (err) {
