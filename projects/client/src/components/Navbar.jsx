@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { resetUser } from "../features/users/usersSlice";
+import { resetUser } from "../features/users/userSlice";
 
 function Navbar() {
   const userGlobal = useSelector((state) => state.users.user);
