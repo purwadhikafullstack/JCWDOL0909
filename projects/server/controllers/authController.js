@@ -76,45 +76,45 @@ module.exports = {
   },
 
   fetchAllUser: async (req, res) => {
-    // try {
-    //   const users = await query(`SELECT * FROM users`);
-    //   return res.status(200).send(users);
-    // } catch (error) {
-    //   res.status(error.status || 500).send(error);
-    // }
+    try {
+      const users = await query(`SELECT * FROM users`);
+      return res.status(200).send(users);
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
   },
   fetchUser: async (req, res) => {
-    // try {
-    //   const idParams = parseInt(req.params.id);
-    //   if (req.user.id !== idParams) {
-    //     return res.status(400).send("Unauthorized attempt");
-    //   }
-    //   const users = await query(
-    //     `SELECT * FROM users WHERE id_users = ${db.escape(idParams)}`
-    //   );
-    //   return res.status(200).send(users);
-    // } catch (error) {
-    //   res.status(error.status || 500).send(error);
-    // }
+    try {
+      const idParams = parseInt(req.params.id);
+      if (req.user.id !== idParams) {
+        return res.status(400).send("Unauthorized attempt");
+      }
+      const users = await query(
+        `SELECT * FROM users WHERE id_users = ${db.escape(idParams)}`
+      );
+      return res.status(200).send(users);
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
   },
 
   checkLogin: async (req, res) => {
-    // try {
-    //   const users = await query(
-    //     `SELECT * FROM users WHERE id_users = ${db.escape(req.user.id)}`
-    //   );
-    //   console.log(users);
-    //   return res.status(200).send({
-    //     data: {
-    //       id: users[0].id_users,
-    //       username: users[0].username,
-    //       email: users[0].email,
-    //       phone: users[0].phone,
-    //       storeName: users[0].store_name,
-    //     },
-    //   });
-    // } catch (error) {
-    //   res.status(error.status || 500).send(error);
-    // }
+    try {
+      const users = await query(
+        `SELECT * FROM users WHERE id_users = ${db.escape(req.user.id)}`
+      );
+      console.log(users);
+      return res.status(200).send({
+        data: {
+          id: users[0].id_users,
+          username: users[0].username,
+          email: users[0].email,
+          phone: users[0].phone,
+          storeName: users[0].store_name,
+        },
+      });
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
   },
 };

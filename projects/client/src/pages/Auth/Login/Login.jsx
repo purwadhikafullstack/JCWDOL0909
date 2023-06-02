@@ -18,7 +18,7 @@ function Login() {
     if (userGlobal.id > 0) {
       navigate("/product");
     }
-  }, [userGlobal]);
+  }, [userGlobal, navigate]);
 
   return (
     <div class="flex h-screen">

@@ -28,7 +28,6 @@ function App() {
 
   return (
     <div>
-      {/* {userGlobal.id > 0 ? <Sidebar /> : <Navbar />} */}
       <Routes>
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />

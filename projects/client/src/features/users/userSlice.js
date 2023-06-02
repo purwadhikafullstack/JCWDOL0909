@@ -43,7 +43,10 @@ export function fetchUsersData() {
 
 export function registerUser(data) {
   return async (dispatch) => {
-    let response = await Axios.post("http://localhost:8000/auth", data);
+    let response = await Axios.post(
+      "http://localhost:8000/auth/register",
+      data
+    );
     console.log(response);
     if (response) {
       alert(response.data.message);
@@ -85,16 +88,21 @@ export function checkLogin(token) {
 
 export function loginUser1(data) {
   return async (dispatch) => {
-    // console.log("slice", data)
-    const response = await Axios.post("http://localhost:8000/auth/login", data);
-    if (response.data.success) {
-      // console.log(response.data)
-      //Cara masukin data ke global state
-      dispatch(setUser(response.data.data));
-      localStorage.setItem("user_token", response.data.token);
-      alert("Login Success");
-    } else {
-      alert(response.data.message);
+    try {
+      const response = await Axios.post(
+        "http://localhost:8000/auth/login",
+        data
+      );
+      if (response.data.success) {
+        dispatch(setUser(response.data.data));
+        localStorage.setItem("user_token", response.data.token);
+        alert("Login Success");
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      alert(error);
+      console.error(error);
     }
   };
 }
