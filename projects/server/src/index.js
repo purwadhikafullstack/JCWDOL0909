@@ -14,8 +14,6 @@ app.use(express.json());
 
 //#region API ROUTES
 
-// ===========================
-// NOTE : Add your routes here
 app.use("/auth", authRoutes);
 app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);

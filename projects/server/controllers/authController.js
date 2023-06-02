@@ -64,8 +64,8 @@ module.exports = {
         message: "Login Success",
         token,
         data: {
-          id: isEmailExist[0].id_users,
-          email: isEmailExist[0].email_email,
+          id: isEmailExist[0].id_user,
+          email: isEmailExist[0].user_email,
           phone: isEmailExist[0].user_phone_number,
         },
         success: true,
@@ -106,11 +106,9 @@ module.exports = {
       console.log(users);
       return res.status(200).send({
         data: {
-          id: users[0].id_users,
-          username: users[0].username,
-          email: users[0].email,
-          phone: users[0].phone,
-          storeName: users[0].store_name,
+          id: isEmailExist[0].id_user,
+          email: isEmailExist[0].user_email,
+          phone: isEmailExist[0].user_phone_number,
         },
       });
     } catch (error) {
