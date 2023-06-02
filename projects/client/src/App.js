@@ -1,16 +1,15 @@
 // import './App.css';
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Register from "./pages/Auth/Register";
+import Register from "./pages/Auth/Register/Register";
 import Products from "./pages/Products/Product";
-import Login from "./pages/Auth/Login";
+import Login from "./pages/Auth/Login/Login";
 import { checkLogin } from "./features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AddProduct from "./pages/Products/addProduct";
 import AddCategory from "./pages/Category/addCategory";
-import Sidebar from "./components/Sidebar";
 import Cart from "./pages/Cart/Cart";
+import NotFound from "./pages/Error/NotFound";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -29,7 +28,7 @@ function App() {
 
   return (
     <div>
-      {userGlobal.id > 0 ? <Sidebar /> : <Navbar />}
+      {/* {userGlobal.id > 0 ? <Sidebar /> : <Navbar />} */}
       <Routes>
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
@@ -37,6 +36,7 @@ function App() {
         <Route path="/category/addCategory" element={<AddCategory />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product" element={<Products />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

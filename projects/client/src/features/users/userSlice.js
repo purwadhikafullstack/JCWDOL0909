@@ -35,7 +35,7 @@ export default usersSlice.reducer;
 
 export function fetchUsersData() {
   return async (dispatch) => {
-    let response = await Axios.get("http://localhost:8001/users");
+    let response = await Axios.get("http://localhost:8000/users");
     console.log(response.data);
     dispatch(setUser(response.data));
   };
@@ -43,7 +43,7 @@ export function fetchUsersData() {
 
 export function registerUser(data) {
   return async (dispatch) => {
-    let response = await Axios.post("http://localhost:8001/auth", data);
+    let response = await Axios.post("http://localhost:8000/auth", data);
     console.log(response);
     if (response) {
       alert(response.data.message);
@@ -54,7 +54,7 @@ export function registerUser(data) {
 export function loginUser(data) {
   return async (dispatch) => {
     console.log(data);
-    let response = await Axios.post("http://localhost:8001/auth/login", data);
+    let response = await Axios.post("http://localhost:8000/auth/login", data);
     console.log(response);
     if (response) {
       dispatch(setUser(response.data.data));
@@ -68,7 +68,7 @@ export function checkLogin(token) {
   return async (dispatch) => {
     // console.log(token)
     let response = await Axios.post(
-      "http://localhost:8001/auth/check-login",
+      "http://localhost:8000/auth/check-login",
       {},
       {
         headers: {
@@ -86,7 +86,7 @@ export function checkLogin(token) {
 export function loginUser1(data) {
   return async (dispatch) => {
     // console.log("slice", data)
-    const response = await Axios.post("http://localhost:8001/auth/login", data);
+    const response = await Axios.post("http://localhost:8000/auth/login", data);
     if (response.data.success) {
       // console.log(response.data)
       //Cara masukin data ke global state
