@@ -2,18 +2,26 @@ const { db, query } = require("../database");
 
 module.exports = {
   addProduct: async (req, res) => {
-    const { productName, productPrice, productDesc, id_category } = req.body;
+    const {
+      productName,
+      productPrice,
+      productStock,
+      productDesc,
+      id_category,
+    } = req.body;
 
-    const idusers = req.user.id;
+    const id_admin = req.user.id;
 
     const { file } = req;
     const filepath = file ? "/" + file.filename : null;
 
     let addProductQuery = `INSERT INTO products VALUES (null, ${db.escape(
       productName
-    )}, ${db.escape(productPrice)}, ${db.escape(productDesc)}, ${db.escape(
+    )}, ${db.escape(productPrice)}, ${db.escape(productStock)}, ${db.escape(
+      filepath
+    )}, ${db.escape(productDesc)}, ${db.escape(
       id_category
-    )}, ${db.escape(filepath)},true,${db.escape(idusers)})`;
+    )},null,null,${db.escape(id_admin)})`;
     let addProductResult = await query(addProductQuery);
 
     return res.status(200).send({

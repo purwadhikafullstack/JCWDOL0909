@@ -4,13 +4,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem, increaseQuantity } from "../../features/cart/cartSlice";
 import Axios from "axios";
 
-import { Input, Select, Button } from "@chakra-ui/react";
+import { Input, Select, Button, ButtonGroup } from "@chakra-ui/react";
 
 function ProductCard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [products, setProductList] = useState([]);
   const cartItems = useSelector((state) => state.cart.items);
+
+  const [products, setProductList] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
+
+  useEffect(() => {
+    Axios.get("http://localhost:8000/category")
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const fetchProductsData = async () => {
     let response = await Axios.get(`http://localhost:8000/product`);
@@ -29,48 +44,73 @@ function ProductCard() {
     alert("berhasil menambahkan ke keranjang");
   };
 
-  const [search, setSearch] = useState(``);
   const [sort, setSort] = useState(`newest`);
+  const [selectedCategory, setSelectedCategory] = useState(0);
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(parseInt(e.target.value));
+    setCurrentPage(1);
+  };
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const filteredProducts =
+    selectedCategory === 0
+      ? products
+      : products.filter((p) => p.id_category === selectedCategory);
+  const filteredProductsBySearchTerm = filteredProducts.filter((p) =>
+    p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const productsOnPage = filteredProductsBySearchTerm.slice(
+    startIndex,
+    endIndex
+  );
+
+  const totalPages = Math.ceil(
+    filteredProductsBySearchTerm.length / itemsPerPage
+  );
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const renderList = () => {
-    return products
-      .filter((product) => {
-        return search.toLowerCase() === ""
-          ? product
-          : product.product_name.toLowerCase().includes(search);
-      })
-      .map((product) => {
-        return (
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+    return productsOnPage.map((product) => {
+      return (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div>
             <img
-              src={`http://localhost:8001/${product.product_img}`}
+              src={`http://localhost:8000/${product.product_img}`}
               alt={product.product_name}
-              className="w-full h-48 object-cover"
+              className="h-auto max-w-full rounded-lg"
             />
-
-            <div key={product.id_product} className="p-4">
-              <h2 className="text-lg font-medium">{product.product_name}</h2>
-              <p className="text-lg font-medium text-gray-800">
-                {product.product_price.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}
-              </p>
-              <p className="text-gray-600 text-sm mt-2">
-                {product.product_desc}
-              </p>
-
-              <Button
-                onClick={() => handleAddToCart(product)}
-                variant="solid"
-                colorScheme="pink"
-              >
-                Buy
-              </Button>
-            </div>
           </div>
-        );
-      });
+
+          <div key={product.id_product} className="p-4">
+            <h2 className="text-lg font-medium">{product.product_name}</h2>
+            <p className="text-lg font-medium text-gray-800">
+              {product.product_price.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              })}
+            </p>
+            <p className="text-gray-600 text-sm mt-2">{product.product_desc}</p>
+
+            <Button
+              onClick={() => handleAddToCart(product)}
+              variant="solid"
+              colorScheme="pink"
+            >
+              Buy
+            </Button>
+          </div>
+        </div>
+      );
+    });
   };
 
   useEffect(() => {
@@ -80,7 +120,7 @@ function ProductCard() {
   useEffect(() => {
     if (sort === "newest") {
       setProductList((prev) =>
-        [...prev].sort((a, b) => a.id_product - b.id_product)
+        [...prev].sort((a, b) => b.id_product - a.id_product)
       );
     } else if (sort === "lowPrice") {
       setProductList((prev) =>
@@ -90,12 +130,14 @@ function ProductCard() {
       setProductList((prev) =>
         [...prev].sort((a, b) => b.product_price - a.product_price)
       );
+    } else if (sort === "asc") {
+      setProductList((prev) =>
+        [...prev].sort((a, b) => a.product_name.localeCompare(b.product_name))
+      );
     } else if (sort === "desc") {
       setProductList((prev) =>
-        [...prev].sort((a, b) => a.product_name - b.product_name)
+        [...prev].sort((a, b) => b.product_name.localeCompare(a.product_name))
       );
-    } else {
-      setProductList((prev) => [...prev].sort());
     }
   }, [sort]);
 
@@ -106,38 +148,25 @@ function ProductCard() {
         <button
           type="button"
           className="text-blue-700 hover:text-white border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800"
+          onClick={handleCategoryChange}
+          value="0"
         >
           All categories
         </button>
-        <button
-          type="button"
-          className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-        >
-          Shoes
-        </button>
-        <button
-          type="button"
-          className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-        >
-          Bags
-        </button>
-        <button
-          type="button"
-          className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-        >
-          Electronics
-        </button>
-        <button
-          type="button"
-          className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-        >
-          Gaming
-        </button>
+        {categories.map((category) => (
+          <button
+            key={category.id_category}
+            type="button"
+            className="text-blue-700 hover:text-white border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800"
+            onClick={handleCategoryChange}
+            value={category.id_category}
+          >
+            {category.category_name}
+          </button>
+        ))}
       </div>
-      <Input
-        placeholder="Search..."
-        onChange={(name) => setSearch(name.target.value)}
-      />
+
+      <Input placeholder="Search..." onChange={handleSearchChange} />
       <Select placeholder="Sorted By" onChange={(e) => setSort(e.target.value)}>
         <option value="newest">Newest</option>
         <option value="lowPrice">Lowest Price</option>
@@ -159,92 +188,19 @@ function ProductCard() {
           add new product
         </Button>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <img
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
-            alt=""
-          />
-        </div>
-      </div>
+
+      {Array.from({ length: totalPages }, (_, index) => (
+        <ButtonGroup variant="outline" spacing="3">
+          <Button
+            colorScheme="blue"
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {" "}
+            {index + 1}
+          </Button>
+        </ButtonGroup>
+      ))}
     </div>
   );
 }
