@@ -58,98 +58,121 @@ const AddProduct = () => {
   }, []);
 
   return (
-    <form onSubmit={HandleSubmit} className="max-w-lg mx-auto">
-      <div className="mb-4">
-        <label
-          htmlFor="productName"
-          className="block text-gray-700 font-bold mb-2"
-        >
-          Product Name
-        </label>
-        <input
-          type="text"
-          name="productName"
-          id="productName"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Enter product name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
+    <section className=" dark:bg-gray-900">
+      <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        <h2 className="mb-4 text-xl font-bold text-cyan-500 dark:text-white">
+          Add a new product
+        </h2>
+        <form onSubmit={HandleSubmit}>
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="name"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Product Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type product name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="price"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Price
+              </label>
+              <input
+                type="number"
+                name="price"
+                id="price"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="RP 10.000,00"
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}
+                required
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="category"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Category
+              </label>
+              <select
+                name="category"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
+                required
+              >
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option
+                    key={category.id_category}
+                    value={category.id_category}
+                  >
+                    {category.category_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="description"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 resize-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type product description"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                required
+              ></textarea>
+            </div>
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="image"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Product Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                name="image"
+                id="image"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                onChange={handleImageChange}
+                required
+              />
+            </div>
+          </div>
+          <div className="mt-8 text-right sm:mt-6">
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center px-4 py-2 hover:text-white border border-transparent text-sm font-medium rounded-md text-black bg-cyan-300 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+            >
+              Add Product
+            </button>
+          </div>
+        </form>
       </div>
-      <div className="mb-4">
-        <label
-          htmlFor="productPrice"
-          className="block text-gray-700 font-bold mb-2"
-        >
-          Product Price
-        </label>
-        <input
-          type="number"
-          name="productPrice"
-          id="productPrice"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Enter product price"
-          value={price}
-          onChange={(event) => setPrice(event.target.value)}
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="productDescription"
-          className="block text-gray-700 font-bold mb-2"
-        >
-          Product Description
-        </label>
-        <textarea
-          name="productDescription"
-          id="productDescription"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Enter product description"
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="productImg"
-          className="block text-gray-700 font-bold mb-2"
-        >
-          Product Image
-        </label>
-        <input
-          type="file"
-          name="productImg"
-          id="productImg"
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          onChange={handleImageChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="category">Category</label>
-        <select
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="category"
-          name="category"
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
-        >
-          <option value="">Select Category</option>
-          {categories.map((category) => (
-            <option key={category.id_category} value={category.id_category}>
-              {category.category_name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="flex items-center justify-center">
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Add Product
-        </button>
-      </div>
-    </form>
+    </section>
   );
 };
 
