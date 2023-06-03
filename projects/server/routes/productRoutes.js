@@ -6,12 +6,12 @@ const { verifyToken } = require("../middleware/auth");
 const router = express.Router();
 
 router.post(
-  "/",
+  "/addProduct",
   verifyToken,
   upload.single("file"),
   productController.addProduct
 );
-router.get("/product", productController.fetchAllProducts);
-router.get("/product/:id", productController.fetchProductsByCategory);
+router.get("/getProduct", productController.fetchAllProducts);
+router.get("/:id", productController.fetchProductsByCategory);
 
 module.exports = router;

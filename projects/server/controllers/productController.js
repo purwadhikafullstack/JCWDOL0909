@@ -9,7 +9,7 @@ module.exports = {
     const { file } = req;
     const filepath = file ? "/" + file.filename : null;
 
-    let addProductQuery = `INSERT INTO product VALUES (null, ${db.escape(
+    let addProductQuery = `INSERT INTO products VALUES (null, ${db.escape(
       productName
     )}, ${db.escape(productPrice)}, ${db.escape(productDesc)}, ${db.escape(
       id_category
@@ -25,8 +25,17 @@ module.exports = {
   },
   fetchAllProducts: async (req, res) => {
     try {
-      const products = await query(`SELECT * FROM product`);
-      return res.status(200).send(products);
+      const products = await query(`SELECT * FROM products`);
+      const { category } = req.query;
+
+      if (category) {
+        const filteredProducts = products.filter(
+          (product) => product.category === category
+        );
+        res.status(200).send(filteredProducts);
+      } else {
+        res.status(200).send(products);
+      }
     } catch (error) {
       res.status(error.status || 500).send(error);
     }

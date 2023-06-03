@@ -57,9 +57,9 @@ module.exports = {
           .send({ message: "Email or Password is incorrect", success: false });
       }
       let payload = {
-        id: isEmailExist[0].id_users,
+        id: isEmailExist[0].id_user,
       };
-      const token = jwt.sign(payload, "six6", { expiresIn: "1h" });
+      const token = jwt.sign(payload, "six6", { expiresIn: "2h" });
       return res.status(200).send({
         message: "Login Success",
         token,
@@ -101,14 +101,14 @@ module.exports = {
   checkLogin: async (req, res) => {
     try {
       const users = await query(
-        `SELECT * FROM users WHERE id_users = ${db.escape(req.user.id)}`
+        `SELECT * FROM users WHERE id_user = ${db.escape(req.user.id)}`
       );
       console.log(users);
       return res.status(200).send({
         data: {
-          id: isEmailExist[0].id_user,
-          email: isEmailExist[0].user_email,
-          phone: isEmailExist[0].user_phone_number,
+          id: users[0].id_user,
+          email: users[0].user_email,
+          phone: users[0].user_phone_number,
         },
       });
     } catch (error) {

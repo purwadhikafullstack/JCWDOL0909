@@ -23,7 +23,7 @@ const AddProduct = () => {
 
     try {
       const response = await Axios.post(
-        "http://localhost:8001/product",
+        "http://localhost:8000/product/addProduct",
         formData,
         {
           headers: {
@@ -47,7 +47,7 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:8001/category")
+    Axios.get("http://localhost:8000/category")
       .then((response) => {
         console.log(response.data);
         setCategories(response.data);

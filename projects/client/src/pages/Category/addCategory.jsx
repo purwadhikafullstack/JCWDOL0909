@@ -10,7 +10,7 @@ function AddCategory() {
   const addCategory = () => {
     axios
       .post(
-        "http://localhost:8001/category",
+        "http://localhost:8000/category",
         {
           categoryName: category.name,
         },
