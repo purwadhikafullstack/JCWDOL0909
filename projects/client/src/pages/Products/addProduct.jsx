@@ -25,7 +25,7 @@ const AddProduct = () => {
 
     try {
       const response = await Axios.post(
-        "http://localhost:8000/product/addproduct",
+        "http://localhost:8000/products",
         formData,
         {
           headers: {
