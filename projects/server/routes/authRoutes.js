@@ -4,7 +4,7 @@ const { verifyToken } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.post("/", authController.register);
+router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/check-login", verifyToken, authController.checkLogin);
 router.get("/user", verifyToken, authController.fetchAllUser);
