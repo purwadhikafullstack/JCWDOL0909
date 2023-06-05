@@ -97,7 +97,9 @@ export function loginUser1(data) {
       if (response.data.success) {
         dispatch(setUser(response.data.data));
         localStorage.setItem("user_token", response.data.token);
-        alert("Login Success");
+        if (response) {
+          Swal.fire(response.data.message, "success");
+        }
       } else {
         alert(response.data.message);
       }
