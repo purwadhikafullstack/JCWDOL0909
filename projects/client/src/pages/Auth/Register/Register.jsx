@@ -1,166 +1,53 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../../features/users/userSlice";
+import RegisterForm from "./RegisterForm";
+import "./Register.css";
 
-function Register() {
-  const RegisterSchema = Yup.object().shape({
-    username: Yup.string().required("Username cannot be empty"),
-    email: Yup.string()
-      .required("Email cannot be empty")
-      .email("Wrong email format"),
-    phone: Yup.string().required("phone cannot be empty"),
-    store_name: Yup.string().required("store Name cannot be empty"),
-    password: Yup.string()
-      .required("Password cannot be empty")
-      .min(3, "Password to short"),
-  });
+function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userGlobal = useSelector((state) => state.users.user);
 
-  const registerUser = async (value) => {
-    let response = await Axios.post("http://localhost:8001/auth/", value);
-    console.log(response);
+  const handleRegisterUser = async (value) => {
+    dispatch(registerUser(value));
   };
 
-  return (
-    <div>
-      <Formik
-        initialValues={{
-          username: "",
-          email: "",
-          phone: "",
-          store_name: "",
-          password: "",
-        }}
-        validationSchema={RegisterSchema}
-        onSubmit={(value) => {
-          registerUser(value);
-        }}
-      >
-        {(props) => {
-          return (
-            <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-              <div className="w-full max-w-md space-y-8">
-                <div>
-                  <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                    Register your account
-                  </h2>
-                </div>
-                <Form className="mt-8 space-y-6" action="#" method="POST">
-                  <input type="hidden" name="remember" defaultValue="true" />
-                  <div className="-space-y-px rounded-md shadow-sm">
-                    <div>
-                      <label htmlFor="username" className="sr-only">
-                        Username
-                      </label>
-                      <Field
-                        id="username"
-                        name="username"
-                        type="text"
-                        autoComplete="username"
-                        required
-                        className="relative block w-full rounded-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="Username"
-                      />
-                      <ErrorMessage
-                        component="div"
-                        name="username"
-                        style={{ color: "red", fontSize: "12px" }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email-address" className="sr-only">
-                        Email address
-                      </label>
-                      <Field
-                        id="email-address"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
-                        required
-                        className="relative block w-full rounded-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="Email address"
-                      />
-                      <ErrorMessage
-                        component="div"
-                        name="email"
-                        style={{ color: "red", fontSize: "12px" }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="phone" className="sr-only">
-                        phone
-                      </label>
-                      <Field
-                        id="phone"
-                        name="phone"
-                        type="text"
-                        autoComplete="phone"
-                        required
-                        className="relative block w-full rounded-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="phone"
-                      />
-                      <ErrorMessage
-                        component="div"
-                        name="phone"
-                        style={{ color: "red", fontSize: "12px" }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="store_name" className="sr-only">
-                        Store Name
-                      </label>
-                      <Field
-                        id="storename"
-                        name="storename"
-                        type="text"
-                        autoComplete="storename"
-                        required
-                        className="relative block w-full rounded-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="store name"
-                      />
-                      <ErrorMessage
-                        component="div"
-                        name="storename"
-                        style={{ color: "red", fontSize: "12px" }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="password" className="sr-only">
-                        Password
-                      </label>
-                      <Field
-                        id="password"
-                        name="password"
-                        type="password"
-                        autoComplete="current-password"
-                        required
-                        className="relative block w-full rounded-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="Password"
-                      />
-                      <ErrorMessage
-                        component="div"
-                        name="password"
-                        style={{ color: "red", fontSize: "12px" }}
-                      />
-                    </div>
-                  </div>
+  useEffect(() => {
+    if (userGlobal.id > 0) {
+      navigate("/product");
+    }
+  }, [userGlobal, navigate]);
 
-                  <div>
-                    <button
-                      type="submit"
-                      className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      register
-                    </button>
-                  </div>
-                </Form>
-              </div>
-            </div>
-          );
-        }}
-      </Formik>
+  return (
+    <div class="flex h-screen">
+      <div class="m-auto">
+        <div class="p-8 shadow-lg rounded-xl text-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="inline text-cyan-600 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+          <h1 class="text-3xl font-bold text-cyan-500 pb-10">Register</h1>
+          <h3 class="text-1xl font-semibold text-gray-500 pb-5">
+            Create your new account
+          </h3>
+
+          <RegisterForm handleRegisterUser={handleRegisterUser} />
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Register;
+export default Login;
