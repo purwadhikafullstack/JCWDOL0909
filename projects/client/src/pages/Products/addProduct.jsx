@@ -19,13 +19,13 @@ const AddProduct = () => {
     formData.append("productName", name);
     formData.append("productPrice", price);
     formData.append("productStock", price);
-    formData.append("file", image);
     formData.append("productDesc", description);
+    formData.append("file", image);
     formData.append("id_category", category);
 
     try {
       const response = await Axios.post(
-        "http://localhost:8000/products",
+        "http://localhost:8000/products/addproduct",
         formData,
         {
           headers: {

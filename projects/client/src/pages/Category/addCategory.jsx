@@ -30,14 +30,14 @@ function AddCategory() {
   };
 
   return (
-    <div className="container mx-auto py-12">
+    <div className="container mx-auto my-40 py-12">
       <form className="max-w-md mx-auto">
         <div className="mb-4">
           <label
             htmlFor="categoryName"
-            className="block text-gray-700 font-bold mb-2"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Name:
+            Category Name
           </label>
           <input
             type="text"
@@ -51,7 +51,7 @@ function AddCategory() {
         <button
           type="button"
           onClick={addCategory}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-cyan-300 hover:bg-red-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Add Category
         </button>

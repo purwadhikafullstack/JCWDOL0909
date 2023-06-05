@@ -6,7 +6,7 @@ const { verifyToken } = require("../middleware/auth");
 const router = express.Router();
 
 router.post(
-  "/",
+  "/addproduct",
   verifyToken,
   upload.single("file"),
   productController.addProduct

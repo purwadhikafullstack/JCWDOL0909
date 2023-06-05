@@ -12,10 +12,12 @@ app.use(cors());
 
 app.use(express.json());
 
+app.use(express.static("public"));
+
 //#region API ROUTES
 
 app.use("/auth", authRoutes);
-app.use("/product", productRoutes);
+app.use("/products", productRoutes);
 app.use("/category", categoryRoutes);
 
 app.get("/api", (req, res) => {

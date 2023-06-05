@@ -14,8 +14,12 @@ function Cart() {
   };
 
   const handleDecreaseQuantity = (id) => {
-    alert(id);
-    dispatch(decreaseQuantity(id));
+    const item = cartItems.find((item) => item.id_product === id);
+    if (item.quantity === 1) {
+      handleRemoveItem(id);
+    } else {
+      dispatch(decreaseQuantity(id));
+    }
   };
 
   const handleIncreaseQuantity = (id) => {
@@ -29,8 +33,10 @@ function Cart() {
   );
 
   return (
-    <div className="flex flex-col h-10 mx-auto max-w-2xl">
-      <p className="text-lg font-bold text-gray-600">Shopping Cart</p>
+    <div className="flex flex-col h-10 mx-auto max-w-2xl my-20">
+      <p className="text-lg font-bold text-cyan-300 text-center">
+        Shopping Cart
+      </p>
 
       {cartItems.length === 0 ? (
         <p className="text-lg text-gray-600">Your cart is empty.</p>
@@ -104,7 +110,7 @@ function Cart() {
           <div class="mt-6 text-center">
             <button
               type="button"
-              class="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+              class="group inline-flex w-full items-center justify-center rounded-md bg-cyan-300 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
             >
               Checkout
               <svg
