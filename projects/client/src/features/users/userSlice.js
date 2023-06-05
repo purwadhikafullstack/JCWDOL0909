@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Axios from "axios";
+import Swal from "sweetalert2";
 
 export const usersSlice = createSlice({
   name: "users",
@@ -49,7 +50,7 @@ export function registerUser(data) {
     );
     console.log(response);
     if (response) {
-      alert(response.data.message);
+      Swal.fire(response.data.message, "success");
     }
   };
 }
@@ -62,7 +63,7 @@ export function loginUser(data) {
     if (response) {
       dispatch(setUser(response.data.data));
       localStorage.setItem("user_token", response.data.token);
-      alert(response.data.message);
+      Swal.fire(response.data.message, "success");
     }
   };
 }
