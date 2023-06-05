@@ -2,25 +2,32 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const loginSchema = Yup.object().shape({
+const registerSchema = Yup.object().shape({
   email: Yup.string()
     .required("Email cannot be empty")
     .email("Wrong email format"),
   password: Yup.string()
     .required("Password cannot be empty")
     .min(3, "Password too short"),
+  phone_number: Yup.number()
+    .typeError("Phone number must be a number")
 });
 
-function LoginForm({ handleLoginUser }) {
+const registerUser = async (value) => {
+    let response = await axios.post("http://localhost:8001/auth/register", value)
+}
+
+function RegisterForm({ handleRegisterUser }) {
   const navigate = useNavigate();
 
   return (
     <div className="flex flex-col items-center">
       <Formik
-        initialValues={{ email: "", password: "" }}
-        validationSchema={loginSchema}
-        onSubmit={handleLoginUser}
+        initialValues={{ email: "", password: "", phone_number: "" }}
+        validationSchema={registerSchema}
+        onSubmit={handleRegisterUser}
       >
         {(props) => (
           <Form className="mt-8 flex flex-col w-full md:w-80">
@@ -46,7 +53,7 @@ function LoginForm({ handleLoginUser }) {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="currennt-password"
+                autoComplete="password"
                 className="text-xl w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                 placeholder="Password"
               />
@@ -56,11 +63,26 @@ function LoginForm({ handleLoginUser }) {
                 className="text-xs text-left text-red-500 mb-2"
               />
             </div>
+            <div className="mb-5">
+              <Field
+                id="phone_number"
+                name="phone_number"
+                type="text"
+                autoComplete="phone_number"
+                className="text-xl w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
+                placeholder="Phone Number"
+              />
+              <ErrorMessage
+                name="phone_number"
+                component="div"
+                className="text-xs text-left text-red-500 mb-2"
+              />
+            </div>
             <button
               type="submit"
               className="text-xl text-center bg-cyan-300 text-white py-1 rounded font-medium hover:text-slate-500"
             >
-              Sign In
+              Register
             </button>
           </Form>
         )}
@@ -80,14 +102,14 @@ function LoginForm({ handleLoginUser }) {
             navigate("/user/register");
           }}
         >
-          don't have an account? register here
+          you have an account? sign in here
         </span>
       </button>
       <p className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4 hover:text-blue-400">
         Forgot password?
       </p>
-    </div>
+      </div>   
   );
-}
+};
 
-export default LoginForm;
+export default RegisterForm;
