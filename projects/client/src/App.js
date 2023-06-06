@@ -10,6 +10,7 @@ import AddProduct from "./pages/Products/addProduct";
 import AddCategory from "./pages/Category/addCategory";
 import Cart from "./pages/Cart/Cart";
 import NotFound from "./pages/Error/NotFound";
+import Navbar from "./components/Navbar";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -36,6 +37,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/product" element={<Products />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/navbar" element={<Navbar />} />
       </Routes>
     </div>
   );
