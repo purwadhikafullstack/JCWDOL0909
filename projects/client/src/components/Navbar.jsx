@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser } from "../features/users/userSlice";
 import { useState } from "react";
+import { FaHome, FaCube, FaShoppingCart } from "react-icons/fa";
 import logo from "../img/e-grocery-low-resolution-logo-color-on-transparent-background.png";
 
 function Navbar() {
@@ -23,7 +24,7 @@ function Navbar() {
 
   return (
     <div>
-      <nav class="flex dark:bg-slate-900 items-center relative justify-between bg-cyan-200 px-5 py-6 w-full">
+      <nav class="flex dark:bg-slate-900 items-center relative justify-between bg-blue-300 px-5 py-6 w-full">
         <div>
           <div>
             <img src={logo} alt="Logo" className="w-32 h-28 ml-5" />
@@ -60,20 +61,23 @@ function Navbar() {
               />
             </svg>
           </div>
-          <li class="font-medium text-sm p-3 hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-primary">
-            <a href="#" class="dark:text-white">
-              Men
-            </a>
+          <li className="font-medium text-lg p-3 mx-10 hover:text-white hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-primary">
+            <button href="#" className="dark:text-white">
+              <FaHome className="inline-block align-middle mr-2" />
+              Home
+            </button>
           </li>
-          <li class="font-medium text-sm p-3 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-gray-600 hover:text-primary transition-colors">
-            <a href="#" class="dark:text-white">
-              Women
-            </a>
+          <li className="font-medium text-lg p-3 mx-10 hover:text-white cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-gray-600 hover:text-primary transition-colors">
+            <button href="#" className="dark:text-white">
+              <FaCube className="inline-block align-middle mr-2" />
+              Product
+            </button>
           </li>
-          <li class="font-medium text-sm p-3 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-gray-600 hover:text-primary transition-colors">
-            <a href="#" class="dark:text-white">
-              Kids
-            </a>
+          <li className="font-medium text-lg p-3 mx-10 hover:text-white cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-gray-600 hover:text-primary transition-colors">
+            <button href="#" className="dark:text-white">
+              <FaShoppingCart className="inline-block align-middle mr-2" />
+              My Order
+            </button>
           </li>
         </ul>
         <div class="flex gap-3 items-center">
