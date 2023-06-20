@@ -50,7 +50,6 @@ function ProductCard() {
     setSelectedCategory(parseInt(e.target.value));
     setCurrentPage(1);
   };
-
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
@@ -74,7 +73,6 @@ function ProductCard() {
   const totalPages = Math.ceil(
     filteredProductsBySearchTerm.length / itemsPerPage
   );
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };

@@ -77,6 +77,7 @@ export function changePassword(data) {
           "error"
         );
       }
+      Swal.fire(response.data.message, "please use another email");
     }
   };
 }
@@ -149,6 +150,45 @@ export function verifyEmail(data) {
     } catch (error) {
       alert(error);
       console.error(error);
+    }}}
+
+export function confirmEmail(data) {
+  return async (dispatch) => {
+    try {
+      const response = await Axios.post(
+        "http://localhost:8000/auth/confirmEmail",
+        data
+      );
+      if (response.data.success) {
+        Swal.fire("Kami telah mengirim link untuk me-reset password Anda.");
+      }
+    } catch (error) {
+      Swal.fire(
+        "Masukkan email yang Anda gunakan ketika melakukan registrasi."
+      );
+    }
+  };
+}
+
+export function resetPassword(data, token) {
+  return async (dispatch) => {
+    try {
+      const response = await Axios.post(
+        "http://localhost:8000/auth/resetPassword",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response) {
+        // alert(response.data.message);
+        Swal.fire("Password Anda berhasil diganti.");
+      }
+    } catch (error) {
+      Swal.fire(error.message);
     }
   };
 }

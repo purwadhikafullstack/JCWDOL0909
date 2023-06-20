@@ -13,9 +13,10 @@ import Navbar from "./components/Navbar";
 import ProductDetailPage from "./pages/Products/ProductDetail";
 import VerifyEmail from "./pages/Auth/Activation/VerifyEmail";
 import ChangePassword from "./pages/Auth/ChangePassword/ChangePassword";
+import ConfirmEmail from "./pages/Auth/ResetPassword/ConfirmEmail";
+import ResetPassword from "./pages/Auth/ResetPassword/ResetPassword";
 
 function App() {
-  const navigate = useNavigate();
   const userGlobal = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
   const userToken = localStorage.getItem("user_token");
@@ -44,8 +45,8 @@ function App() {
       <Routes>
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/notfound" element={<NotFound />} />
+        <Route path="/user/confirmEmail" element={<ConfirmEmail />} />
+        <Route path="/user/resetPassword/:token" element={<ResetPassword />} />
         <Route path="/product/addProduct" element={<AddProduct />} />
         <Route path="/category/addCategory" element={<AddCategory />} />
         <Route path="/cart" element={<Cart />} />
@@ -53,6 +54,8 @@ function App() {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/user/verifyEmail/:token" element={<VerifyEmail />} />
         <Route path="/user/changePassword" element={<ChangePassword />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/notfound" element={<NotFound />} />
       </Routes>
     </div>
   );

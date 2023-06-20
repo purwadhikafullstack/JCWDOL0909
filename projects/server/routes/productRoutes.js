@@ -14,5 +14,7 @@ router.post(
 router.get("/", productController.fetchAllProducts);
 router.get("/:id", productController.fetchProduct);
 router.get("/category", productController.fetchProductsByCategory);
+router.get("/product", productController.fetchAllProducts);
+router.get("/product/:id", productController.fetchProductsByCategory);
 
 module.exports = router;
