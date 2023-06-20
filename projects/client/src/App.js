@@ -12,6 +12,7 @@ import NotFound from "./pages/Error/NotFound";
 import Navbar from "./components/Navbar";
 import ProductDetailPage from "./pages/Products/ProductDetail";
 import VerifyEmail from "./pages/Auth/Activation/VerifyEmail";
+import ChangePassword from "./pages/Auth/ChangePassword/ChangePassword";
 
 function App() {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ function App() {
         <Route path="/product" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/user/verifyEmail/:token" element={<VerifyEmail />} />
+        <Route path="/user/changePassword" element={<ChangePassword />} />
       </Routes>
     </div>
   );

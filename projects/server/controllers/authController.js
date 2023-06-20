@@ -124,6 +124,41 @@ module.exports = {
     }
   },
 
+  changePassword: async (req, res) => {
+    try {
+      const { email, newPassword, confirmPassword } = req.body;
+
+      // Verifikasi email pengguna
+      const user = await query(
+        `SELECT * FROM users WHERE user_email = ${db.escape(email)}`
+      );
+
+      if (user.length === 0) {
+        return res.status(400).send("User does not exist");
+      }
+
+      // Validasi input password baru dan konfirmasi password
+      if (newPassword !== confirmPassword) {
+        return res.status(400).send("Passwords do not match");
+      }
+
+      // Hash password baru
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(newPassword, salt);
+
+      // Update password di database
+      await query(
+        `UPDATE users SET user_password = ${db.escape(
+          hashPassword
+        )} WHERE user_email = ${db.escape(email)}`
+      );
+
+      return res.status(200).send("Password updated successfully");
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
+  },
+
   fetchAllUser: async (req, res) => {
     try {
       const users = await query(`SELECT * FROM users`);

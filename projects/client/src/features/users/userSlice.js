@@ -55,6 +55,32 @@ export function registerUser(data) {
   };
 }
 
+export function changePassword(data) {
+  return async (dispatch) => {
+    try {
+      let response = await Axios.post(
+        "http://localhost:8000/auth/changePassword",
+        data
+      );
+      console.log(response);
+      if (response) {
+        Swal.fire(response.data.message, "Password has been changed");
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.data) {
+        Swal.fire("User does not exist", error.response.data.message, "error");
+      } else {
+        Swal.fire(
+          "Error",
+          "An error occurred. Please try again later.",
+          "error"
+        );
+      }
+    }
+  };
+}
+
 export function loginUser(data) {
   return async (dispatch) => {
     console.log(data);
