@@ -17,6 +17,7 @@ function ProductCard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(12);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     Axios.get("http://localhost:8000/category")
@@ -29,7 +30,7 @@ function ProductCard() {
   }, []);
 
   const fetchProductsData = async () => {
-    let response = await Axios.get(`http://localhost:8000/products/product`);
+    let response = await Axios.get(`http://localhost:8000/products`);
     setProductList(response.data);
   };
 
@@ -94,6 +95,20 @@ function ProductCard() {
     setSort(value);
   };
 
+  const handleProductClick = async (product) => {
+    try {
+      const response = await Axios.get(
+        `http://localhost:8000/products/${product.id_product}`
+      );
+      const selectedProduct = response.data;
+      setSelectedProduct(selectedProduct);
+
+      navigate(`/product/${product.id_product}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchProductsData();
   }, []);
@@ -122,6 +137,7 @@ function ProductCard() {
               src={`http://localhost:8000/${product.product_image}`}
               alt={product.product_name}
               className="w-50 h-80 object-cover"
+              onClick={() => handleProductClick(product)}
             />
 
             <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
@@ -154,7 +170,7 @@ function ProductCard() {
   };
 
   return (
-    <div className="w-full mx-auto md:w-full">
+    <div className="w-full mx-auto md:w-full sm:w-full">
       <div className="flex items-center justify-center py-4 md:py-2 sm:py-0 sm:text-xs flex-wrap">
         <button
           type="button"

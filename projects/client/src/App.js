@@ -10,7 +10,8 @@ import AddCategory from "./pages/Category/addCategory";
 import Cart from "./pages/Cart/Cart";
 import NotFound from "./pages/Error/NotFound";
 import Navbar from "./components/Navbar";
-import ProductCard from "./pages/Products/ProductCard";
+import ProductDetailPage from "./pages/Products/ProductDetail";
+import VerifyEmail from "./pages/Auth/Activation/VerifyEmail";
 
 function App() {
   const navigate = useNavigate();
@@ -23,7 +24,8 @@ function App() {
   const shouldShowNavbar =
     location.pathname !== "/user/register" &&
     location.pathname !== "/user/login" &&
-    location.pathname.toLowerCase() !== "/notfound";
+    location.pathname.toLowerCase() !== "/notfound" &&
+    location.pathname !== "/user/verifyEmail/:token";
 
   useEffect(() => {
     if (userToken) {
@@ -42,13 +44,13 @@ function App() {
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="*" element={<NotFound />} />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/product/addProduct" element={<AddProduct />} />
         <Route path="/category/addCategory" element={<AddCategory />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product" element={<Products />} />
-        <Route path="/productcard" element={<ProductCard />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/user/verifyEmail/:token" element={<VerifyEmail />} />
       </Routes>
     </div>
   );

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser1 } from "../../../features/users/userSlice";
 import LoginForm from "./LoginForm";
-import "./Login.css";
 
 function Login() {
   const dispatch = useDispatch();

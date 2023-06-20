@@ -11,7 +11,8 @@ router.post(
   upload.single("file"),
   productController.addProduct
 );
-router.get("/product", productController.fetchAllProducts);
-router.get("/product/:id", productController.fetchProductsByCategory);
+router.get("/", productController.fetchAllProducts);
+router.get("/:id", productController.fetchProduct);
+router.get("/category", productController.fetchProductsByCategory);
 
 module.exports = router;

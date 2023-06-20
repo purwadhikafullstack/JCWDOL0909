@@ -50,7 +50,7 @@ export function registerUser(data) {
     );
     console.log(response);
     if (response) {
-      Swal.fire(response.data.message, "success");
+      Swal.fire(response.data.message);
     }
   };
 }
@@ -98,10 +98,27 @@ export function loginUser1(data) {
         dispatch(setUser(response.data.data));
         localStorage.setItem("user_token", response.data.token);
         if (response) {
-          Swal.fire(response.data.message, "success");
+          Swal.fire(response.data.message);
         }
       } else {
         alert(response.data.message);
+      }
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
+  };
+}
+
+export function verifyEmail(data) {
+  return async (dispatch) => {
+    try {
+      const response = await Axios.post(
+        "http://localhost:8000/auth/verifyEmail",
+        { data }
+      );
+      if (response.data.success) {
+        Swal.fire("Kami telah mengirim link untuk aktivasi akun Anda.");
       }
     } catch (error) {
       alert(error);

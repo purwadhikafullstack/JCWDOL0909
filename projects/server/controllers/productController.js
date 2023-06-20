@@ -50,85 +50,32 @@ module.exports = {
   },
   fetchProductsByCategory: async (req, res) => {
     try {
-      const idParams = parseInt(req.params.id);
+      const idParams = parseInt(req.query.id);
 
-      const users = await query(
+      const product = await query(
         `SELECT * FROM product WHERE id_category = ${db.escape(idParams)}`
       );
-      return res.status(200).send(users);
+      return res.status(200).send(product);
     } catch (error) {
       res.status(error.status || 500).send(error);
     }
   },
-  // fetchAllProducts: async (req, res) => {
-  //   try {
-  //     const products = await query(`SELECT * FROM product`);
-  //     return res.status(200).send(products);
-  //   } catch (error) {
-  //     res.status(error.status || 500).send(error);
-  //   }
-  // },
-  // fetchProduct: async (req, res) => {
-  //   try {
-  //     const idParams = parseInt(req.params.id);
-  //     if (req.product.id !== idParams) {
-  //       return res.status(400).send("tidak ada product tersebut");
-  //     }
-  //     const product = await query(
-  //       `SELECT * FROM product WHERE id_product = ${db.escape(idParams)}`
-  //     );
-  //     return res.status(200).send(product);
-  //   } catch (error) {
-  //     res.status(error.status || 500).send(error);
-  //   }
-  // },
 
-  // fetchProduct: async (req, res) => {
-  //   try {
-  //     const idParams = parseInt(req.params.id);
-  //     if (req.product.id !== idParams) {
-  //       return res.status(400).send("tidak ada product tersebut");
-  //     }
-  //     const product = await query(
-  //       `SELECT * FROM product WHERE id_product = ${db.escape(idParams)}`
-  //     );
-  //     return res.status(200).send(product);
-  //   } catch (error) {
-  //     res.status(error.status || 500).send(error);
-  //   }
-  // },
-  // filterProductsByName: async (req, res) => {
-  //   try {
-  //     const nameParams = toString(req.params.product_name);
-  //     if (req.product.product_name != nameParams) {
-  //       return res.status(400).send("tidak ada product tersebut");
-  //     }
-  //     const filterProductsByName = await query(
-  //       `SELECT * FROM product where product_name = ${db.escape(nameParams)}`
-  //     );
+  fetchProduct: async (req, res) => {
+    try {
+      const idParams = parseInt(req.params.id);
 
-  //     return res.status(200).send(filterProductsByName);
-  //   } catch (error) {
-  //     res.status(error.status || 500).send(error);
-  //   }
-  // },
-  // sortAscProducts: async (req, res) => {
-  //   try {
-  //     const sortAscProducts = await query(`SELECT * FROM product order by asc`);
+      const product = await query(
+        `SELECT * FROM products WHERE id_product = ${db.escape(idParams)}`
+      );
 
-  //     return res.status(200).send(sortAscProducts);
-  //   } catch (error) {
-  //     res.status(error.status || 500).send(error);
-  //   }
-  // },
-  // sortDscProducts: async (req, res) => {
-  //   try {
-  //     const sortDscProducts = await query(
-  //       `SELECT * FROM product order by desc`
-  //     );
+      if (product.length === 0) {
+        return res.status(404).send("Product not found");
+      }
 
-  //     return res.status(200).send(sortDscProducts);
-  //   } catch (error) {
-  //     res.status(error.status || 500).send(error);
-  //   }
+      return res.status(200).send(product[0]);
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
+  },
 };

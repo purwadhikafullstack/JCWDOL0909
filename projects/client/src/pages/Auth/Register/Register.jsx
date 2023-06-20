@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../../features/users/userSlice";
 import RegisterForm from "./RegisterForm";
-import "./Register.css";
 
 function Login() {
   const dispatch = useDispatch();
