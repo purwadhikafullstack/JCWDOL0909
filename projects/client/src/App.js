@@ -15,6 +15,7 @@ import VerifyEmail from "./pages/Auth/Activation/VerifyEmail";
 import ChangePassword from "./pages/Auth/ChangePassword/ChangePassword";
 import ConfirmEmail from "./pages/Auth/ResetPassword/ConfirmEmail";
 import ResetPassword from "./pages/Auth/ResetPassword/ResetPassword";
+import BeforeLoginNavbar from "./components/BeforeLoginNavbar";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -40,7 +41,8 @@ function App() {
 
   return (
     <div>
-      {shouldShowNavbar && <Navbar />}
+      {shouldShowNavbar &&
+        (userGlobal.id > 0 ? <Navbar /> : <BeforeLoginNavbar />)}
 
       <Routes>
         <Route path="/user/register" element={<Register />} />
@@ -51,6 +53,7 @@ function App() {
         <Route path="/category/addCategory" element={<AddCategory />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product" element={<Products />} />
+        <Route path="/" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/user/verifyEmail/:token" element={<VerifyEmail />} />
         <Route path="/user/changePassword" element={<ChangePassword />} />

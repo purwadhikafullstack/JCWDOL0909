@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, increaseQuantity } from "../../features/cart/cartSlice";
 import Axios from "axios";
+import Swal from "sweetalert2";
+import { FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
 
 function ProductCard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
+  const userGlobal = useSelector((state) => state.users.user);
 
   const [products, setProductList] = useState([]);
   const [categories, setCategories] = useState([]);
   const [sort, setSort] = useState(`lowPrice`);
-
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,15 +37,33 @@ function ProductCard() {
   };
 
   const handleAddToCart = (product) => {
-    const existingItem = cartItems.find(
-      (item) => item.id_product === product.id_product
-    );
-    if (existingItem) {
-      dispatch(increaseQuantity(product.id_product));
+    if (userGlobal.id <= 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Please login first, to make any transaction",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/user/login");
+        }
+      });
     } else {
-      dispatch(addItem({ ...product, quantity: 1 }));
+      const existingItem = cartItems.find(
+        (item) => item.id_product === product.id_product
+      );
+      if (existingItem) {
+        dispatch(increaseQuantity(product.id_product));
+      } else {
+        dispatch(addItem({ ...product, quantity: 1 }));
+      }
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Added to your cart",
+      });
     }
-    alert("berhasil menambahkan ke keranjang");
   };
 
   const handleCategoryChange = (e) => {
@@ -119,6 +139,14 @@ function ProductCard() {
     } else if (sort === "highPrice") {
       setProductList((prev) =>
         [...prev].sort((a, b) => b.product_price - a.product_price)
+      );
+    } else if (sort === "aToZ") {
+      setProductList((prev) =>
+        [...prev].sort((a, b) => a.product_name.localeCompare(b.product_name))
+      );
+    } else if (sort === "zToA") {
+      setProductList((prev) =>
+        [...prev].sort((a, b) => b.product_name.localeCompare(a.product_name))
       );
     }
   }, [sort]);
@@ -242,6 +270,42 @@ function ProductCard() {
           >
             <span>&#x2193;</span>
           </button>
+          <button
+            className={`ml-6 mr-2 py-2 px-4 rounded hover:bg-yellow-200 ${
+              sort === "aToZ" ? "bg-[#EDA415] text-white" : "bg-gray-200"
+            }`}
+            onClick={() => handleSort("aToZ")}
+          >
+            <FaSortAlphaDown
+              className={`sort-icon ${sort === "aToZ" ? "text-white" : ""}`}
+            />
+          </button>
+          <button
+            className={`py-2 px-4 rounded hover:bg-yellow-200 ${
+              sort === "zToA" ? "bg-[#EDA415] text-white" : "bg-gray-200"
+            }`}
+            onClick={() => handleSort("zToA")}
+          >
+            <FaSortAlphaUp
+              className={`sort-icon ${sort === "zToA" ? "text-white" : ""}`}
+            />
+          </button>
+          {/* <button
+            className="sort-button"
+            onClick={() => handleSort("aToZ")}
+            value="aToZ"
+          >
+            <FaSortAlphaDown className="sort-icon" />
+            A-Z
+          </button>
+          <button
+            className="sort-button"
+            onClick={() => handleSort("zToA")}
+            value="zToA"
+          >
+            <FaSortAlphaUp className="sort-icon" />
+            Z-A
+          </button> */}
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-2">
           {renderList()}
