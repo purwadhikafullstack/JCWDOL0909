@@ -33,6 +33,7 @@ export const usersSlice = createSlice({
 
 export const { setUser, resetUser } = usersSlice.actions;
 export default usersSlice.reducer;
+const userToken = localStorage.getItem("user_token");
 
 export function fetchUsersData() {
   return async (dispatch) => {
@@ -60,24 +61,19 @@ export function changePassword(data) {
     try {
       let response = await Axios.post(
         "http://localhost:8000/auth/changePassword",
-        data
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
       );
       console.log(response);
       if (response) {
-        Swal.fire(response.data.message, "Password has been changed");
+        Swal.fire(response.data);
       }
     } catch (error) {
-      console.error(error);
-      if (error.response && error.response.data) {
-        Swal.fire("User does not exist", error.response.data.message, "error");
-      } else {
-        Swal.fire(
-          "Error",
-          "An error occurred. Please try again later.",
-          "error"
-        );
-      }
-      Swal.fire(response.data.message, "please use another email");
+      Swal.fire(error.message);
     }
   };
 }
@@ -150,7 +146,9 @@ export function verifyEmail(data) {
     } catch (error) {
       alert(error);
       console.error(error);
-    }}}
+    }
+  };
+}
 
 export function confirmEmail(data) {
   return async (dispatch) => {

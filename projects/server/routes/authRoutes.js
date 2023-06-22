@@ -10,7 +10,7 @@ router.post("/check-login", verifyToken, authController.checkLogin);
 router.get("/user", authController.fetchAllUser);
 router.get("/user/:id", authController.fetchUser);
 router.post("/verification", verifyToken, authController.verification);
-router.post("/changePassword", authController.changePassword);
+router.post("/changePassword", verifyToken, authController.changePassword);
 router.post("/confirmEmail", authController.confirmEmail);
 router.post("/resetPassword", verifyToken, authController.resetPassword);
 

@@ -26,7 +26,11 @@ function ChangePasswordForm({ handleChangePassword }) {
         </h2>
 
         <Formik
-          initialValues={{ email: "", newPassword: "", confirmPassword: "" }}
+          initialValues={{
+            oldPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+          }}
           validationSchema={changePasswordSchema}
           onSubmit={handleSubmit}
         >
@@ -34,16 +38,16 @@ function ChangePasswordForm({ handleChangePassword }) {
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-1">
               <div>
                 <label className="text-gray-700" htmlFor="email">
-                  Email Address
+                  Old Password
                 </label>
                 <Field
-                  type="email"
-                  id="email"
-                  name="email"
+                  type="password"
+                  id="oldPassword"
+                  name="oldPassword"
                   className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-400 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
                 />
                 <ErrorMessage
-                  name="email"
+                  name="oldPassword"
                   component="div"
                   className="text-red-500"
                 />
