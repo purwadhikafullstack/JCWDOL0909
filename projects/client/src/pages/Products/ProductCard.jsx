@@ -80,7 +80,7 @@ function ProductCard() {
       ? products
       : products.filter((p) => p.id_category === selectedCategory);
   const filteredProductsBySearchTerm = filteredProducts.filter((p) =>
-    p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -133,20 +133,16 @@ function ProductCard() {
 
   useEffect(() => {
     if (sort === "lowPrice") {
-      setProductList((prev) =>
-        [...prev].sort((a, b) => a.product_price - b.product_price)
-      );
+      setProductList((prev) => [...prev].sort((a, b) => a.price - b.price));
     } else if (sort === "highPrice") {
-      setProductList((prev) =>
-        [...prev].sort((a, b) => b.product_price - a.product_price)
-      );
+      setProductList((prev) => [...prev].sort((a, b) => b.price - a.price));
     } else if (sort === "aToZ") {
       setProductList((prev) =>
-        [...prev].sort((a, b) => a.product_name.localeCompare(b.product_name))
+        [...prev].sort((a, b) => a.name.localeCompare(b.name))
       );
     } else if (sort === "zToA") {
       setProductList((prev) =>
-        [...prev].sort((a, b) => b.product_name.localeCompare(a.product_name))
+        [...prev].sort((a, b) => b.name.localeCompare(a.name))
       );
     }
   }, [sort]);
@@ -160,8 +156,8 @@ function ProductCard() {
         >
           <div className="relative flex flex-col overflow-hidden rounded-lg border">
             <img
-              src={`http://localhost:8000/${product.product_image}`}
-              alt={product.product_name}
+              src={`http://localhost:8000/${product.image}`}
+              alt={product.name}
               className="w-50 h-80 object-cover"
               onClick={() => handleProductClick(product)}
             />
@@ -169,13 +165,13 @@ function ProductCard() {
             <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
               <div className="mb-2 flex">
                 <p className="mr-3 text-sm font-bold text-[#EDA415]">
-                  {product.product_price.toLocaleString("id-ID", {
+                  {product.price.toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                   })}
                 </p>
               </div>
-              <p className="text-lg font-medium">{product.product_name}</p>
+              <p className="text-lg font-medium">{product.name}</p>
             </div>
 
             <button

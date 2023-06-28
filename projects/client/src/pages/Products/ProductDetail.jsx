@@ -40,28 +40,26 @@ function ProductDetailPage() {
   return (
     <div>
       <div className="bg-sky-800 overflow-hidden shadow-md p-4 h-screen px-10 ">
-        {product.product_image && (
+        {product.image && (
           <img
-            src={`http://localhost:8000/${product.product_image}`}
+            src={`http://localhost:8000/${product.image}`}
             className="w-96 h-72 object-cover mb-4 rounded-md"
-            alt={product.product_name}
+            alt={product.name}
           />
         )}
         <h3 className="text-xl font-semibold text-white mb-2">
-          {product.product_name}
+          {product.name}
         </h3>
         <p className="text-white mb-2">
-          {product.product_price.toLocaleString("id-ID", {
+          {product.price.toLocaleString("id-ID", {
             style: "currency",
             currency: "IDR",
           })}
         </p>
 
-        <p className="text-[#EDA415] mb-2 ">Stock: {product.product_stock}</p>
+        <p className="text-[#EDA415] mb-2 ">Stock: {product.stock}</p>
 
-        <p className="text-white mb-4 text-justify">
-          {product.product_description}
-        </p>
+        <p className="text-white mb-4 text-justify">{product.description}</p>
 
         <div className="flex items-center">
           {adminData && adminData.profile_picture ? (

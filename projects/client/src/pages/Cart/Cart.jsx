@@ -5,10 +5,12 @@ import {
   increaseQuantity,
 } from "../../features/cart/cartSlice";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import emptyCart from "../../img/EmptyCart_3-Copy-removebg-preview.png";
 
 function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
 
   const handleRemoveItem = (id) => {
@@ -62,7 +64,7 @@ function Cart() {
   };
 
   const totalPrice = cartItems.reduce(
-    (total, item) => total + item.product_price * item.quantity,
+    (total, item) => total + item.price * item.quantity,
     0
   );
 
@@ -84,7 +86,7 @@ function Cart() {
                 <div className="flex">
                   <div className="flex-1">
                     <h2 className="text-lg font-medium text-[#EDA415]">
-                      {item.product_name}
+                      {item.name}
                     </h2>
                   </div>
                   <div className="ml-4 flex-shrink-0 flow-root">
@@ -101,7 +103,7 @@ function Cart() {
                   <div className="flex">
                     <div className="flex-shrink-0">
                       <p className="text-l font-medium">
-                        {item.product_price.toLocaleString("id-ID", {
+                        {item.price.toLocaleString("id-ID", {
                           style: "currency",
                           currency: "IDR",
                         })}
@@ -144,6 +146,9 @@ function Cart() {
             <button
               type="button"
               class="group inline-flex w-full items-center justify-center rounded-md bg-[#EDA415] px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+              onClick={() => {
+                navigate("/transaction");
+              }}
             >
               Checkout
               <svg
