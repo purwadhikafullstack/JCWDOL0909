@@ -98,24 +98,6 @@ export function changePassword(data) {
   };
 }
 
-// export function loginUser(data) {
-//   return async (dispatch) => {
-//     console.log(data);
-//     try {
-//       let response = await Axios.post("http://localhost:8000/auth/login", data);
-//       console.log(response);
-//       if (response) {
-//         dispatch(setUser(response.data.data));
-//         localStorage.setItem("user_token", response.data.token);
-//         Swal.fire(response.data.message, "success");
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       Swal.fire("Error", "An error occurred. Please try again later.", "error");
-//     }
-//   };
-// }
-
 export function checkLogin(token) {
   return async (dispatch) => {
     debugger;
@@ -140,7 +122,7 @@ export function checkLogin(token) {
   };
 }
 
-export function loginUser1(data) {
+export function loginUser(data) {
   return async (dispatch) => {
     try {
       const response = await Axios.post(
@@ -154,10 +136,10 @@ export function loginUser1(data) {
           Swal.fire(response.data.message);
         }
       } else {
-        alert(response.data.message);
+        Swal.fire(response.data.message);
       }
     } catch (error) {
-      alert(error);
+      Swal.fire(error);
       console.log(error);
     }
   };
@@ -174,7 +156,7 @@ export function verifyEmail(data) {
         Swal.fire("Kami telah mengirim link untuk aktivasi akun Anda.");
       }
     } catch (error) {
-      alert(error);
+      Swal.fire(error);
       console.error(error);
     }
   };

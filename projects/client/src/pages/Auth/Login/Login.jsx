@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser1 } from "../../../features/users/userSlice";
+import { loginUser } from "../../../features/users/userSlice";
 import LoginForm from "./LoginForm";
 
 function Login() {
@@ -10,7 +10,7 @@ function Login() {
   const userGlobal = useSelector((state) => state.users.user);
 
   const handleLoginUser = async (value) => {
-    dispatch(loginUser1(value));
+    dispatch(loginUser(value));
   };
 
   useEffect(() => {
