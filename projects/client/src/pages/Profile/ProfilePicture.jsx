@@ -31,6 +31,7 @@ function UpdateProfile() {
 
   const uploadImage = async () => {
     setIsLoading(true);
+    setShowButtons(false);
 
     if (file) {
       let formData = new FormData();

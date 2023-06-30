@@ -132,7 +132,7 @@ function Navbar() {
                 <img
                   src={`http://localhost:8000/${userGlobal.imagePath}`}
                   alt=""
-                  className="w-10 h-8 rounded-full"
+                  className="w-10 h-10 rounded-full"
                   onClick={toggleDropdown}
                 />
               ) : (
