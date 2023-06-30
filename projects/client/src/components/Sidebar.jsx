@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetAdmin } from "../features/admins/adminSlice";
 import Swal from "sweetalert2";
 import {
-  FaShieldAlt,
-  FaCog,
-  FaBell,
-  FaLock,
-  FaBullseye,
+  FaTags,
+  FaFileInvoice,
   FaChartBar,
   FaUserShield,
   FaSignOutAlt,
+  FaShoppingBasket,
 } from "react-icons/fa";
 import { RiMessage2Line } from "react-icons/ri";
 
@@ -70,15 +68,15 @@ function Sidebar() {
               <p className="text-2xl leading-8   ">Dashboard</p>
             </button>
             <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <FaShieldAlt className="text-xl" />
+              <FaShoppingBasket className="text-xl" />
               <p className="text-2xl leading-8   ">Product</p>
             </button>
             <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <FaBullseye className="text-xl" />
+              <FaTags className="text-xl" />
               <p className="text-2xl leading-8   ">Category</p>
             </button>
             <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <FaBullseye className="text-xl" />
+              <FaFileInvoice className="text-xl" />
               <p className="text-2xl leading-8   ">Transaction</p>
             </button>
             {adminGlobal.id_role !== 2 && ( // Conditionally render the button based on the admin's id_role
