@@ -17,6 +17,7 @@ import ConfirmEmail from "./pages/Auth/ResetPassword/ConfirmEmail";
 import ResetPassword from "./pages/Auth/ResetPassword/ResetPassword";
 import BeforeLoginNavbar from "./components/BeforeLoginNavbar";
 import Profile from "./pages/Profile/Profile";
+import ProfilePictureUpload from "./pages/Profile/ProfilePicture";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -57,6 +58,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/user/profile" element={<Profile />} />
+        <Route path="/user/profilePicture" element={<ProfilePictureUpload />} />
       </Routes>
     </div>
   );

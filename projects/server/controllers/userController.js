@@ -56,4 +56,22 @@ module.exports = {
       res.status(500).send(error.message || "Internal Server Error");
     }
   },
+  uploadProfilePic: async (req, res) => {
+    try {
+      const { file } = req;
+      const filepath = file ? "/" + file.filename : null;
+
+      await query(
+        `UPDATE users SET profilePicture = ${db.escape(
+          filepath
+        )} WHERE id_user = ${db.escape(req.user.id)}`
+      );
+
+      res
+        .status(200)
+        .send({ filepath, message: "Profile picture uploaded successfully." });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

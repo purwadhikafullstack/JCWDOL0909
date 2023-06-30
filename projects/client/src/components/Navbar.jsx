@@ -127,10 +127,23 @@ function Navbar() {
           {showCart && <CartModal closeModal={closeCart} />}
 
           <div className="relative mr-5">
-            <div
-              className="h-7 w-7 hover:ring-4 user cursor-pointer relative ring-blue-700/30 rounded-full bg-cover bg-center bg-[url('https://i.pinimg.com/474x/c6/e9/ed/c6e9ed167165ca99c4d428426e256fae.jpg')]"
-              onClick={toggleDropdown}
-            ></div>
+            <>
+              {userGlobal.imagePath ? (
+                <img
+                  src={`http://localhost:8000/${userGlobal.imagePath}`}
+                  alt=""
+                  className="w-10 h-8 rounded-full"
+                  onClick={toggleDropdown}
+                />
+              ) : (
+                <div>
+                  <div
+                    className="h-7 w-7 hover:ring-4 user cursor-pointer relative ring-blue-700/30 rounded-full bg-cover bg-center bg-[url('https://i.pinimg.com/474x/c6/e9/ed/c6e9ed167165ca99c4d428426e256fae.jpg')]"
+                    onClick={toggleDropdown}
+                  ></div>
+                </div>
+              )}
+            </>
             {isOpen && (
               <div className="userDropdown w-48 overflow-hidden bg-white rounded-md shadow absolute top-12 right-3">
                 <ul>
