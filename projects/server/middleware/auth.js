@@ -8,22 +8,28 @@ const verifyToken = (req, res, next) => {
     }
 
     token = token.split(" ")[1];
-    if (token == "null" || !token) {
+    if (!token || token === "null") {
       return res.status(401).send("Access Denied");
     }
 
-    let verifiedUser = jwt.verify(token, "six6");
-    if (!verifiedUser) {
-      return res.status(401).send("Access Denied");
+    let verified;
+    try {
+      verified = jwt.verify(token, "six6");
+    } catch (error) {
+      return res.status(401).json({ error: "Invalid token" });
     }
 
-    req.user = verifiedUser;
-    console.log(verifiedUser);
+    if (verified.isAdmin) {
+      req.admin = verified;
+    } else {
+      req.user = verified;
+    }
+
+    next();
   } catch (error) {
     console.log(error);
-    return;
+    return res.status(401).send("Access Denied");
   }
-  next();
 };
 
 module.exports = { verifyToken };

@@ -8,7 +8,9 @@ const {
   productRoutes,
   categoryRoutes,
   userRoutes,
+  adminRoutes,
 } = require("../routes");
+const { runSeed } = require("../helpers/runSeed");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -22,6 +24,7 @@ app.use(express.static("public"));
 //#region API ROUTES
 
 app.use("/auth", authRoutes);
+app.use("/admin", adminRoutes);
 app.use("/products", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/user", userRoutes);
@@ -75,5 +78,6 @@ app.listen(PORT, (err) => {
     console.log(`ERROR: ${err}`);
   } else {
     console.log(`APP RUNNING at ${PORT} ✅`);
+    runSeed();
   }
 });

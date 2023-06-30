@@ -1,23 +1,23 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../../features/users/userSlice";
-import RegisterForm from "./RegisterForm";
+import { loginAdmin } from "../../../features/admins/adminSlice";
+import LoginAdminForm from "./LoginAdminForm";
 
-function Login() {
+function LoginAdmin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userGlobal = useSelector((state) => state.users.user);
+  const adminGlobal = useSelector((state) => state.admins.admin);
 
-  const handleRegisterUser = async (value) => {
-    dispatch(registerUser(value));
+  const handleLoginAdmin = async (value) => {
+    dispatch(loginAdmin(value));
   };
 
   useEffect(() => {
-    if (userGlobal.id > 0) {
-      navigate("/product");
+    if (adminGlobal.id > 0) {
+      navigate("/admin/createAdmin");
     }
-  }, [userGlobal, navigate]);
+  }, [adminGlobal, navigate]);
 
   return (
     <div className="flex h-screen bg-[#003F62]">
@@ -37,16 +37,16 @@ function Login() {
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
             />
           </svg>
-          <h1 className="text-3xl font-bold text-[#EDA415] pb-10">Register</h1>
+          <h1 className="text-3xl font-bold text-[#EDA415] pb-10">Sign In</h1>
           <h3 className="text-1xl font-semibold text-gray-500 pb-5">
-            Create your new account
+            Sign in to your account!
           </h3>
 
-          <RegisterForm handleRegisterUser={handleRegisterUser} />
+          <LoginAdminForm handleLoginAdmin={handleLoginAdmin} />
         </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default LoginAdmin;

@@ -11,8 +11,8 @@ function Category() {
             <g
               fill="none"
               stroke="#000"
-              stroke-linecap="round"
-              stroke-width="4.2"
+              strokeLinecap="round"
+              strokeWidth="4.2"
             >
               <path d="m88.4 83.8c-13.3 19.7-11.3 35.6-3.21 53.6" />
               <path d="m14.8 114c6.49 15.1 14.3 28.3 31.3 28.7" />
@@ -39,8 +39,8 @@ function Category() {
             <g
               fill="none"
               stroke="#000"
-              stroke-linecap="round"
-              stroke-width="4.2"
+              strokeLinecap="round"
+              strokeWidth="4.2"
             >
               <path d="m88.4 83.8c-13.3 19.7-11.3 35.6-3.21 53.6" />
               <path d="m14.8 114c6.49 15.1 14.3 28.3 31.3 28.7" />
@@ -67,8 +67,8 @@ function Category() {
             <g
               fill="none"
               stroke="#000"
-              stroke-linecap="round"
-              stroke-width="4.2"
+              strokeLinecap="round"
+              strokeWidth="4.2"
             >
               <path d="m88.4 83.8c-13.3 19.7-11.3 35.6-3.21 53.6" />
               <path d="m14.8 114c6.49 15.1 14.3 28.3 31.3 28.7" />
@@ -95,8 +95,8 @@ function Category() {
             <g
               fill="none"
               stroke="#000"
-              stroke-linecap="round"
-              stroke-width="4.2"
+              strokeLinecap="round"
+              strokeWidth="4.2"
             >
               <path d="m88.4 83.8c-13.3 19.7-11.3 35.6-3.21 53.6" />
               <path d="m14.8 114c6.49 15.1 14.3 28.3 31.3 28.7" />
@@ -123,8 +123,8 @@ function Category() {
             <g
               fill="none"
               stroke="#000"
-              stroke-linecap="round"
-              stroke-width="4.2"
+              strokeLinecap="round"
+              strokeWidth="4.2"
             >
               <path d="m88.4 83.8c-13.3 19.7-11.3 35.6-3.21 53.6" />
               <path d="m14.8 114c6.49 15.1 14.3 28.3 31.3 28.7" />

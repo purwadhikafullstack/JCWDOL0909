@@ -4,6 +4,7 @@ import Register from "./pages/Auth/Register/Register";
 import Products from "./pages/Products/Product";
 import Login from "./pages/Auth/Login/Login";
 import { checkLogin } from "./features/users/userSlice";
+import { checkLoginAdmin } from "./features/admins/adminSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AddProduct from "./pages/Products/addProduct";
 import AddCategory from "./pages/Category/addCategory";
@@ -18,22 +19,29 @@ import ResetPassword from "./pages/Auth/ResetPassword/ResetPassword";
 import BeforeLoginNavbar from "./components/BeforeLoginNavbar";
 import Profile from "./pages/Profile/Profile";
 import ProfilePictureUpload from "./pages/Profile/ProfilePicture";
+import LoginAdmin from "./pages/Admin/LoginAdmin/LoginAdmin";
+import CreateAdmin from "./pages/Admin/CreateAdmin/CreateAdmin";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
+  const adminGlobal = useSelector((state) => state.admins.admin);
   const dispatch = useDispatch();
   const userToken = localStorage.getItem("user_token");
+  const adminToken = localStorage.getItem("admin_token");
   const location = useLocation();
 
   const shouldShowNavbar =
     location.pathname !== "/user/register" &&
     location.pathname !== "/user/login" &&
     location.pathname.toLowerCase() !== "/notfound" &&
-    location.pathname !== "/user/verifyEmail/:token";
+    location.pathname !== "/user/verifyEmail/:token" &&
+    !location.pathname.startsWith("/admin"); // Menambahkan kondisi untuk routes admin
 
   useEffect(() => {
     if (userToken) {
       dispatch(checkLogin(userToken));
+    } else if (adminToken) {
+      dispatch(checkLoginAdmin(adminToken));
     }
   }, []);
 
@@ -43,6 +51,7 @@ function App() {
         (userGlobal.id > 0 ? <Navbar /> : <BeforeLoginNavbar />)}
 
       <Routes>
+        {/* Routes for user  */}
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/confirmEmail" element={<ConfirmEmail />} />
@@ -59,6 +68,10 @@ function App() {
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/user/profile" element={<Profile />} />
         <Route path="/user/profilePicture" element={<ProfilePictureUpload />} />
+
+        {/* Routes for admin  */}
+        <Route path="/admin/login" element={<LoginAdmin />} />
+        <Route path="/admin/createAdmin" element={<CreateAdmin />} />
       </Routes>
     </div>
   );
