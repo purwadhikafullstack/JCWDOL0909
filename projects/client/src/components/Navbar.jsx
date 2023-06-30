@@ -179,7 +179,11 @@ function Navbar() {
                     <button>Wishlist</button>
                   </li>
                   <li className="pl-4 py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
-                    <button>
+                    <button
+                      onClick={() => {
+                        navigate("/user/profile");
+                      }}
+                    >
                       <FaUser className="inline-block align-middle mr-3.5" />
                       Profile
                     </button>
