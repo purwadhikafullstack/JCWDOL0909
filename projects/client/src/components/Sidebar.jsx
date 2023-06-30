@@ -66,37 +66,27 @@ function Sidebar() {
             className="flex justify-start  flex-col w-full md:w-auto items-start pb-1 pt-10"
           >
             <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <RiMessage2Line className="text-xl" />
-              <p className="text-2xl leading-8 ">Messages</p>
-            </button>
-            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <FaShieldAlt className="text-xl" />
-              <p className="text-2xl leading-8   ">Security</p>
-            </button>
-            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-              <FaCog className="text-xl" />
-              <p className="text-2xl leading-8   ">Settings</p>
-            </button>
-            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
-              <FaBell className="text-xl" />
-              <p className="text-2xl leading-8   ">Notifications</p>
-            </button>
-            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <FaLock className="text-xl" />
-              <p className="text-2xl leading-8   ">Passwords</p>
-            </button>
-            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <FaBullseye className="text-xl" />
-              <p className="text-2xl leading-8   ">Goals</p>
-            </button>
-            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
               <FaChartBar className="text-xl" />
               <p className="text-2xl leading-8   ">Dashboard</p>
             </button>
             <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
-              <FaUserShield className="text-xl" />
-              <p className="text-2xl leading-8   ">Admins</p>
+              <FaShieldAlt className="text-xl" />
+              <p className="text-2xl leading-8   ">Product</p>
             </button>
+            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
+              <FaBullseye className="text-xl" />
+              <p className="text-2xl leading-8   ">Category</p>
+            </button>
+            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
+              <FaBullseye className="text-xl" />
+              <p className="text-2xl leading-8   ">Transaction</p>
+            </button>
+            {adminGlobal.id_role !== 2 && ( // Conditionally render the button based on the admin's id_role
+              <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
+                <FaUserShield className="text-xl" />
+                <p className="text-2xl leading-8">Admins</p>
+              </button>
+            )}
             <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52">
               <FaSignOutAlt className="text-xl" />
               <p className="text-2xl leading-8" onClick={handleLogout}>

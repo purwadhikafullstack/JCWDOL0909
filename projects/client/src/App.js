@@ -21,6 +21,8 @@ import Profile from "./pages/Profile/Profile";
 import ProfilePictureUpload from "./pages/Profile/ProfilePicture";
 import LoginAdmin from "./pages/Admin/LoginAdmin/LoginAdmin";
 import CreateAdmin from "./pages/Admin/CreateAdmin/CreateAdmin";
+import BlankPage from "./pages/Error/BlankPage";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -35,6 +37,8 @@ function App() {
     location.pathname !== "/user/login" &&
     location.pathname.toLowerCase() !== "/notfound" &&
     location.pathname !== "/user/verifyEmail/:token" &&
+    location.pathname !== "/blankPage" &&
+    location.pathname !== "/dashboard" &&
     !location.pathname.startsWith("/admin"); // Menambahkan kondisi untuk routes admin
 
   useEffect(() => {
@@ -72,6 +76,8 @@ function App() {
         {/* Routes for admin  */}
         <Route path="/admin/login" element={<LoginAdmin />} />
         <Route path="/admin/createAdmin" element={<CreateAdmin />} />
+        <Route path="/blankPage" element={<BlankPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );

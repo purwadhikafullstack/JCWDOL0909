@@ -15,7 +15,7 @@ function LoginAdmin() {
 
   useEffect(() => {
     if (adminGlobal.id > 0) {
-      navigate("/admin/createAdmin");
+      navigate("/dashboard");
     }
   }, [adminGlobal, navigate]);
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Sidebar from "../../../components/Sidebar";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const CreateAdmin = () => {
   const [name, setName] = useState("");
@@ -11,6 +13,33 @@ const CreateAdmin = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const userToken = localStorage.getItem("user_token");
+
+  const navigate = useNavigate();
+  const adminGlobal = useSelector((state) => state.admins.admin);
+
+  useEffect(() => {
+    if (adminGlobal.id_role === 2) {
+      navigate("/blankPage");
+    }
+  }, [adminGlobal.id_role, navigate]);
+
+  const handleLogin = () => {
+    navigate("/admin/login");
+  };
+
+  if (adminGlobal.id <= 0) {
+    navigate("/dashboard");
+    Swal.fire({
+      icon: "warning",
+      title: "If you are an super admin, please login first",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleLogin();
+      }
+    });
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
