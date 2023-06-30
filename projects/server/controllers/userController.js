@@ -19,7 +19,7 @@ module.exports = {
 
   editProfile: async (req, res) => {
     try {
-      const { email, name, phone_number, gender, birthday } = req.body;
+      const { email, name, phoneNumber, gender, birthday } = req.body;
       const idUser = req.user.id;
       const user = await query(
         `SELECT * FROM users WHERE id_user = ${db.escape(idUser)}`
@@ -37,7 +37,7 @@ module.exports = {
         UPDATE users SET
           email = COALESCE(${db.escape(email)}, email),
           name = COALESCE(${db.escape(name)}, name),
-          phone_number = COALESCE(${db.escape(phone_number)}, phone_number),
+          phoneNumber = COALESCE(${db.escape(phoneNumber)}, phoneNumber),
           gender = COALESCE(${db.escape(gender)}, gender),
           birthday = COALESCE(STR_TO_DATE(${db.escape(
             formattedBirthday

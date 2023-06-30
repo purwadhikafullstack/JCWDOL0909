@@ -15,7 +15,7 @@ const ProfileForm = () => {
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email address").required("Required"),
     name: Yup.string().required("Required"),
-    phone_number: Yup.string().required("Required"),
+    phoneNumber: Yup.string().required("Required"),
     gender: Yup.string()
       .oneOf(["male", "female"], "Please select a gender")
       .required("Required"),
@@ -29,6 +29,7 @@ const ProfileForm = () => {
 
   const handleEditProfile = async (values) => {
     const formattedValues = {
+      id: user.id,
       ...values,
       birthday: moment(values.birthday).format("YYYY-MM-DD"),
     };
@@ -46,7 +47,7 @@ const ProfileForm = () => {
         initialValues={{
           email: user.email,
           name: user.name || "",
-          phone_number: user.phone_number || "",
+          phoneNumber: user.phoneNumber || "",
           gender: user.gender || "",
           birthday: user.birthday
             ? moment(user.birthday).format("YYYY-MM-DD")
@@ -93,17 +94,17 @@ const ProfileForm = () => {
               </div>
 
               <div>
-                <label htmlFor="phone_number" className="text-black">
+                <label htmlFor="phoneNumber" className="text-black">
                   Phone Number
                 </label>
                 <Field
-                  id="phone_number"
+                  id="phoneNumber"
                   type="text"
-                  name="phone_number"
+                  name="phoneNumber"
                   className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-400 rounded-md focus:border-blue-500 focus:outline-none focus:ring"
                 />
                 <ErrorMessage
-                  name="phone_number"
+                  name="phoneNumber"
                   component="div"
                   className="text-red-500"
                 />

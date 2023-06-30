@@ -223,7 +223,6 @@ export function editProfile(data) {
   return async (dispatch) => {
     try {
       const userToken = localStorage.getItem("user_token");
-
       const response = await Axios.patch(
         `http://localhost:8000/user/edit`, // Ubah endpoint sesuai kebutuhan
         data,
@@ -234,8 +233,6 @@ export function editProfile(data) {
         }
       );
       // Dispatch action untuk memperbarui data pengguna di Redux state
-      dispatch(setUser(data));
-      console.log(data);
       Swal.fire("Profile updated successfully"); // Menampilkan notifikasi sukses
     } catch (error) {
       Swal.fire(error.message); // Menampilkan notifikasi error
