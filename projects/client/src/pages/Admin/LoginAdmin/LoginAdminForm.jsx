@@ -59,32 +59,11 @@ function LoginAdminForm({ handleLoginAdmin }) {
               type="submit"
               className="text-xl text-center bg-[#EDA415] text-white py-1 rounded font-medium hover:bg-[#003F62]"
             >
-              Sign In
+              Admin Sign In
             </button>
           </Form>
         )}
       </Formik>
-      <div className="flex justify-evenly space-x-2 w-64 mt-4">
-        <span className="bg-gray-300 h-px flex-grow t-2 relative top-2"></span>
-        <span className="flex-none uppercase text-xs text-gray-400 font-semibold">
-          or
-        </span>
-        <span className="bg-gray-300 h-px flex-grow t-2 relative top-2"></span>
-      </div>
-      <button className="mt-4 flex">
-        <div className="bg-no-repeat facebook-logo mr-1"></div>
-        <span
-          className="text-xs text-blue-900 font-semibold hover:text-blue-400"
-          onClick={() => {
-            navigate("/user/register");
-          }}
-        >
-          don't have an account? register here
-        </span>
-      </button>
-      <p className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4 hover:text-blue-400">
-        Forgot password?
-      </p>
     </div>
   );
 }

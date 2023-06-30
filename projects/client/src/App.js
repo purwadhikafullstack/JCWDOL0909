@@ -43,7 +43,7 @@ function App() {
     } else if (adminToken) {
       dispatch(checkLoginAdmin(adminToken));
     }
-  }, []);
+  }, []); // Menambahkan dependensi userToken
 
   return (
     <div>
