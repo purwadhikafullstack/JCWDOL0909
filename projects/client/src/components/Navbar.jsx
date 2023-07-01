@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser } from "../features/users/userSlice";
+import { resetCart } from "../features/cart/cartSlice";
 import { useState } from "react";
 import {
   FaHome,
@@ -46,6 +47,7 @@ function Navbar() {
       if (result.isConfirmed) {
         localStorage.removeItem("user_token");
         dispatch(resetUser());
+        dispatch(resetCart());
         Swal.fire(
           "Logged Out!",
           "You have been successfully logged out.",
