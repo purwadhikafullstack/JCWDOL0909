@@ -1,4 +1,5 @@
 import React from "react";
+import UploadForm from "./uploadForm";
 
 function UploadPayment() {
   return (
@@ -92,7 +93,7 @@ function UploadPayment() {
           </div>
         </div>
       </div>
-      <div>UploadPayment Here</div>
+      <UploadForm />
     </>
   );
 }
