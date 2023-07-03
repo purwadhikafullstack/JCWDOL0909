@@ -107,4 +107,13 @@ function Tab() {
     </>
   );
 }
+
+function ProfilePage() {
+  return <h1>Profile Page</h1>;
+}
+
+function ChangePasswordPage() {
+  return <h1>Change Password Page</h1>;
+}
+
 export default Tab;

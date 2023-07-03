@@ -66,7 +66,7 @@ export function checkLoginAdmin(token) {
           },
         }
       );
-      console.log(response, "RESPONSE");
+
       if (response.status === 200) {
         dispatch(setAdmin(response.data.data));
       } else {

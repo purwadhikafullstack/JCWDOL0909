@@ -45,7 +45,7 @@ module.exports = {
   checkLoginAdmin: async (req, res) => {
     try {
       const admins = await query(
-        `SELECT * FROM admins WHERE id_admin = ${db.escape(req.user.id)}`
+        `SELECT * FROM admins WHERE id_admin = ${db.escape(req.admin.id)}`
       );
       console.log(admins);
       return res.status(200).send({

@@ -33,7 +33,7 @@ function ProductCard() {
     let response = await Axios.get(`http://localhost:8000/products`);
     setProductList(response.data);
   };
-  console.log(cartItems);
+
   const handleAddToCart = (product) => {
     const existingItem = cartItems.find(
       (item) => item.id_product === product.id_product
@@ -43,27 +43,8 @@ function ProductCard() {
     } else {
       dispatch(addItem({ ...product, quantity: 1 }));
     }
-    const carts = [];
-    const cartLocalStorage = localStorage.getItem("carts");
-    const existingItemLocalStorage = JSON.parse(cartLocalStorage).find(
-      (item) => item.id_product === product.id_product
-    );
-
-    if (existingItemLocalStorage) {
-      //nambahin qty dengan product id sama
-      // cart di simpan d local storage
-      // buat useEffect di App.js utk mencari tahu item di redux
-      // lalu jalankan dispatch addItem
-      // tambah atau mengurangi data bukan dari redux tp dari local storage
-      // waktu checkout hapus dari local storage
-    } else {
-      carts.push({ ...product, quantity: 1 });
-      localStorage.setItem("carts", JSON.stringify(carts));
-    }
     alert("berhasil menambahkan ke keranjang");
   };
-
-  //line 41-45 dispatch ke redux ganti jgn dispatch ke redux tp set item ke local storage
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(parseInt(e.target.value));
