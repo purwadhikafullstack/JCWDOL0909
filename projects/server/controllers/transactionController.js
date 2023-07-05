@@ -11,6 +11,7 @@ module.exports = {
         INNER JOIN shippings ON transactions.id_shipping = shippings.id_shipping
         INNER JOIN transaction_products ON transactions.id_transaction = transaction_products.id_transaction
         INNER JOIN products ON transaction_products.id_product = products.id_product
+        INNER JOIN transactions_status ON transactions.id_transaction_status = transactions_status.id_transaction_status
         WHERE transactions.id_user = ${db.escape(
           idUser
         )} AND transaction_products.id_transaction IN (

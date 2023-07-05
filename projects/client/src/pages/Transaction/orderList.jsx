@@ -14,7 +14,7 @@ function OrderList() {
     try {
       const response = await axios.get(
         "http://localhost:8000/transactions/fetchTransaction",
-        {},
+
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -27,6 +27,19 @@ function OrderList() {
       console.error(error);
     }
   };
+
+  const groupedTransactions = {};
+
+  transactions.forEach((transaction) => {
+    if (!groupedTransactions[transaction.id_transaction]) {
+      groupedTransactions[transaction.id_transaction] = {
+        id_transaction: transaction.id_transaction,
+        items: [],
+      };
+    }
+    groupedTransactions[transaction.id_transaction].items.push(transaction);
+  });
+
   return (
     <div>
       <div className="flex justify-center space-x-4 mt-8">
@@ -74,74 +87,99 @@ function OrderList() {
         </a>
       </div>
 
-      <div className="max-w-7xl mx-auto bg-white shadow-2xl p-8 mt-8">
-        <div className="flex justify-between">
-          <div>
-            <h3 className="text-base font-semibold">Tracking number</h3>
-            <p className="text-gray-600 text-sm">51547878755545848512</p>
+      {Object.values(groupedTransactions).map((group) => (
+        <div
+          key={group.id_transaction}
+          className="max-w-7xl mx-auto bg-white shadow-2xl p-8 mt-8"
+        >
+          <div className="flex justify-between">
+            <div>
+              <h3 className="text-base font-semibold">Invoice number</h3>
+              <p className="text-gray-600 text-sm">
+                {group.items[0].invoiceNumber}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <p className="text-base font-semibold text-right bg-yellow-200 text-yellow-800 px-2 py-1 rounded">
+                {group.items[0].status_name}
+              </p>
+            </div>
           </div>
-          <div className="flex items-center">
-            <p className="text-base font-semibold text-right bg-yellow-200 text-yellow-800 px-2 py-1 rounded">
-              Waiting for paid
-            </p>
-          </div>
-        </div>
 
-        <div className="mb-2">
-          <h3 className="text-lg font-semibold">Items</h3>
-          <div className="flex items-center mb-4">
-            <img
-              src="https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg"
-              alt="Model wearing men's charcoal basic tee in large."
-              className="w-20 h-auto mr-4"
-            />
-            <div>
-              <h4 className="text-sm font-medium">Basic Tee</h4>
-              <p className="text-gray-600">x 1</p>
-            </div>
-            <p className="ml-auto font-medium">$36.00</p>
+          <div className="mb-2">
+            <h3 className="text-lg font-semibold">Items</h3>
+            {group.items.map((item) => (
+              <div
+                key={item.id_transaction_product}
+                className="flex items-center mb-4"
+              >
+                {" "}
+                <img
+                  src={`http://localhost:8000/${item.image}`}
+                  alt="Model wearing men's charcoal basic tee in large."
+                  className="w-20 h-16 mr-4"
+                />
+                <div>
+                  <h4 className="text-sm font-medium">{item.name}</h4>
+                  <p className="text-gray-600">x {item.quantity}</p>
+                </div>
+                <p className="ml-auto font-medium">
+                  {item.price.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+                </p>
+              </div>
+            ))}
           </div>
-          <div className="flex items-center">
-            <img
-              src="https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-02.jpg"
-              alt="Model wearing women's artwork tee with isometric dots forming a cube in small."
-              className="w-20 h-auto mr-4"
-            />
-            <div>
-              <h4 className="text-sm font-medium">Artwork Tee — Iso Dots</h4>
-              <p className="text-gray-600">x 2</p>
+
+          <div>
+            <div className="flex justify-between">
+              <h3 className="text-sm font-semibold">Subtotal</h3>
+              <p className="font-semibold">
+                {group.items[0].total_price.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
+              </p>
             </div>
-            <p className="ml-auto font-medium">$36.00</p>
+            <div className="flex justify-between">
+              <h3 className="text-sm font-semibold">Shipping</h3>
+              <p className="font-semibold">
+                {group.items[0].shipping_cost.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
+              </p>
+            </div>
+            <div className="flex justify-between">
+              <h3 className="text-sm font-semibold">Shipping Method</h3>
+              <p className="font-semibold">{group.items[0].shipping_method}</p>
+            </div>
+            <hr />
+            <div className="flex justify-between">
+              <h3 className="text-sm font-semibold">Total</h3>
+              <p className="text-sm font-semibold">
+                {(
+                  Number(group.items[0].total_price) +
+                  Number(group.items[0].shipping_cost)
+                ).toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
+              </p>
+            </div>
+            <div className="flex justify-center items-center mt-4">
+              <button className="bg-yellow-200 border-2 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded">
+                Pay Now
+              </button>
+              <button className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded">
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
-        <div>
-          <div className="flex justify-between">
-            <h3 className="text-sm font-semibold">Subtotal</h3>
-            <p className="font-semibold">$72.00</p>
-          </div>
-          <div className="flex justify-between">
-            <h3 className="text-sm font-semibold">Shipping</h3>
-            <p className="font-semibold">$8.00</p>
-          </div>
-          <div className="flex justify-between">
-            <h3 className="text-sm font-semibold">Taxes</h3>
-            <p className="font-semibold">$6.40</p>
-          </div>
-          <hr />
-          <div className="flex justify-between">
-            <h3 className="text-sm font-semibold">Total</h3>
-            <p className="text-sm font-semibold">$86.40</p>
-          </div>
-          <div className="flex justify-center items-center mt-4">
-            <button className="bg-yellow-200 border-2 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded">
-              Pay Now
-            </button>
-            <button className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }
