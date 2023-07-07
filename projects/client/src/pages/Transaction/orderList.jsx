@@ -257,6 +257,11 @@ function OrderList() {
                 })}
               </p>
             </div>
+            <div className="flex justify-between mt-2">
+              <h3 className="text-sm font-semibold">
+                {group.items[0].date.substring(0, 10)}
+              </h3>
+            </div>
             <div className="flex justify-center items-center mt-4">
               {group.items[0].id_transaction_status === 1 && (
                 <>
