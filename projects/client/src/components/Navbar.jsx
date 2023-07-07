@@ -116,7 +116,12 @@ function Navbar() {
             </button>
           </li>
           <li className="font-medium text-lg p-3 mr-5 text-white hover:text-[#003F62] cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent  hover:text-primary transition-colors">
-            <button className="dark:text-white">
+            <button
+              onClick={() => {
+                navigate("/user/orderlist");
+              }}
+              className="dark:text-white"
+            >
               <FaShoppingCart className="inline-block align-middle mr-2" />
               My Order
             </button>

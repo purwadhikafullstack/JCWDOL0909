@@ -5,6 +5,10 @@ const userRoutes = require("./userRoutes");
 const rajaongkirRoutes = require("./rajaOngkirRoutes");
 const opencageRoutes = require("./opencageRoutes");
 const addressRoutes = require("./addressRoutes");
+const transactionRoutes = require("./transactionRoutes");
+const paymentRoutes = require("./paymentRoutes");
+const userRoutes = require("./userRoutes");
+const adminRoutes = require("./adminRoutes");
 
 module.exports = {
   authRoutes,
@@ -14,5 +18,8 @@ module.exports = {
   rajaongkirRoutes,
   opencageRoutes,
   addressRoutes,
+  transactionRoutes,
+  paymentRoutes,
+  userRoutes,
   adminRoutes,
 };

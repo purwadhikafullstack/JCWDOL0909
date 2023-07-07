@@ -21,6 +21,9 @@ import ProfilePictureUpload from "./pages/Profile/ProfilePicture";
 import AddressForm from "./pages/Profile/addAddress";
 import UpdateAddress from "./pages/Profile/updateAddress";
 import BeforeLoginNavbar from "./components/BeforeLoginNavbar";
+import Transaction from "./pages/Transaction/Transaction";
+import OrderList from "./pages/Transaction/orderList";
+import UploadForm from "./pages/Transaction/uploadForm";
 import LoginAdmin from "./pages/Admin/LoginAdmin/LoginAdmin";
 import CreateAdmin from "./pages/Admin/CreateAdmin/CreateAdmin";
 import BlankPage from "./pages/Error/BlankPage";
@@ -91,6 +94,9 @@ function App() {
         )}
 
         <Route path="/notfound" element={<NotFound />} />
+        <Route path="/transaction" element={<Transaction />} />
+        <Route path="/payment/:idTransaction" element={<UploadForm />} />
+        <Route path="/user/orderlist" element={<OrderList />} />
         <Route path="*" element={<NotFound />} />
 
         {adminGlobal.id_role === 1 && (

@@ -5,6 +5,10 @@ const userController = require("./userController");
 const rajaOngkirController = require("./rajaOngkirController");
 const opencageController = require("./openCage");
 const addressController = require("./addressController");
+const transactionController = require("./transactionController");
+const paymentController = require("./paymentController");
+const userController = require("./userController");
+const adminController = require("./adminController");
 
 module.exports = {
   authController,
@@ -14,5 +18,8 @@ module.exports = {
   rajaOngkirController,
   opencageController,
   addressController,
+  transactionController,
+  paymentController,
+  userController,
   adminController,
 };
