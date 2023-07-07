@@ -8,6 +8,10 @@ const {
   productRoutes,
   categoryRoutes,
   userRoutes,
+  rajaongkirRoutes,
+  opencageRoutes,
+  addressRoutes,
+} = require("../routes");
   adminRoutes,
 } = require("../routes");
 const { runSeed } = require("../helpers/runSeed");
@@ -28,6 +32,9 @@ app.use("/admin", adminRoutes);
 app.use("/products", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/user", userRoutes);
+app.use("/rajaOngkir", rajaongkirRoutes);
+app.use("/opencage", opencageRoutes);
+app.use("/address", addressRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);

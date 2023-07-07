@@ -121,6 +121,7 @@ module.exports = {
           gender: isEmailExist[0].gender,
           birthday: formattedBirthday,
           imagePath: isEmailExist[0].profilePicture,
+          address: isEmailExist[0].id_address,
         },
         success: true,
       });
@@ -214,6 +215,7 @@ module.exports = {
           gender: users[0].gender,
           birthday: formattedBirthday,
           imagePath: users[0].profilePicture,
+          address: users[0].id_address,
         },
       });
     } catch (error) {

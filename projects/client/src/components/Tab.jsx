@@ -4,6 +4,7 @@ import Profile from "../pages/Profile/Profile";
 import ChangePasswordForm from "../pages/Auth/ChangePassword/ChangePasswordForm";
 import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "../features/users/userSlice";
+import Address from "../pages/Profile/Address";
 
 function Tab() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -73,9 +74,13 @@ function Tab() {
               </a>
             </li>
             <li class="mr-2">
-              <a
-                href="#"
-                class="inline-flex p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+              <button
+                className={`inline-flex p-4 ${
+                  activeTab === "Address"
+                    ? "border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group"
+                    : "border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                }`}
+                onClick={() => handleTabClick("Address")}
               >
                 <svg
                   aria-hidden="true"
@@ -92,7 +97,7 @@ function Tab() {
                   ></path>
                 </svg>
                 Address
-              </a>
+              </button>
             </li>
           </ul>
         </div>
@@ -100,6 +105,7 @@ function Tab() {
 
       {/* Render different content based on activeTab */}
       {activeTab === "profile" && <ProfileForm />}
+      {activeTab === "Address" && <Address />}
       {activeTab === "password" && (
         <ChangePasswordForm handleChangePassword={handleChangePassword} />
       )}

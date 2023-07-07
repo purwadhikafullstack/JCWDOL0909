@@ -13,6 +13,7 @@ export const usersSlice = createSlice({
       gender: "",
       birthday: "",
       imagePath: "",
+      address: "",
     },
   },
   reducers: {
@@ -29,6 +30,7 @@ export const usersSlice = createSlice({
         gender: "",
         birthday: "",
         imagePath: "",
+        address: "",
       };
     },
   },

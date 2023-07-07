@@ -16,9 +16,11 @@ import VerifyEmail from "./pages/Auth/Activation/VerifyEmail";
 import ChangePassword from "./pages/Auth/ChangePassword/ChangePassword";
 import ConfirmEmail from "./pages/Auth/ResetPassword/ConfirmEmail";
 import ResetPassword from "./pages/Auth/ResetPassword/ResetPassword";
-import BeforeLoginNavbar from "./components/BeforeLoginNavbar";
 import Profile from "./pages/Profile/Profile";
 import ProfilePictureUpload from "./pages/Profile/ProfilePicture";
+import AddressForm from "./pages/Profile/addAddress";
+import UpdateAddress from "./pages/Profile/updateAddress";
+import BeforeLoginNavbar from "./components/BeforeLoginNavbar";
 import LoginAdmin from "./pages/Admin/LoginAdmin/LoginAdmin";
 import CreateAdmin from "./pages/Admin/CreateAdmin/CreateAdmin";
 import BlankPage from "./pages/Error/BlankPage";
@@ -83,6 +85,8 @@ function App() {
               path="/user/profilePicture"
               element={<ProfilePictureUpload />}
             />
+            <Route path="/user/addAddress" element={<AddressForm />} />
+            <Route path="/user/updateAddress" element={<UpdateAddress />} />
           </>
         )}
 

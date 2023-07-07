@@ -2,24 +2,9 @@ const { db, query } = require("../database");
 const moment = require("moment");
 
 module.exports = {
-  fetchUser: async (req, res) => {
-    try {
-      const idParams = parseInt(req.params.id);
-      if (req.user.id !== idParams) {
-        return res.status(400).send("Unauthorized attempt");
-      }
-      const users = await query(
-        `SELECT * FROM users WHERE id_user = ${db.escape(idParams)}`
-      );
-      return res.status(200).send(users);
-    } catch (error) {
-      res.status(error.status || 500).send(error);
-    }
-  },
-
   editProfile: async (req, res) => {
     try {
-      const { email, name, phoneNumber, gender, birthday } = req.body;
+      const { email, name, phone_number, gender, birthday } = req.body;
       const idUser = req.user.id;
       const user = await query(
         `SELECT * FROM users WHERE id_user = ${db.escape(idUser)}`
