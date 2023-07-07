@@ -44,21 +44,18 @@ function UploadForm() {
         );
 
         console.log(response.data); // Outputkan respon dari backend jika diperlukan
+
         if (!response.data.success) {
-          Swal.fire(response.data.message);
-          navigate("/user/orderlist");
+          Swal.fire("Error", response.data.message, "error");
         } else {
           Swal.fire("Success", response.data.message, "success");
         }
+        navigate("/user/orderlist");
       } catch (error) {
-        if (error.response && error.response.data) {
-          // Error response dari server
-          Swal.fire("Error", error.message, "error");
-        } else {
-          // Error lainnya
-          Swal.fire("Error", error.message, "error");
-        }
+        Swal.fire("Error", error.response.data.message, "error");
       }
+    } else {
+      Swal.fire("Tidak ada file yang dipilih");
     }
   };
 
