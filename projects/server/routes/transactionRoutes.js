@@ -9,5 +9,9 @@ router.get(
   verifyToken,
   transactionController.fetchTransaction
 );
+router.get(
+  "/fetchTransactionStatus",
+  transactionController.fetchTransactionStatus
+);
 
 module.exports = router;

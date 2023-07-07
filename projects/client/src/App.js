@@ -19,6 +19,7 @@ import BeforeLoginNavbar from "./components/BeforeLoginNavbar";
 import Transaction from "./pages/Transaction/Transaction";
 import UploadPayment from "./pages/Transaction/UploadPayment";
 import OrderList from "./pages/Transaction/orderList";
+import UploadForm from "./pages/Transaction/uploadForm";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -59,8 +60,8 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/transaction" element={<Transaction />} />
-        <Route path="/uploadPayment" element={<UploadPayment />} />
-        <Route path="/orderlist" element={<OrderList />} />
+        <Route path="/payment/:idTransaction" element={<UploadForm />} />
+        <Route path="/user/orderlist" element={<OrderList />} />
       </Routes>
     </div>
   );

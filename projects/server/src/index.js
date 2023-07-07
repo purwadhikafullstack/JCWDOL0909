@@ -8,6 +8,7 @@ const {
   productRoutes,
   categoryRoutes,
   transactionRoutes,
+  paymentRoutes,
 } = require("../routes");
 
 const PORT = process.env.PORT || 8000;
@@ -25,6 +26,7 @@ app.use("/auth", authRoutes);
 app.use("/products", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/transactions", transactionRoutes);
+app.use("/payments", paymentRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
