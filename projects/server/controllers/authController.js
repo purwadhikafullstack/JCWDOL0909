@@ -2,6 +2,7 @@ const { db, query } = require("../database");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("../helpers/nodemailer");
+const moment = require("moment");
 
 module.exports = {
   register: async (req, res) => {
@@ -103,14 +104,23 @@ module.exports = {
       let payload = {
         id: isEmailExist[0].id_user,
       };
-      const token = jwt.sign(payload, "six6", { expiresIn: "2h" });
+      const token = jwt.sign(payload, "six6", { expiresIn: "4h" });
+      const formattedBirthday = moment(isEmailExist[0].birthday).format(
+        "YYYY-MM-DD"
+      );
+
       return res.status(200).send({
         message: "Login Success",
         token,
         data: {
           id: isEmailExist[0].id_user,
           email: isEmailExist[0].email,
-          phone: isEmailExist[0].phone_number,
+          phoneNumber: isEmailExist[0].phoneNumber,
+          isVerified: isEmailExist[0].isVerified,
+          name: isEmailExist[0].name,
+          gender: isEmailExist[0].gender,
+          birthday: formattedBirthday,
+          imagePath: isEmailExist[0].profilePicture,
         },
         success: true,
       });
@@ -192,15 +202,22 @@ module.exports = {
         `SELECT * FROM users WHERE id_user = ${db.escape(req.user.id)}`
       );
       console.log(users);
+
+      const formattedBirthday = moment(users[0].birthday).format("YYYY-MM-DD");
+
       return res.status(200).send({
         data: {
           id: users[0].id_user,
+          name: users[0].name,
           email: users[0].email,
-          phone: users[0].phone_number,
+          phoneNumber: users[0].phoneNumber,
+          gender: users[0].gender,
+          birthday: formattedBirthday,
+          imagePath: users[0].profilePicture,
         },
       });
     } catch (error) {
-      res.status(error.status || 500).send(error);
+      console.log(error);
     }
   },
 
