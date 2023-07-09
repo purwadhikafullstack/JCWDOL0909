@@ -21,6 +21,9 @@
     "projects/*"
   ],
   "dependencies": {
-    "@heroicons/react": "^2.0.18"
+    "@heroicons/react": "^2.0.18",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
+    "react-datepicker": "^4.15.0"
   }
 }

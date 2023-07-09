@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, endOfDay, addDays } from "date-fns";
 
 function OrderList() {
   const [transactions, setTransactions] = useState([]);
-  const [status, setStatus] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [transactionStatus, setTransactionStatus] = useState([]);
@@ -15,11 +17,14 @@ function OrderList() {
   const [groupedTransactions, setGroupedTransactions] = useState({});
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     fetchTransactions();
     fetchTransactionStatus();
-  }, []);
+  }, [startDate, endDate]);
 
   useEffect(() => {
     const filtered = Object.values(groupedTransactions).filter((group) => {
@@ -28,7 +33,7 @@ function OrderList() {
         group.items[0].id_transaction_status === selectedStatus;
       const invoiceNumberMatch =
         searchQuery === "" ||
-        group.items[0].invoiceNumber.includes(searchQuery);
+        group.items[0].invoiceNumber.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
     });
     setFilteredTransactions(filtered);
@@ -51,11 +56,31 @@ function OrderList() {
 
   const fetchTransactions = async () => {
     try {
+      let formattedStartDate = null;
+      let formattedEndDate = null;
+
+      if (startDate) {
+        const startOfDayUTC = endOfDay(startDate);
+        formattedStartDate = format(
+          startOfDayUTC,
+          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        );
+      }
+
+      if (endDate) {
+        const endOfDayUTC = endOfDay(addDays(endDate, 1)); // Tambahkan 1 hari pada endDate
+        formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      }
+
       const response = await axios.get(
         "http://localhost:8000/transactions/fetchTransaction",
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
+          },
+          params: {
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
           },
         }
       );
@@ -106,43 +131,49 @@ function OrderList() {
   );
 
   const handleSearch = (e) => {
-    const query = e.target.value;
+    const query = e.target.value.toUpperCase();
     setSearchQuery(query);
+  };
 
-    // Set ulang transaksi yang terfilter agar data diambil ulang
+  const handleDateRangeChange = (range) => {
+    setStartDate(range[0]);
+    setEndDate(range[1]);
+    setShowCalendar(false);
+  };
+  const toggleCalendar = () => {
+    setShowCalendar(!showCalendar);
   };
 
   return (
     <div>
-      <div className="flex justify-center space-x-4 mt-8">
-        <button
-          className={`px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold ${
-            selectedStatus === 0 ? "bg-gray-300" : ""
-          }`}
-          onClick={() => handleStatusChange(0)}
-        >
-          <span className="text-base">All</span>
-        </button>
-        {transactionStatus.map((status) => (
+      <div className="flex justify-center mt-8">
+        <div className="space-x-4">
           <button
-            key={status.id_transaction_status}
-            className={`px-4 py-2 rounded hover:bg-yellow-200 text-yellow-800 font-semibold ${
-              selectedStatus === status.id_transaction_status
-                ? "bg-yellow-200"
-                : ""
+            className={`px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold ${
+              selectedStatus === 0 ? "bg-gray-300" : ""
             }`}
-            onClick={() => handleStatusChange(status.id_transaction_status)}
+            onClick={() => handleStatusChange(0)}
           >
-            <span className="text-base">{status.status_name}</span>
+            <span className="text-base">All</span>
           </button>
-        ))}
+          {transactionStatus.map((status) => (
+            <button
+              key={status.id_transaction_status}
+              className={`px-4 py-2 rounded hover:bg-yellow-200 text-yellow-800 font-semibold ${
+                selectedStatus === status.id_transaction_status
+                  ? "bg-yellow-200"
+                  : ""
+              }`}
+              onClick={() => handleStatusChange(status.id_transaction_status)}
+            >
+              <span className="text-base">{status.status_name}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      <form className="flex items-center ml-52 mt-8">
-        <label htmlFor="simple-search" className="sr-only">
-          Search
-        </label>
-        <div className="relative w-1/4 justify-end">
+      <div className="flex flex-col lg:flex-row items-start justify-start lg:justify-between mx-4 md:mx-52 lg:mt-4">
+        <div className="relative w-full lg:w-1/2 mb-4 lg:mb-0 lg:mr-4">
           <input
             type="text"
             id="simple-search"
@@ -152,29 +183,58 @@ function OrderList() {
             onChange={handleSearch}
             required
           />
-        </div>
-        <button
-          type="submit"
-          className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          <svg
-            className="w-4 h-4"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
+          <button
+            type="submit"
+            className="absolute inset-y-0 right-0 px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
-          <span className="sr-only">Search</span>
-        </button>
-      </form>
+            <svg
+              className="w-4 h-4"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+            <span className="sr-only">Search</span>
+          </button>
+        </div>
+
+        <div className="w-full md:w-auto mt-4 md:mt-0">
+          <div className="relative">
+            <button
+              type="button"
+              className="border border-gray-300 rounded p-2 w-full text-left"
+              onClick={toggleCalendar}
+            >
+              {startDate && endDate
+                ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+                : "Select Date Range"}
+            </button>
+            {showCalendar && (
+              <div className="absolute mt-2 z-10">
+                <DatePicker
+                  selected={startDate}
+                  onChange={handleDateRangeChange}
+                  startDate={startDate}
+                  endDate={endDate}
+                  selectsRange
+                  inline
+                  className="border border-gray-300 rounded p-2"
+                  wrapperClassName="w-full"
+                  calendarClassName="bg-white"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
 
       {displayedTransactions.map((group) => (
         <div
@@ -258,7 +318,7 @@ function OrderList() {
               </p>
             </div>
             <div className="flex justify-between mt-2">
-              <h3 className="text-sm font-semibold">
+              <h3 className="text-sm font-semibold text-red-400">
                 {group.items[0].date.substring(0, 10)}
               </h3>
             </div>
