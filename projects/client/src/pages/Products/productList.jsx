@@ -6,14 +6,14 @@ function ProductList({ products, handleProductClick, handleAddToCart }) {
     <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-2">
       {products.map((product) => (
         <div
-          className="bg-white shadow-lg overflow-hidden grid-cols-4 sm:grid-cols-2 h-auto"
+          className="bg-white shadow-lg overflow-hidden grid-cols-3 sm:grid-cols-2 h-auto"
           key={product.id_product}
         >
           <div className="relative flex flex-col overflow-hidden rounded-lg border">
             <img
               src={`http://localhost:8000/${product.image}`}
               alt={product.name}
-              className="w-50 h-80 object-cover"
+              className="w-full h-72 object-cover"
               onClick={() => handleProductClick(product)}
             />
 

@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, increaseQuantity } from "../../features/cart/cartSlice";
+import { handleAddToCart } from "./handleProduct";
 
 function ProductDetailPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [adminData, setAdminData] = useState(null);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const navigate = useNavigate();
+  const userGlobal = useSelector((state) => state.users.user);
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -29,8 +36,16 @@ function ProductDetailPage() {
     fetchProductData();
   }, [id]);
 
-  const handleAddToCart = (product) => {
-    // Logika untuk menambahkan produk ke keranjang
+  const handleAddToCartClick = (product) => {
+    handleAddToCart(
+      navigate,
+      product,
+      userGlobal,
+      cartItems,
+      dispatch,
+      addItem,
+      increaseQuantity
+    );
   };
 
   if (!product) {
@@ -38,63 +53,66 @@ function ProductDetailPage() {
   }
 
   return (
-    <div>
-      <div className="bg-sky-800 overflow-hidden shadow-md p-4 h-screen px-10 ">
-        {product.image && (
-          <img
-            src={`http://localhost:8000/${product.image}`}
-            className="w-96 h-72 object-cover mb-4 rounded-md"
-            alt={product.name}
-          />
-        )}
-        <h3 className="text-xl font-semibold text-white mb-2">
-          {product.name}
-        </h3>
-        <p className="text-white mb-2">
-          {product.price.toLocaleString("id-ID", {
-            style: "currency",
-            currency: "IDR",
-          })}
-        </p>
-
-        <p className="text-[#EDA415] mb-2 ">Stock: {product.stock}</p>
-
-        <p className="text-white mb-4 text-justify">{product.description}</p>
-
-        <div className="flex items-center">
-          {adminData && adminData.profile_picture ? (
+    <div className="flex justify-center items-center h-screen mx-auto lg:w-full">
+      <div className="bg-white shadow-md rounded-lg p-8 lg:w-4/5 border-t-2">
+        <div className="flex">
+          <div className="w-1/2">
             <img
-              src={adminData.profile_picture}
-              alt="Avatar Admin"
-              className="w-10 h-10 rounded-full mr-2 bg-white"
+              src={`http://localhost:8000/${product.image}`}
+              alt="Back angled view with bag open and handles to the side."
+              className="w-full"
             />
-          ) : (
-            <div className="w-10 h-10 overflow-hidden bg-white rounded-full">
-              <svg
-                className="w-12 h-12 text-white-400 -left-1"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
+          </div>
+          <div className="w-1/2 pl-4">
+            <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
+            <section aria-labelledby="information-heading">
+              <h3 id="information-heading" className="mb-2">
+                Product information
+              </h3>
+              <p className="mb-2">
+                {product.price.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
+              </p>
+            </section>
+            <div className="mb-4">
+              <h4 className="mb-1">Description</h4>
+              <p className="text-justify">{product.description}</p>
             </div>
-          )}
-
-          {adminData && (
-            <div className="text-[#EDA415] ml-3 my-7">{adminData.name}</div>
-          )}
+            <div className="flex items-center">
+              <div className="w-10 h-10 overflow-hidden bg-white rounded-full">
+                <svg
+                  className="w-12 h-12 text-white-400 -left-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+              {adminData && (
+                <div className="ml-3">
+                  <div className="text-[#EDA415]">{adminData.name}</div>
+                  <div className="text-[#EDA415]">{adminData.profile}</div>
+                </div>
+              )}
+            </div>
+            <div className="mt-10">
+              <button
+                onClick={() => handleAddToCartClick(product)}
+                type="submit"
+                className="bg-blue-700 hover:bg-yellow-400 text-white py-2 px-4 rounded-md"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
-        <button
-          className="bg-[#EDA415] hover:bg-orange-300 text-white py-1 px-6 mr-10 rounded-md"
-          onClick={() => handleAddToCart(product)}
-        >
-          Add to Cart
-        </button>
       </div>
     </div>
   );

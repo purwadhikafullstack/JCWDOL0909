@@ -9,7 +9,6 @@ import Pagination from "./pagination";
 import CategoryList from "./categoryList";
 import SearchBar from "./searchBar";
 import { handleAddToCart, handleProductClick } from "./handleProduct";
-import { FaSearch } from "react-icons/fa";
 
 function ProductCard() {
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ function ProductCard() {
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 8;
 
   useEffect(() => {
     Axios.get("http://localhost:8000/category")

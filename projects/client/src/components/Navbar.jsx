@@ -61,7 +61,7 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="flex items-center relative justify-between bg-[#EDA415] px-5 py-2 w-full">
+      <nav className="flex items-center relative justify-between w-screen bg-[#EDA415] px-5 py-2">
         <div>
           <div>
             <img src={logo} alt="Logo" className="w-20 h-16 ml-5" />
@@ -122,14 +122,14 @@ function Navbar() {
               }}
               className="dark:text-white"
             >
-              <FaShoppingCart className="inline-block align-middle mr-2" />
+              <FaShoppingBag className="inline-block align-middle mr-2" />
               My Order
             </button>
           </li>
         </ul>
         <div className="flex gap-3 items-center">
           <button onClick={openCart}>
-            <FaShoppingBag />
+            <FaShoppingCart />
           </button>
           {showCart && <CartModal closeModal={closeCart} />}
 
