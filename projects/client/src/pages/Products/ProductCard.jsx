@@ -119,14 +119,14 @@ function ProductCard() {
   };
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto ">
       <CategoryList
         categories={categories}
         handleCategoryChange={handleCategoryChange}
       />
       <SearchBar handleSearchChange={handleSearchChange} />
 
-      <div className="mb-4 mt-5">
+      <div className="mb-4 mt-5 lg:mx-10">
         <div className="flex mb-5">
           <button
             className={`mr-2 py-2 px-4 rounded hover:bg-yellow-200 ${
@@ -172,6 +172,7 @@ function ProductCard() {
         />
       </div>
       <Pagination
+        className="justify-center"
         currentPage={currentPage}
         totalPages={totalPages}
         handlePageChange={handlePageChange}

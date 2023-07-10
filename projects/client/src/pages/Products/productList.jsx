@@ -1,9 +1,8 @@
-// ProductList.js
 import React from "react";
 
 function ProductList({ products, handleProductClick, handleAddToCart }) {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-1">
       {products.map((product) => (
         <div
           className="bg-white shadow-lg overflow-hidden grid-cols-3 sm:grid-cols-2 h-auto"
@@ -13,7 +12,7 @@ function ProductList({ products, handleProductClick, handleAddToCart }) {
             <img
               src={`http://localhost:8000/${product.image}`}
               alt={product.name}
-              className="w-full h-72 object-cover"
+              className="w-full h-60 md:h-72 object-cover "
               onClick={() => handleProductClick(product)}
             />
 

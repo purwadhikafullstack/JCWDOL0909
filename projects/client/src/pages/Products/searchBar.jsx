@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 
 function SearchBar({ handleSearchChange }) {
   return (
-    <div className="mb-3">
+    <div className="mb-3 lg:mx-10 sm:mx-0">
       <div className="relative mb-4 flex w-1/2 flex-wrap items-stretch">
         <input
           type="search"

@@ -1,4 +1,3 @@
-// Pagination.js
 import React from "react";
 
 function Pagination({
@@ -9,8 +8,8 @@ function Pagination({
   handleNextPage,
 }) {
   return (
-    <div className="place-items-center">
-      <ul className="inline-flex items-center justify-center mx-auto -space-x-px my-8">
+    <div className="flex justify-center items-center my-8">
+      <ul className="flex items-center space-x-2">
         <li>
           <button
             onClick={handlePreviousPage}
