@@ -1,37 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
-import address from "../../img/address.png";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Axios from "axios";
+import React from "react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-function MainAddress() {
-  const userGlobal = useSelector((state) => state.users.user);
+function MainAddress({ addressList }) {
   const navigate = useNavigate();
-  const [addressList, setAddressList] = useState([]);
-  const userToken = localStorage.getItem("user_token");
-  const [selectedAddress, setSelectedAddress] = useState(null);
-
-  useEffect(() => {
-    fetchAddressData();
-  }, []);
-
-  const fetchAddressData = async () => {
-    try {
-      const response = await Axios.get(
-        "http://localhost:8000/address/fetchMainAddress",
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      setAddressList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDeleteAddress = () => {
     Swal.fire("You can't delete the main address!");

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
 import address from "../../img/address.png";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +6,7 @@ import Axios from "axios";
 import MainAddress from "./mainAddress";
 import AddressForm from "./addAddress";
 import Swal from "sweetalert2";
+import {fetchMainAddressData} from "./helperMainAddress";
 
 function Address() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -14,10 +14,13 @@ function Address() {
   const [addressList, setAddressList] = useState([]);
   const userToken = localStorage.getItem("user_token");
   const [showModal, setShowModal] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [mainAddress, setMainAddress] = useState([]);
 
   useEffect(() => {
-    fetchAddressData();
+    const mainFunc = async () => {
+      await fetchAddressData();
+    }
+    mainFunc()
   }, []);
 
   const fetchAddressData = async () => {
@@ -30,6 +33,7 @@ function Address() {
           },
         }
       );
+      setMainAddress(await fetchMainAddressData());
       setAddressList(response.data);
     } catch (error) {
       console.log(error);
@@ -133,7 +137,7 @@ function Address() {
 
           {userGlobal.address > 0 ? (
             <div>
-              <MainAddress />
+              <MainAddress addressList={mainAddress}/>
               {addressList.map((address) => (
                 <div key={address.id_address}>
                   <div className="flex justify-between items-center py-4">

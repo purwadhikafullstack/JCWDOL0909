@@ -31,6 +31,8 @@ function UpdateAddress({ editAddressData }) {
         );
         const address = addressResponse.data;
         setAddress(address[0]);
+        // setSelectedProvinceId(address[0].province);
+        // setSelectedCities(address[0].city);
         console.log(address);
       } catch (error) {
         console.log(error);
@@ -58,7 +60,8 @@ function UpdateAddress({ editAddressData }) {
       (province) => province.province_id === selectedProvinceId
     );
     const selectedCity = cities.find((city) => city.city_id === selectedCityId);
-
+    console.log(provinces);
+    console.log(cities);
     const data = {
       name: fullName || (address && address.name) || "",
       phoneNumber: phoneNumber || (address && address.phone_number) || "",
@@ -68,8 +71,14 @@ function UpdateAddress({ editAddressData }) {
       postalCode: postalCode || (address && address.postal_code) || "",
       longitude: geolocation?.longitude || (address && address.longitude) || "",
       latitude: geolocation?.latitude || (address && address.latitude) || "",
-      province: selectedProvince ? selectedProvince.province : "",
-      city: selectedCity ? selectedCity.city_name : "",
+      province:
+        selectedProvince && selectedProvince.province
+          ? selectedProvince.province
+          : address.province,
+      city:
+        selectedCity && selectedCity.city_name
+          ? selectedCity.city_name
+          : address.city,
     };
 
     if (geolocation) {
