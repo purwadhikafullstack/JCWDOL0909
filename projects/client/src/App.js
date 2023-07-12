@@ -81,18 +81,18 @@ function App() {
           </>
         )}
 
-        {userGlobal.id > 0 && (
-          <>
-            <Route path="/user/changePassword" element={<ChangePassword />} />
-            <Route path="/user/profile" element={<Profile />} />
-            <Route
-              path="/user/profilePicture"
-              element={<ProfilePictureUpload />}
-            />
-            <Route path="/user/addAddress" element={<AddressForm />} />
-            <Route path="/user/updateAddress" element={<UpdateAddress />} />
-          </>
-        )}
+        {/* {userGlobal.id > 0 && ( */}
+        <>
+          <Route path="/user/changePassword" element={<ChangePassword />} />
+          <Route path="/user/profile" element={<Profile />} />
+          <Route
+            path="/user/profilePicture"
+            element={<ProfilePictureUpload />}
+          />
+          <Route path="/user/addAddress" element={<AddressForm />} />
+          <Route path="/address/:id" element={<UpdateAddress />} />
+        </>
+        {/* )} */}
 
         <Route path="/desain" element={<Design />} />
         <Route path="/notfound" element={<NotFound />} />

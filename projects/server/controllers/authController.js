@@ -115,7 +115,7 @@ module.exports = {
         data: {
           id: isEmailExist[0].id_user,
           email: isEmailExist[0].email,
-          phoneNumber: isEmailExist[0].phoneNumber,
+          phoneNumber: isEmailExist[0].phone_number,
           isVerified: isEmailExist[0].isVerified,
           name: isEmailExist[0].name,
           gender: isEmailExist[0].gender,
@@ -211,7 +211,7 @@ module.exports = {
           id: users[0].id_user,
           name: users[0].name,
           email: users[0].email,
-          phoneNumber: users[0].phoneNumber,
+          phoneNumber: users[0].phone_number,
           gender: users[0].gender,
           birthday: formattedBirthday,
           imagePath: users[0].profilePicture,

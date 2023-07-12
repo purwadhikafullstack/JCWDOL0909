@@ -101,14 +101,14 @@ module.exports = {
 
       let editAddressQuery = `UPDATE addresses SET 
       name = COALESCE(${db.escape(name)}, name),
-      phoneNumber = COALESCE(${db.escape(phoneNumber)}, phoneNumber),
+      phone_number = COALESCE(${db.escape(phoneNumber)}, phone_number),
       address = COALESCE(${db.escape(address)}, address),
-      additionalDetails = COALESCE(${db.escape(
+      additional_details = COALESCE(${db.escape(
         additionalDetails
-      )}, additionalDetails), 
+      )}, additional_details), 
       city = COALESCE(${db.escape(city)}, city),
       province = COALESCE(${db.escape(province)}, province),
-      postalCode = COALESCE(${db.escape(postalCode)}, postalCode),
+      postal_code = COALESCE(${db.escape(postalCode)}, postal_code),
       longitude = COALESCE(${db.escape(longitude)}, longitude),
       latitude = COALESCE(${db.escape(latitude)}, latitude)
       WHERE id_address = ${db.escape(idAddress)}`;

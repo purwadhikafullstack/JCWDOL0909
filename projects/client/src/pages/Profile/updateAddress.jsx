@@ -61,19 +61,15 @@ function UpdateAddress({ editAddressData }) {
 
     const data = {
       name: fullName || (address && address.name) || "",
-      phoneNumber: phoneNumber || (address && address.phoneNumber) || "",
+      phoneNumber: phoneNumber || (address && address.phone_number) || "",
       address: streetAddress || (address && address.address) || "",
       additionalDetails:
-        additionalDetails || (address && address.additionalDetails) || "",
-      postalCode: postalCode || (address && address.postalCode) || "",
+        additionalDetails || (address && address.additional_details) || "",
+      postalCode: postalCode || (address && address.postal_code) || "",
       longitude: geolocation?.longitude || (address && address.longitude) || "",
       latitude: geolocation?.latitude || (address && address.latitude) || "",
-      province: selectedProvince
-        ? selectedProvince.province || (address && address.province)
-        : "",
-      city: selectedCity
-        ? selectedCity.city_name || (address && address.city)
-        : "",
+      province: selectedProvince ? selectedProvince.province : "",
+      city: selectedCity ? selectedCity.city_name : "",
     };
 
     if (geolocation) {
@@ -185,7 +181,7 @@ function UpdateAddress({ editAddressData }) {
               placeholder="Phone Number"
               className="border border-gray-300 p-2 rounded-md w-full"
               autoComplete="user-address-phone"
-              value={phoneNumber || (address && address.phoneNumber) || ""}
+              value={phoneNumber || (address && address.phone_number) || ""}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
@@ -239,7 +235,7 @@ function UpdateAddress({ editAddressData }) {
             className="border border-gray-300 p-2 rounded-md w-full"
             autoComplete="postal-code"
             maxLength="10"
-            value={postalCode || (address && address.postalCode) || ""}
+            value={postalCode || (address && address.postal_code) || ""}
             onChange={(e) => setPostalCode(e.target.value)}
           />
         </div>
@@ -262,7 +258,7 @@ function UpdateAddress({ editAddressData }) {
             autoComplete="user-address-additional-details"
             maxLength="160"
             value={
-              additionalDetails || (address && address.additionalDetails) || ""
+              additionalDetails || (address && address.additional_details) || ""
             }
             onChange={(e) => setAdditionalDetails(e.target.value)}
           />

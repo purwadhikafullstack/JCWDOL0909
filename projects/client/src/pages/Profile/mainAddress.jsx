@@ -19,7 +19,6 @@ function MainAddress() {
 
   const fetchAddressData = async () => {
     try {
-      debugger;
       const response = await Axios.get(
         "http://localhost:8000/address/fetchMainAddress",
         {
@@ -49,7 +48,7 @@ function MainAddress() {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2 justify-start">
               <div className="text-base">{address.name}</div>
-              <div>{`(+62) ${address.phoneNumber.substring(1)}`}</div>
+              <div>{`(+62) ${address.phone_number.substring(1)}`}</div>
             </div>
           </div>
           <div className="py-2">
@@ -60,7 +59,7 @@ function MainAddress() {
             </div>
           </div>
           <div className="text-base text-blue-500 border  font-semibold w-44 py-2 pl-8">
-            alamat Utama
+            Main Address
           </div>
           <div className="flex items-center space-x-2 mt-4 mb-4">
             <button

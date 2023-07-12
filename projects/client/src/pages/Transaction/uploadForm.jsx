@@ -46,7 +46,7 @@ function UploadForm() {
         console.log(response.data); // Outputkan respon dari backend jika diperlukan
 
         if (!response.data.success) {
-          Swal.fire("Error", response.data.message, "error");
+          Swal.fire(response.data.message);
         } else {
           Swal.fire("Success", response.data.message, "success");
         }

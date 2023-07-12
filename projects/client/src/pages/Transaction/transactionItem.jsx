@@ -10,7 +10,7 @@ function TransactionItem({ group, handleOrderClick }) {
         <div>
           <h3 className="text-base font-semibold">Invoice number</h3>
           <p className="text-gray-600 text-sm">
-            {group.items[0].invoiceNumber}
+            {group.items[0].invoice_number}
           </p>
         </div>
         <div className="flex items-center">

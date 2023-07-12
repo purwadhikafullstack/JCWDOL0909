@@ -62,7 +62,7 @@ function Address() {
             },
           }
         );
-
+        fetchAddressData();
         if (!response.data.success) {
           Swal.fire(response.data.message);
         } else {
@@ -76,7 +76,6 @@ function Address() {
 
   const handleSetMainAddress = async (addressId) => {
     try {
-      debugger;
       const result = await Swal.fire({
         title: "Are you sure?",
         text: "You are about to set this address as a main address.",
@@ -98,7 +97,7 @@ function Address() {
             },
           }
         );
-
+        fetchAddressData();
         if (!response.data.success) {
           Swal.fire(response.data.message);
         } else {
@@ -140,7 +139,7 @@ function Address() {
                   <div className="flex justify-between items-center py-4">
                     <div className="flex items-center space-x-2 justify-start">
                       <div className="text-base">{address.name}</div>
-                      <div>{`(+62) ${address.phoneNumber.substring(1)}`}</div>
+                      <div>{`(+62) ${address.phone_number.substring(1)}`}</div>
                     </div>
                     <button
                       onClick={() => handleSetMainAddress(address.id_address)}
@@ -153,7 +152,7 @@ function Address() {
                     <div className="text-sm mb-2">{address.address}</div>
                     <div className="text-sm">
                       {address.city.toUpperCase()},{" "}
-                      {address.province.toUpperCase()}, {address.postalCode}
+                      {address.province.toUpperCase()}, {address.postal_code}
                     </div>
                   </div>
                   <div className="flex items-center space-x-2 mt-4 mb-4">
