@@ -103,7 +103,7 @@ function Transaction() {
               <div className="flex flex-col rounded-lg bg-white sm:flex-row">
                 <img
                   className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                  //   src={`http://localhost:8000/${product.image}`}
+                  src={`http://localhost:8000/${item.image}`}
                   alt=""
                 />
                 <div className="flex w-full flex-col px-4 py-4">
