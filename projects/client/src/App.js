@@ -30,6 +30,7 @@ import BlankPage from "./pages/Error/BlankPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AddProductForm from "./pages/Admin/Product/AddProductForm";
 import AddCategoryForm from "./pages/Admin/Product/AddCategoryForm";
+import Design from "./pages/Products/design";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -93,6 +94,7 @@ function App() {
           </>
         )}
 
+        <Route path="/desain" element={<Design />} />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/payment/:idTransaction" element={<UploadForm />} />

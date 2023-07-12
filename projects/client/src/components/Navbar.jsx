@@ -1,9 +1,9 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser } from "../features/users/userSlice";
 import { resetCart } from "../features/cart/cartSlice";
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaHome,
   FaCube,
@@ -12,11 +12,12 @@ import {
   FaShoppingBag,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
-import logo from "../img/e-grocery-low-resolution-logo-white-on-transparent-background (1).png";
+import logoo from "../img/logo-cut.png";
 import CartModal from "./cartModal";
 
 function Navbar() {
   const userGlobal = useSelector((state) => state.users.user);
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showCart, setShowCart] = useState(false);
@@ -33,6 +34,15 @@ function Navbar() {
   const closeCart = () => {
     setShowCart(false);
   };
+
+  const handleNavigation = (path) => {
+    setIsOpen(false); // Tutup dropdown saat navigasi
+    navigate(path);
+  };
+
+  useEffect(() => {
+    setIsOpen(false); // Tutup dropdown saat lokasi berubah
+  }, [location]);
 
   const handleLogout = () => {
     Swal.fire({
@@ -61,10 +71,10 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="flex items-center relative justify-between bg-[#EDA415] px-5 py-2 w-full">
+      <nav className="flex items-center relative justify-between w-screen bg-[#EDA415] px-5 py-2">
         <div>
           <div>
-            <img src={logo} alt="Logo" className="w-20 h-16 ml-5" />
+            <img src={logoo} alt="Logo" className="w-20 h-16 ml-5" />
           </div>
         </div>
         <ul
@@ -98,13 +108,13 @@ function Navbar() {
               />
             </svg>
           </div>
-          <li className="font-medium text-lg p-3 mr-5 text-white hover:text-[#003F62] hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-primary">
+          <li className="font-medium text-lg p-3 mr-5 text-black hover:text-white hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent text-primary">
             <button className="dark:text-white">
               <FaHome className="inline-block align-middle mr-2" />
               Home
             </button>
           </li>
-          <li className="font-medium text-lg p-3 mr-5 text-white hover:text-[#003F62] cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent  hover:text-primary transition-colors">
+          <li className="font-medium text-lg p-3 mr-5 text-black hover:text-white cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent  hover:text-primary transition-colors">
             <button
               onClick={() => {
                 navigate("/product");
@@ -115,21 +125,21 @@ function Navbar() {
               Product
             </button>
           </li>
-          <li className="font-medium text-lg p-3 mr-5 text-white hover:text-[#003F62] cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent  hover:text-primary transition-colors">
+          <li className="font-medium text-lg p-1 mr-5 text-black hover:text-white cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-800 sm:p-0 sm:hover:bg-transparent  hover:text-primary transition-colors">
             <button
               onClick={() => {
                 navigate("/user/orderlist");
               }}
               className="dark:text-white"
             >
-              <FaShoppingCart className="inline-block align-middle mr-2" />
+              <FaShoppingBag className="inline-block align-middle mr-2" />
               My Order
             </button>
           </li>
         </ul>
         <div className="flex gap-3 items-center">
           <button onClick={openCart}>
-            <FaShoppingBag />
+            <FaShoppingCart />
           </button>
           {showCart && <CartModal closeModal={closeCart} />}
 
@@ -139,13 +149,13 @@ function Navbar() {
                 <img
                   src={`http://localhost:8000/${userGlobal.imagePath}`}
                   alt=""
-                  className="w-10 h-10 rounded-full"
+                  className="w-8 h-8 rounded-full"
                   onClick={toggleDropdown}
                 />
               ) : (
                 <div>
                   <div
-                    className="h-7 w-7 hover:ring-4 user cursor-pointer relative ring-blue-700/30 rounded-full bg-cover bg-center bg-[url('https://i.pinimg.com/474x/c6/e9/ed/c6e9ed167165ca99c4d428426e256fae.jpg')]"
+                    className="h-8 w-8 hover:ring-4 user cursor-pointer relative ring-blue-700/30 rounded-full bg-cover bg-center bg-[url('https://i.pinimg.com/474x/c6/e9/ed/c6e9ed167165ca99c4d428426e256fae.jpg')]"
                     onClick={toggleDropdown}
                   ></div>
                 </div>
@@ -212,7 +222,7 @@ function Navbar() {
                     <span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
+                        className="h-4 w-6"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

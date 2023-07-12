@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, endOfDay, addDays } from "date-fns";
+import TransactionItem from "./transactionItem";
+import Pagination from "./pagination";
+import SearchBar from "./searchBar";
 
 function OrderList() {
   const [transactions, setTransactions] = useState([]);
-  const [status, setStatus] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [transactionStatus, setTransactionStatus] = useState([]);
   const userToken = localStorage.getItem("user_token");
-  const navigate = useNavigate();
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [groupedTransactions, setGroupedTransactions] = useState({});
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchTransactions();
     fetchTransactionStatus();
-  }, []);
+  }, [startDate, endDate]);
 
   useEffect(() => {
     const filtered = Object.values(groupedTransactions).filter((group) => {
@@ -28,7 +35,7 @@ function OrderList() {
         group.items[0].id_transaction_status === selectedStatus;
       const invoiceNumberMatch =
         searchQuery === "" ||
-        group.items[0].invoiceNumber.includes(searchQuery);
+        group.items[0].invoiceNumber.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
     });
     setFilteredTransactions(filtered);
@@ -51,15 +58,31 @@ function OrderList() {
 
   const fetchTransactions = async () => {
     try {
+      let formattedStartDate = null;
+      let formattedEndDate = null;
+      if (startDate) {
+        const startOfDayUTC = endOfDay(startDate);
+        formattedStartDate = format(
+          startOfDayUTC,
+          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        );
+      }
+      if (endDate) {
+        const endOfDayUTC = endOfDay(addDays(endDate, 1)); // Tambahkan 1 hari pada endDate
+        formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      }
       const response = await axios.get(
         "http://localhost:8000/transactions/fetchTransaction",
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
+          params: {
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+          },
         }
       );
-
       setTransactions(response.data);
     } catch (error) {
       console.error(error);
@@ -71,7 +94,6 @@ function OrderList() {
       const response = await axios.get(
         "http://localhost:8000/transactions/fetchTransactionStatus"
       );
-
       setTransactionStatus(response.data);
     } catch (error) {
       console.error(error);
@@ -106,251 +128,68 @@ function OrderList() {
   );
 
   const handleSearch = (e) => {
-    const query = e.target.value;
+    const query = e.target.value.toUpperCase();
     setSearchQuery(query);
+  };
 
-    // Set ulang transaksi yang terfilter agar data diambil ulang
+  const handleDateRangeChange = (range) => {
+    setStartDate(range[0]);
+    setEndDate(range[1]);
+    setShowCalendar(false);
+  };
+  const toggleCalendar = () => {
+    setShowCalendar(!showCalendar);
   };
 
   return (
     <div>
-      <div className="flex justify-center space-x-4 mt-8">
-        <button
-          className={`px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold ${
-            selectedStatus === 0 ? "bg-gray-300" : ""
-          }`}
-          onClick={() => handleStatusChange(0)}
-        >
-          <span className="text-base">All</span>
-        </button>
-        {transactionStatus.map((status) => (
+      <div className="flex justify-center mt-8">
+        <div className="space-x-4">
           <button
-            key={status.id_transaction_status}
-            className={`px-4 py-2 rounded hover:bg-yellow-200 text-yellow-800 font-semibold ${
-              selectedStatus === status.id_transaction_status
-                ? "bg-yellow-200"
-                : ""
+            className={`px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold ${
+              selectedStatus === 0 ? "bg-gray-300" : ""
             }`}
-            onClick={() => handleStatusChange(status.id_transaction_status)}
+            onClick={() => handleStatusChange(0)}
           >
-            <span className="text-base">{status.status_name}</span>
+            <span className="text-base">All</span>
           </button>
-        ))}
+          {transactionStatus.map((status) => (
+            <button
+              key={status.id_transaction_status}
+              className={`px-4 py-2 rounded hover:bg-yellow-200 text-yellow-800 font-semibold ${
+                selectedStatus === status.id_transaction_status
+                  ? "bg-yellow-200"
+                  : ""
+              }`}
+              onClick={() => handleStatusChange(status.id_transaction_status)}
+            >
+              <span className="text-base">{status.status_name}</span>
+            </button>
+          ))}
+        </div>
       </div>
-
-      <form className="flex items-center ml-52 mt-8">
-        <label htmlFor="simple-search" className="sr-only">
-          Search
-        </label>
-        <div className="relative w-1/4 justify-end">
-          <input
-            type="text"
-            id="simple-search"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search branch name..."
-            value={searchQuery}
-            onChange={handleSearch}
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          <svg
-            className="w-4 h-4"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
-          <span className="sr-only">Search</span>
-        </button>
-      </form>
-
+      <SearchBar
+        searchQuery={searchQuery}
+        handleSearch={handleSearch}
+        startDate={startDate}
+        endDate={endDate}
+        handleDateRangeChange={handleDateRangeChange}
+        showCalendar={showCalendar}
+        toggleCalendar={toggleCalendar}
+      />
       {displayedTransactions.map((group) => (
-        <div
+        <TransactionItem
           key={group.id_transaction}
-          className="max-w-7xl mx-auto bg-white shadow-2xl p-8 mt-8"
-        >
-          <div className="flex justify-between">
-            <div>
-              <h3 className="text-base font-semibold">Invoice number</h3>
-              <p className="text-gray-600 text-sm">
-                {group.items[0].invoiceNumber}
-              </p>
-            </div>
-            <div className="flex items-center">
-              <p className="text-base font-semibold text-right bg-yellow-200 text-yellow-800 px-2 py-1 rounded">
-                {group.items[0].status_name}
-              </p>
-            </div>
-          </div>
-
-          <div className="mb-2">
-            <h3 className="text-lg font-semibold">Items</h3>
-            {group.items.map((item) => (
-              <div
-                key={item.id_transaction_product}
-                className="flex items-center mb-4"
-              >
-                <img
-                  src={`http://localhost:8000/${item.image}`}
-                  alt="Product"
-                  className="w-20 h-16 mr-4"
-                />
-                <div>
-                  <h4 className="text-sm font-medium">{item.name}</h4>
-                  <p className="text-gray-600">x {item.quantity}</p>
-                </div>
-                <p className="ml-auto font-medium">
-                  {item.price.toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                  })}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div>
-            <div className="flex justify-between">
-              <h3 className="text-sm font-semibold">Subtotal</h3>
-              <p className="font-semibold">
-                {group.items[0].total_price.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}
-              </p>
-            </div>
-            <div className="flex justify-between">
-              <h3 className="text-sm font-semibold">Shipping</h3>
-              <p className="font-semibold">
-                {group.items[0].shipping_cost.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}
-              </p>
-            </div>
-            <div className="flex justify-between">
-              <h3 className="text-sm font-semibold">Shipping Method</h3>
-              <p className="font-semibold">{group.items[0].shipping_method}</p>
-            </div>
-            <hr />
-            <div className="flex justify-between">
-              <h3 className="text-sm font-semibold">Total</h3>
-              <p className="text-sm font-semibold">
-                {(
-                  Number(group.items[0].total_price) +
-                  Number(group.items[0].shipping_cost)
-                ).toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}
-              </p>
-            </div>
-            <div className="flex justify-center items-center mt-4">
-              {group.items[0].id_transaction_status === 1 && (
-                <>
-                  <button
-                    onClick={() =>
-                      handleOrderClick(group.items[0].id_transaction)
-                    }
-                    className="bg-yellow-200 border-2 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded"
-                  >
-                    Pay Now
-                  </button>
-                  <button className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded">
-                    Cancel
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+          group={group}
+          handleOrderClick={handleOrderClick}
+        />
       ))}
       <div className="flex justify-center mt-8 mb-10">
-        <nav>
-          <ul className="pagination flex space-x-2">
-            <li>
-              <button
-                className={`${
-                  currentPage === 1 ? "bg-gray-300" : "bg-white"
-                } font-medium px-4 py-2 rounded`}
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <span className="sr-only">Previous</span>
-                <svg
-                  class="w-2.5 h-6"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 1 1 5l4 4"
-                  />
-                </svg>
-              </button>
-            </li>
-            {Array.from({ length: totalPages }, (_, index) => {
-              const page = index + 1;
-              const isActive = currentPage === page;
-
-              return (
-                <li key={page}>
-                  <button
-                    className={`${
-                      isActive ? "bg-blue-900 text-white" : "bg-white"
-                    } font-medium px-4 py-2 rounded`}
-                    onClick={() => handlePageChange(page)}
-                  >
-                    {page}
-                  </button>
-                </li>
-              );
-            })}
-            <li>
-              <button
-                className={`${
-                  currentPage === totalPages ? "bg-gray-300" : "bg-white"
-                } font-medium px-4 py-2 rounded`}
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                <span className="sr-only">Next</span>
-                <svg
-                  class="w-2.5 h-6"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
       </div>
     </div>
   );
