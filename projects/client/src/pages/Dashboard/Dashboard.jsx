@@ -9,9 +9,27 @@ function Dashboard() {
   return (
     <AdminLayout>
       {adminGlobal.id_role === 2 ? (
-        <div>Ini Dashboard Branch Admin</div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          welcome to admin branch Dashboard ...
+        </div>
       ) : (
-        <div>Ini Dashboard Super Admin</div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          welcome to Super Admin Dashboard ...
+        </div>
       )}
     </AdminLayout>
   );

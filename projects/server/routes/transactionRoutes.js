@@ -10,8 +10,22 @@ router.get(
   transactionController.fetchTransaction
 );
 router.get(
+  "/fetchTransactions",
+  verifyToken,
+  transactionController.fetchTransactions
+);
+router.get(
   "/fetchTransactionStatus",
   transactionController.fetchTransactionStatus
+);
+router.post(
+  "/createTransaction",
+  verifyToken,
+  transactionController.createTransaction
+);
+router.get(
+  "/fetchTransactionShipping",
+  transactionController.fetchTransactionShipping
 );
 
 module.exports = router;
