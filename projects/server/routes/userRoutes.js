@@ -5,7 +5,7 @@ const upload = require("../middleware/multer");
 
 const router = express.Router();
 
-router.get("/:id", verifyToken, userController.fetchUser);
+// router.get("/:id", verifyToken, userController.fetchUser);
 // router.get("/", userController.fetchProduct);
 router.patch("/edit", verifyToken, userController.editProfile);
 router.post(

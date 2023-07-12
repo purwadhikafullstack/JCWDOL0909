@@ -7,7 +7,6 @@ const opencageController = require("./openCage");
 const addressController = require("./addressController");
 const transactionController = require("./transactionController");
 const paymentController = require("./paymentController");
-const userController = require("./userController");
 const adminController = require("./adminController");
 
 module.exports = {
@@ -20,6 +19,5 @@ module.exports = {
   addressController,
   transactionController,
   paymentController,
-  userController,
   adminController,
 };
