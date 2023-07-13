@@ -18,7 +18,7 @@ function Transaction() {
   const [shippingList, setShippingList] = useState([]);
   const [selectedShippingId, setSelectedShippingId] = useState("");
   const [shippingCost, setShippingCost] = useState(0);
-  const [fixedShippingCost, setFixedShippingCost] = useState(0);
+  const [selectedShippingCost, setSelectedShippingCost] = useState(0);
 
   const cartItems = useSelector((state) => state.cart.items);
   const orderDetails = useSelector((state) => state.transaction.orderDetails);
@@ -104,17 +104,6 @@ function Transaction() {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const selectedShipping = shippingList.find(
-      (shipping) => shipping.id_shipping === selectedShippingId
-    );
-    if (selectedShipping) {
-      setFixedShippingCost(selectedShipping.shipping_cost);
-    } else {
-      setFixedShippingCost(0);
-    }
-  }, [selectedShippingId, shippingList]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -246,16 +235,19 @@ function Transaction() {
                     name="shipping"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     value={selectedShippingId}
-                    onChange={(event) =>
-                      setSelectedShippingId(event.target.value)
-                    }
+                    onChange={(event) => {
+                      const [shippingCost, shippingId] =
+                        event.target.value.split(",");
+                      setSelectedShippingCost(shippingCost);
+                      setSelectedShippingId(shippingId);
+                    }}
                     required
                   >
                     <option value="">Select Shipping Method</option>
                     {shippingList.map((shipping) => (
                       <option
                         key={shipping.id_shipping}
-                        value={shipping.id_shipping}
+                        value={`${shipping.shipping_cost},${shipping.id_shipping}`}
                       >
                         {shipping.shipping_method} - Rp {shipping.shipping_cost}
                       </option>
@@ -318,7 +310,9 @@ function Transaction() {
                 <p className="text-sm font-medium text-gray-900">
                   Shipping Cost
                 </p>
-                <p className="font-semibold text-gray-900">Rp {shippingCost}</p>
+                <p className="font-semibold text-gray-900">
+                  Rp {selectedShippingCost}
+                </p>
               </div>
             </div>
             <div className="mt-6 flex items-center justify-between">
