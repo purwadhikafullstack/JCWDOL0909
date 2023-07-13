@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import Axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
@@ -21,7 +21,7 @@ function UpdateAddress({ editAddressData }) {
   useEffect(() => {
     const fetchAddressData = async () => {
       try {
-        const addressResponse = await axios.get(
+        const addressResponse = await Axios.get(
           `http://localhost:8000/address/fetchAddressById?idAddress=${id}`,
           {
             headers: {
@@ -31,9 +31,6 @@ function UpdateAddress({ editAddressData }) {
         );
         const address = addressResponse.data;
         setAddress(address[0]);
-        // setSelectedProvinceId(address[0].province);
-        // setSelectedCities(address[0].city);
-        console.log(address);
       } catch (error) {
         console.log(error);
         alert(error.message);
@@ -60,8 +57,6 @@ function UpdateAddress({ editAddressData }) {
       (province) => province.province_id === selectedProvinceId
     );
     const selectedCity = cities.find((city) => city.city_id === selectedCityId);
-    console.log(provinces);
-    console.log(cities);
     const data = {
       name: fullName || (address && address.name) || "",
       phoneNumber: phoneNumber || (address && address.phone_number) || "",
@@ -87,7 +82,7 @@ function UpdateAddress({ editAddressData }) {
     }
 
     try {
-      const response = await axios.patch(
+      const response = await Axios.patch(
         `http://localhost:8000/address/editAddress?id_address=${id}`,
         data,
         {
@@ -108,7 +103,7 @@ function UpdateAddress({ editAddressData }) {
 
   const fetchProvinces = async () => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         "http://localhost:8000/rajaongkir/province"
       );
       const provinces = response.data.rajaongkir.results;
@@ -120,7 +115,7 @@ function UpdateAddress({ editAddressData }) {
 
   const fetchCities = async (provinceId) => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         `http://localhost:8000/rajaongkir/city?provinceId=${provinceId}`
       );
       const cities = response.data.rajaongkir.results;
@@ -138,7 +133,7 @@ function UpdateAddress({ editAddressData }) {
         const { province, city_name } = selectedCity;
         const url = `http://localhost:8000/opencage/geolocation/${province}/${city_name}`;
 
-        const response = await axios.get(url);
+        const response = await Axios.get(url);
         const location = response.data;
         setGeolocation(location);
       }

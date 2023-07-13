@@ -1,9 +1,9 @@
-const axios = require("axios");
+const Axios = require("axios");
 
 module.exports = {
   getProvince: async (req, res) => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         "https://api.rajaongkir.com/starter/province",
         {
           headers: {
@@ -27,7 +27,7 @@ module.exports = {
     }
 
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         `https://api.rajaongkir.com/starter/city?province=${provinceId}`,
         {
           headers: {
@@ -51,7 +51,7 @@ module.exports = {
     }
 
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         `https://api.rajaongkir.com/starter/subdistrict?city=${cityId}`,
         {
           headers: {

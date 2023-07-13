@@ -1,4 +1,3 @@
-// Create Token For FrontEnd
 const jwt = require("jsonwebtoken");
 
 module.exports = {

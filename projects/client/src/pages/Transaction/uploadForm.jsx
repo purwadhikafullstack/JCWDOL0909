@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import Axios from "axios";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ function UploadForm() {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const { idTransaction } = useParams(); // Mendapatkan nilai id_transaction dari parameter URL
+  const { idTransaction } = useParams();
   const userToken = localStorage.getItem("user_token");
   const navigate = useNavigate();
 
@@ -18,7 +18,6 @@ function UploadForm() {
     setFile(selectedFile);
     setError(null);
 
-    // Baca file menggunakan FileReader
     const reader = new FileReader();
     reader.onload = () => {
       setPreviewUrl(reader.result);
@@ -33,8 +32,8 @@ function UploadForm() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await axios.post(
-          `http://localhost:8000/payments/addPayment?id_transaction=${idTransaction}`, // Gunakan id_transaction dari useParams
+        const response = await Axios.post(
+          `http://localhost:8000/payments/addPayment?id_transaction=${idTransaction}`,
           formData,
           {
             headers: {
@@ -43,7 +42,7 @@ function UploadForm() {
           }
         );
 
-        console.log(response.data); // Outputkan respon dari backend jika diperlukan
+        console.log(response.data);
 
         if (!response.data.success) {
           Swal.fire(response.data.message);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import Axios from "axios";
 import Swal from "sweetalert2";
 
 function AddressForm({ closeModal }) {
@@ -34,7 +34,7 @@ function AddressForm({ closeModal }) {
     };
 
     try {
-      const response = await axios.post(
+      const response = await Axios.post(
         "http://localhost:8000/address/addAddress",
         data,
         {
@@ -56,7 +56,7 @@ function AddressForm({ closeModal }) {
 
   const fetchProvinces = async () => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         "http://localhost:8000/rajaongkir/province"
       );
       const provinces = response.data.rajaongkir.results;
@@ -68,7 +68,7 @@ function AddressForm({ closeModal }) {
 
   const fetchCities = async (provinceId) => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         `http://localhost:8000/rajaongkir/city?provinceId=${provinceId}`
       );
       const cities = response.data.rajaongkir.results;
@@ -86,7 +86,7 @@ function AddressForm({ closeModal }) {
         const { province, city_name } = selectedCity;
         const url = `http://localhost:8000/opencage/geolocation/${province}/${city_name}`;
 
-        const response = await axios.get(url);
+        const response = await Axios.get(url);
         const location = response.data;
         setGeolocation(location);
       }
@@ -118,7 +118,7 @@ function AddressForm({ closeModal }) {
   };
 
   const handleCancel = () => {
-    closeModal(); // Memanggil closeModal untuk menutup modal
+    closeModal();
   };
 
   return (

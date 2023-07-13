@@ -31,14 +31,12 @@ module.exports = {
 
       let addAddressResult = await query(addAddressQuery);
 
-      // Check if the address column is null in the user table
       let checkUserQuery = `SELECT id_address FROM users WHERE id_user = ${db.escape(
         idUser
       )}`;
       let checkUserResult = await query(checkUserQuery);
 
       if (checkUserResult.length <= 0) {
-        // Update the address column with addAddressResult.insertId
         let updateAddressQuery = `UPDATE users SET id_address = ${db.escape(
           addAddressResult.insertId
         )} WHERE id_user = ${db.escape(idUser)}`;
@@ -60,9 +58,7 @@ module.exports = {
         `SELECT * FROM users WHERE id_user = ${db.escape(idUser)}`
       );
 
-      // Check if the user exists
       if (user.length > 0) {
-        // Update the address column with the provided idAddress
         const updateAddressQuery = `UPDATE users SET id_address = ${db.escape(
           idAddress
         )} WHERE id_user = ${db.escape(idUser)}`;

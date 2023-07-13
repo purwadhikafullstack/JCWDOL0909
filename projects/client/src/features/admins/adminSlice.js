@@ -75,9 +75,7 @@ export function checkLoginAdmin(token) {
         throw new Error("Failed to check login status.");
       }
     } catch (error) {
-      // Error handling
       console.log("Error checking login status:", error.message);
-      // Tambahkan kode untuk memberikan umpan balik yang sesuai kepada pengguna
     }
   };
 }

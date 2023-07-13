@@ -32,6 +32,7 @@ import OrderListAdmin from "./pages/Admin/Transaction/orderListAdmin";
 import ProductForm from "./pages/Admin/Product/ProductForm";
 import EditProductForm from "./pages/Admin/Product/EditProductForm";
 import OrderListBranchAdmin from "./pages/Admin/BranchTransaction/orderList";
+import Home from "./pages/Home/Home";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -48,19 +49,15 @@ function App() {
     location.pathname !== "/user/verifyEmail/:token" &&
     location.pathname !== "/blankPage" &&
     location.pathname !== "/dashboard" &&
-    !location.pathname.startsWith("/admin"); // Menambahkan kondisi untuk routes admin
+    !location.pathname.startsWith("/admin");
 
   useEffect(() => {
     if (userToken) {
       dispatch(checkLogin(userToken));
     } else if (adminToken) {
-      console.log("masuk");
       dispatch(checkLoginAdmin(adminToken));
     }
-  }, [userToken, adminToken]); // Menambahkan dependensi userToken
-
-  console.log(adminGlobal.id_role);
-  console.log(typeof adminGlobal.id_role);
+  }, [userToken, adminToken]);
 
   return (
     <div>
@@ -80,7 +77,7 @@ function App() {
             />
             <Route path="/product" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetailPage />} />
-            <Route path="/" element={<Products />} />
+            <Route path="/" element={<Home />} />
           </>
         )}
 

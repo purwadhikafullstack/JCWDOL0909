@@ -4,7 +4,7 @@ import AddCategoryForm from "../pages/Category/addCategory";
 import EditCategoryForm from "../pages/Admin/Product/EditCategory";
 
 function CategoryTab() {
-  const [activeTab, setActiveTab] = useState("addProduct"); // Ubah nilai awal menjadi "addProduct"
+  const [activeTab, setActiveTab] = useState("addProduct");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);

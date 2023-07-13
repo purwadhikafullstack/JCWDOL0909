@@ -73,8 +73,6 @@ module.exports = {
       let isEmailExist = await query(
         `SELECT * FROM users WHERE email=${db.escape(email)}`
       );
-      console.log(isEmailExist);
-
       if (isEmailExist.length == 0) {
         return res
           .status(200)

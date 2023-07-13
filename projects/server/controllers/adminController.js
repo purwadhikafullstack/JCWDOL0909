@@ -51,7 +51,6 @@ module.exports = {
       const admins = await query(
         `SELECT * FROM admins WHERE id_admin = ${db.escape(req.user.id)}`
       );
-      console.log(admins);
       return res.status(200).send({
         data: {
           id: admins[0].id_admin,
@@ -309,9 +308,7 @@ module.exports = {
       const idProduct = req.params.id;
 
       const { file } = req;
-      console.log(file);
       const filepath = file ? "/" + file.filename : null;
-      console.log(filepath);
       const updateProductQuery = `
         UPDATE products SET
         name = COALESCE(${db.escape(productName)}, name),
@@ -322,13 +319,12 @@ module.exports = {
         id_category = COALESCE(${db.escape(id_category)}, id_category)
         WHERE id_product = ${db.escape(idProduct)}
       `;
-      console.log(updateProductQuery);
       const result = await query(updateProductQuery);
 
       if (result.affectedRows === 0) {
         return res.status(404).send("Product not found");
       }
-      const currentDate = new Date().toISOString(); // Get the current date
+      const currentDate = new Date().toISOString();
       const adminName = req.user.name;
 
       const stockHistoryQuery = `
@@ -342,7 +338,7 @@ module.exports = {
       return res.status(200).send({
         data: result,
         message: "Product updated successfully!",
-        updatedImage: filepath, // Menggunakan nama properti "updatedImage" untuk menghindari kebingungan dengan properti "image" di objek "productData" yang dikirim sebagai respons.
+        updatedImage: filepath,
         success: true,
       });
     } catch (error) {
@@ -357,7 +353,6 @@ module.exports = {
       const admin = await query(
         `SELECT * FROM admins WHERE id_admin = ${db.escape(idAdmin)}`
       );
-      console.log(admin);
 
       let queryStr = `
         SELECT *

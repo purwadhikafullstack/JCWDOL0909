@@ -12,42 +12,16 @@ const CreateAdmin = () => {
   const [branches, setBranches] = useState([]);
   const [branch, setBranch] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-
   const userToken = localStorage.getItem("user_token");
-
-  const navigate = useNavigate();
   const adminGlobal = useSelector((state) => state.admins.admin);
-
-  // useEffect(() => {
-  //   if (adminGlobal.id_role === 2) {
-  //     navigate("/blankPage");
-  //   }
-  // }, [adminGlobal.id_role, navigate]);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     navigate("/admin/login");
   };
 
-  // useEffect(() => {
-  //   if (adminGlobal.id <= 0) {
-  //     navigate("/dashboard");
-  //     Swal.fire({
-  //       icon: "warning",
-  //       title: "If you are an super admin, please login first",
-  //       showCancelButton: true,
-  //       confirmButtonText: "Yes",
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         handleLogin();
-  //       }
-  //     });
-  //   }
-  // }, [adminGlobal.id, navigate]);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(branch);
-
     const requestData = {
       adminEmail: email,
       adminName: name,
