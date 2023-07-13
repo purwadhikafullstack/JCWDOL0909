@@ -8,6 +8,7 @@ const addressRoutes = require("./addressRoutes");
 const transactionRoutes = require("./transactionRoutes");
 const paymentRoutes = require("./paymentRoutes");
 const adminRoutes = require("./adminRoutes");
+const stockRoutes = require("./stockRoutes");
 
 module.exports = {
   authRoutes,
@@ -20,4 +21,5 @@ module.exports = {
   transactionRoutes,
   paymentRoutes,
   adminRoutes,
+  stockRoutes,
 };
