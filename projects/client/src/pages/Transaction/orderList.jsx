@@ -267,6 +267,7 @@ function OrderList() {
               group={group}
               handleOrderClick={handleOrderClick}
               handleCancelTransaction={handleCancelTransaction}
+              handleConfirmTransaction={handleConfirmTransaction}
             />
           ))}
           <div className="flex justify-center mt-8 mb-10">

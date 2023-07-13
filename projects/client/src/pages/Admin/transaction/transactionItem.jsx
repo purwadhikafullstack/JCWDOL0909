@@ -10,12 +10,9 @@ function TransactionItem({ group, handleOrderClick }) {
         <div>
           <h3 className="text-base font-semibold">Invoice number</h3>
           <p className="text-gray-600 text-sm">
-            {group.items[0].invoice_number}
+            {group.items[0].invoiceNumber}
           </p>
-          <h3 className="text-base font-semibold">Buyer</h3>
-          <p className="text-gray-600 text-sm">{group.items[0].fullname}</p>
         </div>
-
         <div className="flex items-center">
           <p className="text-base font-semibold text-right bg-yellow-200 text-yellow-800 px-2 py-1 rounded">
             {group.items[0].status_name}
