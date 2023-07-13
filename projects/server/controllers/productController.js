@@ -15,6 +15,24 @@ module.exports = {
     const { file } = req;
     const filepath = file ? "/" + file.filename : null;
 
+    if (!file) {
+      return res.status(400).send({ message: "Please upload a file." });
+    }
+
+    // Pengecekan tipe file
+    if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
+      return res
+        .status(400)
+        .send({ message: "Please choose a JPEG or PNG file." });
+    }
+
+    // Pengecekan ukuran file
+    if (file.size > 1024 * 1024) {
+      return res
+        .status(400)
+        .send({ message: "File size should not exceed 1MB." });
+    }
+
     let addProductQuery = `INSERT INTO products VALUES (null, ${db.escape(
       productName
     )}, ${db.escape(productPrice)}, ${db.escape(productStock)}, ${db.escape(

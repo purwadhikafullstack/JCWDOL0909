@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { db, query } = require("../database");
 const nodemailer = require("../helpers/nodemailer");
+const moment = require("moment");
 
 module.exports = {
   login: async (req, res) => {
@@ -142,11 +143,11 @@ module.exports = {
       const currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
       const adminName = admin[0].name;
 
-      const stockHistoryQuery = `INSERT INTO stock_history VALUES(null,${db.escape(
+      const stockHistoryQuery = `INSERT INTO stock_histories VALUES(null,${db.escape(
         currentDate
-      )},${db.escape(adminName)}, "Initial Stock", "+" ${db.escape(
+      )},${db.escape(adminName)}, "Initial Stock", "+", ${db.escape(
         productStock
-      )}, ${db.escape(productStock)},${db.escape(productId)},)`;
+      )}, ${db.escape(productStock)},${db.escape(productId)})`;
 
       let addHistoryResult = await query(stockHistoryQuery);
 
