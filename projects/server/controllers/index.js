@@ -8,6 +8,7 @@ const addressController = require("./addressController");
 const transactionController = require("./transactionController");
 const paymentController = require("./paymentController");
 const adminController = require("./adminController");
+const stockController = require("./stockController");
 
 module.exports = {
   authController,
@@ -20,4 +21,5 @@ module.exports = {
   transactionController,
   paymentController,
   adminController,
+  stockController,
 };

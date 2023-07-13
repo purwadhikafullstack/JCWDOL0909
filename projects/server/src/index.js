@@ -14,6 +14,7 @@ const {
   transactionRoutes,
   paymentRoutes,
   adminRoutes,
+  stockRoutes,
 } = require("../routes");
 const { runSeed } = require("../helpers/runSeed");
 
@@ -38,6 +39,7 @@ app.use("/opencage", opencageRoutes);
 app.use("/address", addressRoutes);
 app.use("/transactions", transactionRoutes);
 app.use("/payments", paymentRoutes);
+app.use("/stock", stockRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
