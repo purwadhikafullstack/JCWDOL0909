@@ -58,6 +58,8 @@ function ProductCard() {
     );
   };
 
+  //line 41-45 dispatch ke redux ganti jgn dispatch ke redux tp set item ke local storage
+
   const handleCategoryChange = (e) => {
     setSelectedCategory(parseInt(e.target.value));
     setCurrentPage(1);

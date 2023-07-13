@@ -6,7 +6,7 @@ import Axios from "axios";
 import MainAddress from "./mainAddress";
 import AddressForm from "./addAddress";
 import Swal from "sweetalert2";
-import {fetchMainAddressData} from "./helperMainAddress";
+import { fetchMainAddressData } from "./helperMainAddress";
 
 function Address() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -19,8 +19,8 @@ function Address() {
   useEffect(() => {
     const mainFunc = async () => {
       await fetchAddressData();
-    }
-    mainFunc()
+    };
+    mainFunc();
   }, []);
 
   const fetchAddressData = async () => {
@@ -137,7 +137,7 @@ function Address() {
 
           {userGlobal.address > 0 ? (
             <div>
-              <MainAddress addressList={mainAddress}/>
+              <MainAddress addressList={mainAddress} />
               {addressList.map((address) => (
                 <div key={address.id_address}>
                   <div className="flex justify-between items-center py-4">

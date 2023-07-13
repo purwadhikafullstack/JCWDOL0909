@@ -112,8 +112,6 @@ export function checkLogin(token) {
           },
         }
       );
-      console.log(response);
-
       if (response) {
         dispatch(setUser(response.data.data));
       }

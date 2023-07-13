@@ -30,7 +30,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   fetchTransactionStatus: async (req, res) => {
     try {
       const transactionStatus = await query(

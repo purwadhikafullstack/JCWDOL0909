@@ -9,7 +9,7 @@ const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
-  const userToken = localStorage.getItem("user_token");
+  const adminToken = localStorage.getItem("admin_token");
 
   const HandleSubmit = async (event) => {
     event.preventDefault();
@@ -25,11 +25,11 @@ const AddProduct = () => {
 
     try {
       const response = await Axios.post(
-        "http://localhost:8000/products/addproduct",
+        "http://localhost:8000/admin/addProduct",
         formData,
         {
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${adminToken}`,
           },
         }
       );
@@ -51,7 +51,6 @@ const AddProduct = () => {
   useEffect(() => {
     Axios.get("http://localhost:8000/category")
       .then((response) => {
-        console.log(response.data);
         setCategories(response.data);
       })
       .catch((error) => {

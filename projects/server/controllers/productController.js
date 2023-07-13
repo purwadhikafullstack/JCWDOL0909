@@ -31,6 +31,7 @@ module.exports = {
       success: true,
     });
   },
+
   fetchAllProducts: async (req, res) => {
     try {
       const products = await query(`SELECT * FROM products`);

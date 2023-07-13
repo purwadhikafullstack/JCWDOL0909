@@ -18,7 +18,6 @@ function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const adminGlobal = useSelector((state) => state.admins.admin);
-  console.log(adminGlobal);
 
   const handleLogout = () => {
     Swal.fire({

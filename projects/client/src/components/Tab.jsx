@@ -73,7 +73,7 @@ function Tab() {
                 Password Settings
               </a>
             </li>
-            <li class="mr-2">
+            <li className="mr-2">
               <button
                 className={`inline-flex p-4 ${
                   activeTab === "Address"
@@ -84,7 +84,7 @@ function Tab() {
               >
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+                  className="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
