@@ -7,6 +7,7 @@ module.exports = {
       const { startDate, endDate, page = 1, pageSize = 5, status } = req.query;
       const offset = (page - 1) * pageSize;
       const limitStr = ` LIMIT ${offset}, ${pageSize}`;
+      // Check if startDate and endDate are provided
       let queryWhereHead = "";
       if (startDate && endDate) {
         queryWhereHead += ` where transactions.date BETWEEN ${db.escape(
@@ -14,6 +15,7 @@ module.exports = {
         )} AND ${db.escape(endDate)}`;
       }
 
+      // Apply status filter
       if (status) {
         queryWhereHead += ` ${
           queryWhereHead ? "AND" : "where"
@@ -28,6 +30,7 @@ module.exports = {
           WHERE transactions.id_user = ${db.escape(idUser)}
           `;
 
+      // Add pagination
       const transactions = await query(queryStr);
       let totalWhereCountQuery = "";
       if (startDate && endDate) {
@@ -41,6 +44,7 @@ module.exports = {
         } transactions.id_transaction_status = ${db.escape(status)}`;
       }
 
+      // Get total count for pagination
       let totalCountQuery = `SELECT COUNT(*) AS totalCount FROM transactions ${
         totalWhereCountQuery ? ` ${totalWhereCountQuery} AND` : "WHERE"
       } id_user = ${db.escape(idUser)}`;
@@ -96,6 +100,7 @@ module.exports = {
       const { startDate, endDate, page = 1, pageSize = 5, status } = req.query;
       const offset = (page - 1) * pageSize;
       const limitStr = ` LIMIT ${offset}, ${pageSize}`;
+      // Check if startDate and endDate are provided
       let queryWhereHead = "";
       if (startDate && endDate) {
         queryWhereHead += ` where transactions.date BETWEEN ${db.escape(
@@ -103,6 +108,7 @@ module.exports = {
         )} AND ${db.escape(endDate)}`;
       }
 
+      // Apply status filter
       if (status) {
         queryWhereHead += ` ${
           queryWhereHead ? "AND" : "where"
@@ -117,6 +123,7 @@ module.exports = {
           INNER JOIN users ON transactions.id_user = users.id_user
           `;
 
+      // Add pagination
       const transactions = await query(queryStr);
       let totalWhereCountQuery = "";
       if (startDate && endDate) {
@@ -130,6 +137,7 @@ module.exports = {
         } transactions.id_transaction_status = ${db.escape(status)}`;
       }
 
+      // Get total count for pagination
       let totalCountQuery = `
           SELECT COUNT(*) AS totalCount from
           (select * FROM transactions ${totalWhereCountQuery} ) as transactions
@@ -149,6 +157,7 @@ module.exports = {
       const { productData, invoice_number, date, id_shipping, total_price } =
         req.body;
 
+      // Insert transaction into transactions table
       const createTransaction = `INSERT INTO transactions VALUES (null, ${db.escape(
         idUser
       )}, ${db.escape(total_price)}, ${db.escape(
@@ -158,6 +167,7 @@ module.exports = {
       const createTransactionResult = await query(createTransaction);
       const id_transaction = createTransactionResult.insertId;
 
+      // Insert transaction products into transaction_products table
       const insertTransactionProducts = productData.map(
         (product) =>
           `INSERT INTO transaction_products
@@ -170,6 +180,7 @@ module.exports = {
         await query(queryStr);
       }
 
+      // Update product stock
       const updateProductStocks = productData.map(
         (product) =>
           `UPDATE products SET stock = stock - ${db.escape(

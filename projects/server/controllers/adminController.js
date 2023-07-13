@@ -324,11 +324,11 @@ module.exports = {
       if (result.affectedRows === 0) {
         return res.status(404).send("Product not found");
       }
-      const currentDate = new Date().toISOString();
+      const currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
       const adminName = req.user.name;
 
       const stockHistoryQuery = `
-        INSERT INTO stock_history VALUES(null, ${db.escape(
+        INSERT INTO stock_histories VALUES(null, ${db.escape(
           currentDate
         )}, ${db.escape(adminName)}, "update stock", "+", ${db.escape(
         productStock

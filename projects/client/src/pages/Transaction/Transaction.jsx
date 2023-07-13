@@ -32,7 +32,7 @@ function Transaction() {
   );
   const userToken = localStorage.getItem("user_token");
   const transactionDate = moment().format("YYYY-MM-DD");
-  const total = subtotal + shippingCost;
+  const total = parseInt(subtotal) + parseInt(selectedShippingCost);
   const orderId = useSelector((state) => state.transaction.orderId);
   const idProduct = cartItems.map((item) => item.id_product);
   const quantity = cartItems.map((item) => item.quantity);

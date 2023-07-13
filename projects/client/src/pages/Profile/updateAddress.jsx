@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function UpdateAddress({ editAddressData }) {
   const { id } = useParams();
@@ -17,6 +17,7 @@ function UpdateAddress({ editAddressData }) {
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const userToken = localStorage.getItem("user_token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAddressData = async () => {
@@ -93,6 +94,7 @@ function UpdateAddress({ editAddressData }) {
       );
       if (!response.data.success) {
         Swal.fire(response.data.message);
+        navigate("/user/profile");
       } else {
         Swal.fire("success", response.data.message, "success");
       }
