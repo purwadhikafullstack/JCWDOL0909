@@ -12,7 +12,6 @@ import {
   FaSignOutAlt,
   FaShoppingBasket,
 } from "react-icons/fa";
-import { RiMessage2Line } from "react-icons/ri";
 
 function Sidebar() {
   const navigate = useNavigate();

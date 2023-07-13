@@ -144,26 +144,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-  fetchAllUser: async (req, res) => {
-    try {
-      const users = await query(`SELECT * FROM users`);
-      return res.status(200).send(users);
-    } catch (error) {
-      res.status(error.status || 500).send(error);
-    }
-  },
-  fetchUser: async (req, res) => {
-    try {
-      const idParams = parseInt(req.params.id);
-
-      const users = await query(
-        `SELECT * FROM users WHERE id_user = ${db.escape(idParams)}`
-      );
-      return res.status(200).send(users);
-    } catch (error) {
-      res.status(error.status || 500).send(error);
-    }
-  },
   checkLogin: async (req, res) => {
     try {
       const users = await query(
