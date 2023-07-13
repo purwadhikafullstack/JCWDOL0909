@@ -103,7 +103,7 @@ function OrderListAdmin() {
       setTransactions(response.data.transactions);
       setTotalPages(Math.ceil(totalCount / pageSize));
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -114,7 +114,7 @@ function OrderListAdmin() {
       );
       setTransactionStatus(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

@@ -47,7 +47,7 @@ function Transaction() {
         setSelectedShippingCost(response.data[0].shipping_cost);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

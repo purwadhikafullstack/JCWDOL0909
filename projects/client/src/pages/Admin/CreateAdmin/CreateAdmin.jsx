@@ -47,7 +47,7 @@ const CreateAdmin = () => {
         setIsSuccess(true);
       }
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
       Swal.fire(error.message);
     }
   };

@@ -87,7 +87,7 @@ function OrderList() {
       );
       setTransactions(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -98,7 +98,7 @@ function OrderList() {
       );
       setTransactionStatus(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

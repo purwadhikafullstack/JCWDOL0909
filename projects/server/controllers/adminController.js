@@ -107,7 +107,7 @@ module.exports = {
         success: true,
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).send({ message: "Internal server error" });
     }
   },
@@ -223,7 +223,7 @@ module.exports = {
       );
       res.status(200).send("Category Updated Successfully");
     } catch (error) {
-      console.error(error);
+      console.log(error);
       res.status(500).send(error.message || "Internal Server Error");
     }
   },

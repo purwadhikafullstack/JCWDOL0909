@@ -50,7 +50,7 @@ function AddressForm({ closeModal }) {
       }
     } catch (error) {
       Swal.fire(error.message);
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 
@@ -62,7 +62,7 @@ function AddressForm({ closeModal }) {
       const provinces = response.data.rajaongkir.results;
       setProvinces(provinces);
     } catch (error) {
-      console.error("Error fetching provinces:", error);
+      console.log("Error fetching provinces:", error);
     }
   };
 
@@ -74,7 +74,7 @@ function AddressForm({ closeModal }) {
       const cities = response.data.rajaongkir.results;
       setCities(cities);
     } catch (error) {
-      console.error("Error fetching cities:", error);
+      console.log("Error fetching cities:", error);
     }
   };
 
@@ -91,7 +91,7 @@ function AddressForm({ closeModal }) {
         setGeolocation(location);
       }
     } catch (error) {
-      console.error("Error fetching geolocation:", error);
+      console.log("Error fetching geolocation:", error);
     }
   };
 

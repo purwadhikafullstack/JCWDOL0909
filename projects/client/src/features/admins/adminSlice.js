@@ -51,7 +51,7 @@ export function loginAdmin(data) {
       }
     } catch (error) {
       alert(error);
-      console.error(error);
+      console.log(error);
     }
   };
 }

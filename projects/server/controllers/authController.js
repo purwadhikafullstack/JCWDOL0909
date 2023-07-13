@@ -41,7 +41,7 @@ module.exports = {
         message: `Registration success! Please check your email to verify your account within 5 minutes `,
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).send({ message: "Internal Server Error", error });
     }
   },
@@ -235,7 +235,7 @@ module.exports = {
             token,
           });
         } catch (error) {
-          console.error(error);
+          console.log(error);
           return res.status(500).json({
             success: false,
             message: "Failed to send email",
@@ -248,7 +248,7 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({
         success: false,
         message: "Server Error",

@@ -14,7 +14,7 @@ module.exports = {
 
       res.json(response.data);
     } catch (error) {
-      console.error("Error fetching provinces:", error);
+      console.log("Error fetching provinces:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },
@@ -38,7 +38,7 @@ module.exports = {
 
       res.json(response.data);
     } catch (error) {
-      console.error("Error fetching cities:", error);
+      console.log("Error fetching cities:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },
@@ -62,7 +62,7 @@ module.exports = {
 
       res.json(response.data);
     } catch (error) {
-      console.error("Error fetching districts:", error);
+      console.log("Error fetching districts:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },

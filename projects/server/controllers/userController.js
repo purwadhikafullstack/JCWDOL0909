@@ -36,7 +36,7 @@ module.exports = {
 
       return res.status(200).send(updatedUser);
     } catch (error) {
-      console.error(error); // Tambahkan ini untuk melihat kesalahan pada server
+      console.log(error);
       res.status(500).send(error.message || "Internal Server Error");
     }
   },
@@ -44,25 +44,19 @@ module.exports = {
     try {
       const { file } = req;
       const filepath = file ? "/" + file.filename : null;
-
       if (!file) {
         return res.status(400).send({ message: "Please upload a file." });
       }
-
       if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
         return res
           .status(400)
           .send({ message: "Please choose a JPEG or PNG file." });
       }
-
-      }
-
       await query(
         `UPDATE users SET profile_picture = ${db.escape(
           filepath
         )} WHERE id_user = ${db.escape(req.user.id)}`
       );
-
       res
         .status(200)
         .send({ filepath, message: "Profile picture uploaded successfully." });

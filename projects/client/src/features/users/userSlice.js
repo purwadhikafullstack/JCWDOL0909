@@ -45,7 +45,7 @@ export function fetchUsersData() {
       let response = await Axios.get("http://localhost:8000/users");
       dispatch(setUser(response.data));
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 }
@@ -61,7 +61,7 @@ export function registerUser(data) {
         Swal.fire(response.data.message);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       if (error.response && error.response.data) {
         Swal.fire("Error", error.response.data.message, "error");
       } else {
@@ -153,7 +153,7 @@ export function verifyEmail(data) {
       }
     } catch (error) {
       Swal.fire(error);
-      console.error(error);
+      console.log(error);
     }
   };
 }
@@ -193,7 +193,7 @@ export function resetPassword(data, token) {
         Swal.fire("Password Anda berhasil diganti.");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       Swal.fire(error.message);
     }
   };
