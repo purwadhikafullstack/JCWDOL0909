@@ -28,7 +28,7 @@ import BlankPage from "./pages/Error/BlankPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AddProductForm from "./pages/Admin/Product/AddProductForm";
 import AddCategoryForm from "./pages/Admin/Product/AddCategoryForm";
-import OrderListAdmin from "./pages/Admin/transaction/orderListAdmin";
+import OrderListAdmin from "./pages/Admin/Transaction/orderListAdmin";
 import ProductForm from "./pages/Admin/Product/ProductForm";
 import EditProductForm from "./pages/Admin/Product/EditProductForm";
 import OrderListBranchAdmin from "./pages/Admin/BranchTransaction/orderList";
