@@ -37,6 +37,7 @@ module.exports = {
           id_branch: isEmailExist[0].id_branch,
           email: isEmailExist[0].email,
           name: isEmailExist[0].name,
+          id_branch: isEmailExist[0].id_branch,
         },
         success: true,
       });
@@ -347,6 +348,67 @@ module.exports = {
     } catch (error) {
       console.log(error);
       res.status(500).send(error.message || "Internal Server Error");
+    }
+  },
+  fetchTransactionByBranch: async (req, res) => {
+    try {
+      const idAdmin = req.user.id;
+      const { startDate, endDate } = req.query;
+      const admin = await query(
+        `SELECT * FROM admins WHERE id_admin = ${db.escape(idAdmin)}`
+      );
+      console.log(admin);
+
+      let queryStr = `
+        SELECT *
+        FROM transactions
+        INNER JOIN shippings ON transactions.id_shipping = shippings.id_shipping
+        INNER JOIN transaction_products ON transactions.id_transaction = transaction_products.id_transaction
+        INNER JOIN products ON transaction_products.id_product = products.id_product
+        INNER JOIN transactions_status ON transactions.id_transaction_status = transactions_status.id_transaction_status
+        WHERE products.id_branch = ${db.escape(admin[0].id_branch)};     
+      `;
+      // Check if startDate and endDate are provided
+      if (startDate && endDate) {
+        queryStr += ` AND transactions.date BETWEEN ${db.escape(
+          startDate
+        )} AND ${db.escape(endDate)}`;
+      }
+
+      const transaction = await query(queryStr);
+
+      res.status(200).send(transaction);
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+      console.log(error);
+    }
+  },
+
+  cancelTransaction: async (req, res) => {
+    try {
+      const idTransaction = parseInt(req.params.id);
+      await query(
+        `UPDATE transactions
+        SET id_transaction_status = 6
+        WHERE id_transaction = ${db.escape(idTransaction)};`
+      );
+      return res.status(200).send("Transaction has been canceled.");
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
+  },
+
+  sendTransaction: async (req, res) => {
+    try {
+      const idTransaction = parseInt(req.params.id);
+      await query(
+        `UPDATE transactions
+        SET id_transaction_status = 4
+        WHERE id_transaction = ${db.escape(idTransaction)};`
+      );
+      return res.status(200).send("Order will be sent to the user.");
+    } catch (error) {
+      res.status(error.status || 500).send(error);
     }
   },
 };

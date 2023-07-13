@@ -31,6 +31,7 @@ import AddCategoryForm from "./pages/Admin/Product/AddCategoryForm";
 import OrderListAdmin from "./pages/Admin/transaction/orderListAdmin";
 import ProductForm from "./pages/Admin/Product/ProductForm";
 import EditProductForm from "./pages/Admin/Product/EditProductForm";
+import OrderListBranchAdmin from "./pages/Admin/BranchTransaction/orderList";
 
 function App() {
   const userGlobal = useSelector((state) => state.users.user);
@@ -117,6 +118,7 @@ function App() {
         <Route path="/category/addCategory" element={<AddCategory />} />
         <Route path="/admin/Product" element={<ProductForm />} />
         <Route path="/admin/edit-product/:id" element={<EditProductForm />} />
+        <Route path="/branch-admin/order" element={<OrderListBranchAdmin />} />
 
         {/* Routes for super admin  */}
       </Routes>

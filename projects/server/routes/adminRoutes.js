@@ -35,5 +35,12 @@ router.delete("/deleteCategory/:id", adminController.deleteCategory);
 router.patch("/editCategory/:id", verifyToken, adminController.editCategory);
 
 router.get("/getCategory/:id", adminController.fetchCategoryById);
+router.get(
+  "/fetchTransactionByBranch",
+  verifyToken,
+  adminController.fetchTransactionByBranch
+);
+router.patch("/cancelTransaction/:id", adminController.cancelTransaction);
+router.patch("/sendTransaction/:id", adminController.sendTransaction);
 
 module.exports = router;
