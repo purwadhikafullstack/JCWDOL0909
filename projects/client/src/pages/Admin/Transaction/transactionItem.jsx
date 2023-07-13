@@ -1,13 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
-import Axios from "axios";
+import React from "react";
 
-function TransactionItem({
-  group,
-  handleOrderClick,
-  handleCancelTransaction,
-  handleConfirmTransaction,
-}) {
+function TransactionItem({ group, handleOrderClick }) {
   return (
     <div
       key={group.id_transaction}
@@ -17,7 +10,7 @@ function TransactionItem({
         <div>
           <h3 className="text-base font-semibold">Invoice number</h3>
           <p className="text-gray-600 text-sm">
-            {group.items[0].invoice_number}
+            {group.items[0].invoiceNumber}
           </p>
         </div>
         <div className="flex items-center">
@@ -26,7 +19,6 @@ function TransactionItem({
           </p>
         </div>
       </div>
-
       <div className="mb-2">
         <h3 className="text-lg font-semibold">Items</h3>
         {group.items.map((item) => (
@@ -103,41 +95,8 @@ function TransactionItem({
               >
                 Pay Now
               </button>
-              <button
-                onClick={() =>
-                  handleCancelTransaction(group.items[0].id_transaction)
-                }
-                className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded"
-              >
+              <button className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded">
                 Cancel
-              </button>
-            </>
-          )}
-        </div>
-        <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 2 && (
-            <>
-              <button
-                onClick={() =>
-                  handleCancelTransaction(group.items[0].id_transaction)
-                }
-                className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded"
-              >
-                Cancel
-              </button>
-            </>
-          )}
-        </div>
-        <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 4 && (
-            <>
-              <button
-                onClick={() =>
-                  handleConfirmTransaction(group.items[0].id_transaction)
-                }
-                className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded"
-              >
-                Confirm Order
               </button>
             </>
           )}

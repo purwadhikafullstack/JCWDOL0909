@@ -6,14 +6,14 @@ import { format, endOfDay, addDays } from "date-fns";
 import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";
-import Swal from "sweetalert2";
+import AdminLayout from "../../../components/AdminLayout";
 
 function OrderList() {
   const [transactions, setTransactions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [transactionStatus, setTransactionStatus] = useState([]);
-  const userToken = localStorage.getItem("user_token");
+  const adminToken = localStorage.getItem("admin_token");
   const pageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [groupedTransactions, setGroupedTransactions] = useState({});
@@ -84,7 +84,7 @@ function OrderList() {
         formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
       }
       const response = await axios.get(
-        "http://localhost:8000/transactions/fetchTransaction",
+        "http://localhost:8000/transactions/fetchTransactions",
         {
           params: {
             startDate: formattedStartDate,
@@ -95,7 +95,7 @@ function OrderList() {
           },
 
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${adminToken}`,
           },
         }
       );
@@ -107,6 +107,7 @@ function OrderList() {
     }
   };
 
+  console.log(transactions, "transaction");
   const fetchTransactionStatus = async () => {
     try {
       const response = await axios.get(
@@ -134,74 +135,6 @@ function OrderList() {
     }
   };
 
-  const handleCancelTransaction = async (transactionId) => {
-    const userToken = localStorage.getItem("user_token");
-
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "This order will be canceled.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, cancel it!",
-        cancelButtonText: "Cancel",
-      });
-
-      if (result.isConfirmed) {
-        const response = await axios.patch(
-          `http://localhost:8000/transactions/cancelTransaction/${transactionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-        fetchTransactions();
-        if (!response.data.success) {
-          Swal.fire(response.data);
-        } else {
-          Swal.fire("Success", response.data.message, "success");
-        }
-      }
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
-  };
-
-  const handleConfirmTransaction = async (transactionId) => {
-    const userToken = localStorage.getItem("user_token");
-
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "Confirm your order.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, confirm!",
-        cancelButtonText: "Cancel",
-      });
-
-      if (result.isConfirmed) {
-        const response = await axios.patch(
-          `http://localhost:8000/transactions/confirmTransaction/${transactionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-        fetchTransactions();
-        if (!response.data.success) {
-          Swal.fire(response.data);
-        } else {
-          Swal.fire("Success", response.data.message, "success");
-        }
-      }
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
-  };
-
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -224,65 +157,70 @@ function OrderList() {
 
   console.log(currentPage, "PAGE");
   return (
-    <div>
-      <div className="flex justify-center mt-8">
-        <div className="space-x-4">
-          <button
-            className={`px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold ${
-              selectedStatus === 0 ? "bg-gray-300" : ""
-            }`}
-            onClick={() => handleStatusChange(0)}
-          >
-            <span className="text-base">All</span>
-          </button>
-          {transactionStatus.map((status) => (
-            <button
-              key={status.id_transaction_status}
-              className={`px-4 py-2 rounded hover:bg-yellow-200 text-yellow-800 font-semibold ${
-                selectedStatus === status.id_transaction_status
-                  ? "bg-yellow-200"
-                  : ""
-              }`}
-              onClick={() => handleStatusChange(status.id_transaction_status)}
-            >
-              <span className="text-base">{status.status_name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-      <SearchBar
-        searchQuery={searchQuery}
-        handleSearch={handleSearch}
-        startDate={startDate}
-        endDate={endDate}
-        handleDateRangeChange={handleDateRangeChange}
-        showCalendar={showCalendar}
-        toggleCalendar={toggleCalendar}
-      />
-      {transactions.length > 0 ? (
-        <>
-          {filteredTransactions.map((group) => (
-            <TransactionItem
-              key={group.id_transaction}
-              group={group}
-              handleOrderClick={handleOrderClick}
-              handleCancelTransaction={handleCancelTransaction}
-            />
-          ))}
-          <div className="flex justify-center mt-8 mb-10">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handlePageChange={handlePageChange}
-            />
+    <>
+      <AdminLayout>
+        <div>
+          <div className="flex justify-center mt-8">
+            <div className="space-x-4">
+              <button
+                className={`px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold ${
+                  selectedStatus === 0 ? "bg-gray-300" : ""
+                }`}
+                onClick={() => handleStatusChange(0)}
+              >
+                <span className="text-base">All</span>
+              </button>
+              {transactionStatus.map((status) => (
+                <button
+                  key={status.id_transaction_status}
+                  className={`px-4 py-2 rounded hover:bg-yellow-200 text-yellow-800 font-semibold ${
+                    selectedStatus === status.id_transaction_status
+                      ? "bg-yellow-200"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusChange(status.id_transaction_status)
+                  }
+                >
+                  <span className="text-base">{status.status_name}</span>
+                </button>
+              ))}
+            </div>
           </div>
-        </>
-      ) : (
-        <div className="flex justify-center my-52">
-          <p className="text-gray-500 text-lg">No order recorded</p>
+          <SearchBar
+            searchQuery={searchQuery}
+            handleSearch={handleSearch}
+            startDate={startDate}
+            endDate={endDate}
+            handleDateRangeChange={handleDateRangeChange}
+            showCalendar={showCalendar}
+            toggleCalendar={toggleCalendar}
+          />
+          {transactions.length > 0 ? (
+            <>
+              {filteredTransactions.map((group) => (
+                <TransactionItem
+                  key={group.id_transaction}
+                  group={group}
+                  handleOrderClick={handleOrderClick}
+                />
+              ))}
+              <div className="flex justify-center mt-8 mb-10">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  handlePageChange={handlePageChange}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex justify-center my-52">
+              <p className="text-gray-500 text-lg">No order recorded</p>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </AdminLayout>
+    </>
   );
 }
 

@@ -8,27 +8,21 @@ module.exports = {
   register: async (req, res) => {
     try {
       const { email, password, phoneNumber } = req.body;
-
       let getEmailQuery = `SELECT * FROM users WHERE email=${db.escape(email)}`;
       let isEmailExist = await query(getEmailQuery);
       if (isEmailExist.length > 0) {
         return res.status(200).send({ message: "Email has been used" });
       }
-
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
-
       let addUserQuery = `INSERT INTO users VALUES (null, ${db.escape(
         email
       )}, ${db.escape(hashPassword)}, ${db.escape(
         phoneNumber
       )}, false, null, null, null, null, null)`;
       let addUserResult = await query(addUserQuery);
-
       let payload = { id: addUserResult.insertId };
       const token = jwt.sign(payload, "six6", { expiresIn: "5m" });
-      console.log(token);
-
       let mail = {
         from: `Admin <diywithicha@gmail.com>`,
         to: `${email}`,
@@ -42,8 +36,6 @@ module.exports = {
         `,
       };
       let response = await nodemailer.sendMail(mail);
-      console.log(response);
-
       return res.status(200).send({
         data: addUserResult,
         message: `Registration success! Please check your email to verify your account within 5 minutes `,
@@ -56,22 +48,16 @@ module.exports = {
   verification: async (req, res) => {
     try {
       const id = req.user.id;
-      // Tambahkan query untuk memeriksa status akun sebelum memperbarui
       let checkStatusQuery = `SELECT isVerified FROM users WHERE id_user=${db.escape(
         id
       )}`;
-      console.log(checkStatusQuery);
-
       const result = await query(checkStatusQuery);
-
-      // Periksa apakah akun sudah aktif sebelumnya
       if (result.length > 0 && result[0].isVerified) {
         return res.status(400).send({
           success: false,
           message: "link is invalid or expired!",
         });
       }
-
       let updateIsActiveQuery = `UPDATE users SET isVerified = true WHERE id_user=${db.escape(
         id
       )}`;
@@ -81,7 +67,6 @@ module.exports = {
       res.status(500).send({ message: "Internal Server Error", error });
     }
   },
-
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -108,7 +93,6 @@ module.exports = {
       const formattedBirthday = moment(isEmailExist[0].birthday).format(
         "YYYY-MM-DD"
       );
-
       return res.status(200).send({
         message: "Login Success",
         token,
@@ -129,41 +113,28 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   changePassword: async (req, res) => {
     try {
       const { oldPassword, newPassword, confirmPassword } = req.body;
       const idUser = req.user.id;
-
-      // Retrieve the user's email and password from the database
       const user = await query(
         `SELECT * FROM users WHERE id_user = ${db.escape(idUser)}`
       );
-
       if (user.length === 0) {
         return res.status(400).send("User does not exist");
       }
-
-      // Verify the old password
       const isPasswordValid = await bcrypt.compare(
         oldPassword,
         user[0].password
       );
-
       if (!isPasswordValid) {
         return res.status(200).send("Invalid password");
       }
-
-      // Validate the new password and confirm password
       if (newPassword !== confirmPassword) {
         return res.status(400).send("Passwords do not match");
       }
-
-      // Hash the new password
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(newPassword, salt);
-
-      // Update the password in the database
       await query(
         `UPDATE users SET password = ${db.escape(
           hashPassword
@@ -175,7 +146,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   fetchAllUser: async (req, res) => {
     try {
       const users = await query(`SELECT * FROM users`);
@@ -196,7 +166,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   checkLogin: async (req, res) => {
     try {
       const users = await query(
@@ -223,25 +192,19 @@ module.exports = {
       console.log(error);
     }
   },
-
   confirmEmail: async (req, res) => {
     const { email } = req.body;
-
     try {
       const getEmailQuery = `SELECT * FROM users WHERE email=${db.escape(
         email
       )}`;
-      // console.log(getEmailQuery);
       let isEmailExist = await query(getEmailQuery);
-      console.log(isEmailExist);
-
       if (isEmailExist.length > 0) {
         payload = {
           id: isEmailExist[0].id_user,
           email: isEmailExist[0].email,
         };
         const token = jwt.sign(payload, "six6", { expiresIn: "4h" });
-
         let mail = {
           from: `Admin <eric.vianto.k7@gmail.com>`,
           to: `${email}`,
@@ -266,7 +229,6 @@ module.exports = {
             </div>
           `,
         };
-        console.log(token);
         try {
           await nodemailer.sendMail(mail);
           return res.status(200).json({
@@ -295,30 +257,19 @@ module.exports = {
       });
     }
   },
-
   resetPassword: async (req, res) => {
     try {
       const { newPassword, confirmPassword } = req.body;
-
-      // Validasi input password baru dan konfirmasi password
       if (newPassword !== confirmPassword) {
         return res.status(400).send("Passwords do not match");
       }
-
-      // Dapatkan userId dari req
       const userId = req.user.id;
-      console.log(userId);
-
-      // Hash password baru
       const saltRounds = 10;
       const hashPassword = await bcrypt.hash(newPassword, saltRounds);
-
-      // Update password di database
       await query("UPDATE users SET password = ? WHERE id_user = ?", [
         hashPassword,
         userId,
       ]);
-
       return res.status(200).send("Password updated successfully");
     } catch (error) {
       console.log(error);

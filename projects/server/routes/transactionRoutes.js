@@ -9,6 +9,7 @@ router.get(
   verifyToken,
   transactionController.fetchTransaction
 );
+router.get("/fetchTransactions", transactionController.fetchTransactions);
 router.get(
   "/fetchTransactions",
   verifyToken,
@@ -26,6 +27,11 @@ router.post(
 router.get(
   "/fetchTransactionShipping",
   transactionController.fetchTransactionShipping
+);
+router.patch("/cancelTransaction/:id", transactionController.cancelTransaction);
+router.patch(
+  "/confirmTransaction/:id",
+  transactionController.confirmTransaction
 );
 
 module.exports = router;

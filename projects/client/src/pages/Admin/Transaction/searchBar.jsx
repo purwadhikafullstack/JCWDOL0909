@@ -12,7 +12,7 @@ function SearchBar({
   toggleCalendar,
 }) {
   return (
-    <div className="flex flex-col lg:flex-row items-start justify-start lg:justify-between mx-4 md:mx-52 lg:mt-4 lg:mx-52">
+    <div className="flex flex-col lg:flex-row items-start justify-start lg:justify-between mx-4 md:mx-52 lg:mt-4">
       <div className="relative w-full lg:w-1/2 mb-4 lg:mb-0 lg:mr-4">
         <input
           type="text"
