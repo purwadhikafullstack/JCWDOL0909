@@ -1,9 +1,9 @@
-const axios = require("axios");
+const Axios = require("axios");
 
 module.exports = {
   getProvince: async (req, res) => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         "https://api.rajaongkir.com/starter/province",
         {
           headers: {
@@ -14,7 +14,7 @@ module.exports = {
 
       res.json(response.data);
     } catch (error) {
-      console.error("Error fetching provinces:", error);
+      console.log("Error fetching provinces:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },
@@ -27,7 +27,7 @@ module.exports = {
     }
 
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         `https://api.rajaongkir.com/starter/city?province=${provinceId}`,
         {
           headers: {
@@ -38,7 +38,7 @@ module.exports = {
 
       res.json(response.data);
     } catch (error) {
-      console.error("Error fetching cities:", error);
+      console.log("Error fetching cities:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },
@@ -51,7 +51,7 @@ module.exports = {
     }
 
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         `https://api.rajaongkir.com/starter/subdistrict?city=${cityId}`,
         {
           headers: {
@@ -62,7 +62,7 @@ module.exports = {
 
       res.json(response.data);
     } catch (error) {
-      console.error("Error fetching districts:", error);
+      console.log("Error fetching districts:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },

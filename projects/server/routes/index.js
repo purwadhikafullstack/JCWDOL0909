@@ -7,8 +7,8 @@ const opencageRoutes = require("./opencageRoutes");
 const addressRoutes = require("./addressRoutes");
 const transactionRoutes = require("./transactionRoutes");
 const paymentRoutes = require("./paymentRoutes");
-const userRoutes = require("./userRoutes");
 const adminRoutes = require("./adminRoutes");
+const stockRoutes = require("./stockRoutes");
 
 module.exports = {
   authRoutes,
@@ -20,6 +20,6 @@ module.exports = {
   addressRoutes,
   transactionRoutes,
   paymentRoutes,
-  userRoutes,
   adminRoutes,
+  stockRoutes,
 };

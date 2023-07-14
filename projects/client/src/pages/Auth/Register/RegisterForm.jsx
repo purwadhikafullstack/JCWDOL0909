@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import Axios from "axios";
 
 const registerSchema = Yup.object().shape({
   email: Yup.string()
@@ -16,7 +16,7 @@ const registerSchema = Yup.object().shape({
     .required("phone number cannot be empty"),
 });
 const registerUser = async (value) => {
-  let response = await axios.post("http://localhost:8000/auth/register", value);
+  let response = await Axios.post("http://localhost:8000/auth/register", value);
 };
 
 function RegisterForm({ handleRegisterUser }) {

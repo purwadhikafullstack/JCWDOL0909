@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import Axios from "axios";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function UpdateAddress({ editAddressData }) {
   const { id } = useParams();
@@ -17,11 +17,12 @@ function UpdateAddress({ editAddressData }) {
   const [additionalDetails, setAdditionalDetails] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const userToken = localStorage.getItem("user_token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAddressData = async () => {
       try {
-        const addressResponse = await axios.get(
+        const addressResponse = await Axios.get(
           `http://localhost:8000/address/fetchAddressById?idAddress=${id}`,
           {
             headers: {
@@ -31,7 +32,6 @@ function UpdateAddress({ editAddressData }) {
         );
         const address = addressResponse.data;
         setAddress(address[0]);
-        console.log(address);
       } catch (error) {
         console.log(error);
         alert(error.message);
@@ -58,22 +58,23 @@ function UpdateAddress({ editAddressData }) {
       (province) => province.province_id === selectedProvinceId
     );
     const selectedCity = cities.find((city) => city.city_id === selectedCityId);
-
     const data = {
       name: fullName || (address && address.name) || "",
-      phoneNumber: phoneNumber || (address && address.phoneNumber) || "",
+      phoneNumber: phoneNumber || (address && address.phone_number) || "",
       address: streetAddress || (address && address.address) || "",
       additionalDetails:
-        additionalDetails || (address && address.additionalDetails) || "",
-      postalCode: postalCode || (address && address.postalCode) || "",
+        additionalDetails || (address && address.additional_details) || "",
+      postalCode: postalCode || (address && address.postal_code) || "",
       longitude: geolocation?.longitude || (address && address.longitude) || "",
       latitude: geolocation?.latitude || (address && address.latitude) || "",
-      province: selectedProvince
-        ? selectedProvince.province || (address && address.province)
-        : "",
-      city: selectedCity
-        ? selectedCity.city_name || (address && address.city)
-        : "",
+      province:
+        selectedProvince && selectedProvince.province
+          ? selectedProvince.province
+          : address.province,
+      city:
+        selectedCity && selectedCity.city_name
+          ? selectedCity.city_name
+          : address.city,
     };
 
     if (geolocation) {
@@ -82,7 +83,7 @@ function UpdateAddress({ editAddressData }) {
     }
 
     try {
-      const response = await axios.patch(
+      const response = await Axios.patch(
         `http://localhost:8000/address/editAddress?id_address=${id}`,
         data,
         {
@@ -93,6 +94,7 @@ function UpdateAddress({ editAddressData }) {
       );
       if (!response.data.success) {
         Swal.fire(response.data.message);
+        navigate("/user/profile");
       } else {
         Swal.fire("success", response.data.message, "success");
       }
@@ -103,25 +105,25 @@ function UpdateAddress({ editAddressData }) {
 
   const fetchProvinces = async () => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         "http://localhost:8000/rajaongkir/province"
       );
       const provinces = response.data.rajaongkir.results;
       setProvinces(provinces);
     } catch (error) {
-      console.error("Error fetching provinces:", error);
+      console.log("Error fetching provinces:", error);
     }
   };
 
   const fetchCities = async (provinceId) => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         `http://localhost:8000/rajaongkir/city?provinceId=${provinceId}`
       );
       const cities = response.data.rajaongkir.results;
       setCities(cities);
     } catch (error) {
-      console.error("Error fetching cities:", error);
+      console.log("Error fetching cities:", error);
     }
   };
 
@@ -133,12 +135,12 @@ function UpdateAddress({ editAddressData }) {
         const { province, city_name } = selectedCity;
         const url = `http://localhost:8000/opencage/geolocation/${province}/${city_name}`;
 
-        const response = await axios.get(url);
+        const response = await Axios.get(url);
         const location = response.data;
         setGeolocation(location);
       }
     } catch (error) {
-      console.error("Error fetching geolocation:", error);
+      console.log("Error fetching geolocation:", error);
     }
   };
 
@@ -185,7 +187,7 @@ function UpdateAddress({ editAddressData }) {
               placeholder="Phone Number"
               className="border border-gray-300 p-2 rounded-md w-full"
               autoComplete="user-address-phone"
-              value={phoneNumber || (address && address.phoneNumber) || ""}
+              value={phoneNumber || (address && address.phone_number) || ""}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
@@ -239,7 +241,7 @@ function UpdateAddress({ editAddressData }) {
             className="border border-gray-300 p-2 rounded-md w-full"
             autoComplete="postal-code"
             maxLength="10"
-            value={postalCode || (address && address.postalCode) || ""}
+            value={postalCode || (address && address.postal_code) || ""}
             onChange={(e) => setPostalCode(e.target.value)}
           />
         </div>
@@ -262,7 +264,7 @@ function UpdateAddress({ editAddressData }) {
             autoComplete="user-address-additional-details"
             maxLength="160"
             value={
-              additionalDetails || (address && address.additionalDetails) || ""
+              additionalDetails || (address && address.additional_details) || ""
             }
             onChange={(e) => setAdditionalDetails(e.target.value)}
           />

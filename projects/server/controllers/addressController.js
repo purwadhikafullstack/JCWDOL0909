@@ -31,14 +31,12 @@ module.exports = {
 
       let addAddressResult = await query(addAddressQuery);
 
-      // Check if the address column is null in the user table
       let checkUserQuery = `SELECT id_address FROM users WHERE id_user = ${db.escape(
         idUser
       )}`;
       let checkUserResult = await query(checkUserQuery);
 
       if (checkUserResult.length <= 0) {
-        // Update the address column with addAddressResult.insertId
         let updateAddressQuery = `UPDATE users SET id_address = ${db.escape(
           addAddressResult.insertId
         )} WHERE id_user = ${db.escape(idUser)}`;
@@ -60,9 +58,7 @@ module.exports = {
         `SELECT * FROM users WHERE id_user = ${db.escape(idUser)}`
       );
 
-      // Check if the user exists
       if (user.length > 0) {
-        // Update the address column with the provided idAddress
         const updateAddressQuery = `UPDATE users SET id_address = ${db.escape(
           idAddress
         )} WHERE id_user = ${db.escape(idUser)}`;
@@ -101,14 +97,14 @@ module.exports = {
 
       let editAddressQuery = `UPDATE addresses SET 
       name = COALESCE(${db.escape(name)}, name),
-      phoneNumber = COALESCE(${db.escape(phoneNumber)}, phoneNumber),
+      phone_number = COALESCE(${db.escape(phoneNumber)}, phone_number),
       address = COALESCE(${db.escape(address)}, address),
-      additionalDetails = COALESCE(${db.escape(
+      additional_details = COALESCE(${db.escape(
         additionalDetails
-      )}, additionalDetails), 
+      )}, additional_details), 
       city = COALESCE(${db.escape(city)}, city),
       province = COALESCE(${db.escape(province)}, province),
-      postalCode = COALESCE(${db.escape(postalCode)}, postalCode),
+      postal_code = COALESCE(${db.escape(postalCode)}, postal_code),
       longitude = COALESCE(${db.escape(longitude)}, longitude),
       latitude = COALESCE(${db.escape(latitude)}, latitude)
       WHERE id_address = ${db.escape(idAddress)}`;

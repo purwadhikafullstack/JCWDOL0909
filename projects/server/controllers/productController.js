@@ -15,6 +15,22 @@ module.exports = {
     const { file } = req;
     const filepath = file ? "/" + file.filename : null;
 
+    if (!file) {
+      return res.status(400).send({ message: "Please upload a file." });
+    }
+
+    if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
+      return res
+        .status(400)
+        .send({ message: "Please choose a JPEG or PNG file." });
+    }
+
+    if (file.size > 1024 * 1024) {
+      return res
+        .status(400)
+        .send({ message: "File size should not exceed 1MB." });
+    }
+
     let addProductQuery = `INSERT INTO products VALUES (null, ${db.escape(
       productName
     )}, ${db.escape(productPrice)}, ${db.escape(productStock)}, ${db.escape(
@@ -31,6 +47,7 @@ module.exports = {
       success: true,
     });
   },
+
   fetchAllProducts: async (req, res) => {
     try {
       const products = await query(`SELECT * FROM products`);
@@ -62,24 +79,6 @@ module.exports = {
   },
 
   fetchProduct: async (req, res) => {
-    try {
-      const idParams = parseInt(req.params.id);
-
-      const product = await query(
-        `SELECT * FROM products WHERE id_product = ${db.escape(idParams)}`
-      );
-
-      if (product.length === 0) {
-        return res.status(404).send("Product not found");
-      }
-
-      return res.status(200).send(product[0]);
-    } catch (error) {
-      res.status(error.status || 500).send(error);
-    }
-  },
-
-  createTransaction: async (req, res) => {
     try {
       const idParams = parseInt(req.params.id);
 

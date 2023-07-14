@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../features/users/userSlice";
 import Axios from "axios";
+import Swal from "sweetalert2";
 
 function UpdateProfile() {
   const user = useSelector((state) => state.users.user);
@@ -49,15 +50,17 @@ function UpdateProfile() {
         );
         if (!response.error) {
           setImageSrc(`http://localhost:8000/${response.data.filepath}`);
-          alert("Upload success!");
+          Swal.fire("Upload success!");
           dispatch(setUser({ ...user, imagePath: response.data.filepath }));
+        } else {
+          Swal.fire(response.data.message);
         }
       } catch (error) {
-        console.error(error);
-        alert("Upload failed!");
+        console.log(error);
+        Swal.fire("Error", error.response.data.message, "error");
       }
     } else {
-      alert("Select an image first!");
+      Swal.fire("Select an image first!");
     }
 
     setIsLoading(false);

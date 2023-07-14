@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AddProductForm from "../pages/Admin/Product/AddProductForm";
+import AddProductForm from "../pages/Products/addProduct";
+import ProductForm from "../pages/Admin/Product/ProductForm";
+import ProductStock from "../pages/Products/productStock";
+
 function ProductTab() {
-  const [activeTab, setActiveTab] = useState("product");
+  const [activeTab, setActiveTab] = useState("addProduct");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -10,25 +13,21 @@ function ProductTab() {
 
   const dispatch = useDispatch();
 
-  //   const handleChangePassword = async (value) => {
-  //     dispatch(changePassword(value));
-  //   };
-
   return (
     <>
-      <section className=" p-6 mx-4 bg-white border-2 rounded-lg shadow-md">
+      <section className="p-6 mx-4 bg-white border-2 rounded-lg shadow-md">
         <div className="border-b border-gray-200 dark:border-gray-700">
           <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
             <li className="mr-2">
               <a
                 href="#"
                 className={`inline-flex p-4 ${
-                  activeTab === "profile"
+                  activeTab === "addProduct"
                     ? "text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group"
                     : "border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
                 }`}
-                aria-current={activeTab === "profile" ? "page" : undefined}
-                onClick={() => handleTabClick("profile")}
+                aria-current={activeTab === "addProduct" ? "page" : undefined}
+                onClick={() => handleTabClick("addProduct")}
               >
                 <svg
                   aria-hidden="true"
@@ -46,39 +45,86 @@ function ProductTab() {
                 Add Product
               </a>
             </li>
-            <li class="mr-2">
+            <li className="mr-2">
               <a
                 href="#"
-                class="inline-flex p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                className={`inline-flex p-4 ${
+                  activeTab === "editProduct"
+                    ? "text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group"
+                    : "border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                }`}
+                aria-current={activeTab === "editProduct" ? "page" : undefined}
+                onClick={() => handleTabClick("editProduct")}
               >
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+                  className="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
                 Edit Product
               </a>
             </li>
+            <li className="mr-2">
+              <a
+                href="#"
+                className={`inline-flex p-4 ${
+                  activeTab === "stockHistories"
+                    ? "text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group"
+                    : "border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                }`}
+                aria-current={
+                  activeTab === "stockHistories" ? "page" : undefined
+                }
+                onClick={() => handleTabClick("stockHistories")}
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                  <path
+                    fillRule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                Stock Histories
+              </a>
+            </li>
           </ul>
         </div>
       </section>
-
       {/* Render different content based on activeTab */}
-      {activeTab === "addProduct" && <AddProductForm />}
-      {/* {activeTab === "editProduct" && (
-        // <ChangePasswordForm handleChangePassword={handleChangePassword} />
-      )} */}
+      {activeTab === "addProduct" && (
+        <div>
+          <AddProductForm />
+        </div>
+      )}
+      {activeTab === "editProduct" && (
+        <div>
+          <ProductForm />
+        </div>
+      )}
+      {activeTab === "stockHistories" && (
+        <div>
+          <ProductStock />
+        </div>
+      )}
       {/* Render other pages for different tabs */}
     </>
   );
 }
+
 export default ProductTab;

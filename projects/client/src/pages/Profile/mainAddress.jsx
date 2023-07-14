@@ -1,38 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
-import address from "../../img/address.png";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Axios from "axios";
+import React from "react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-function MainAddress() {
-  const userGlobal = useSelector((state) => state.users.user);
+function MainAddress({ addressList }) {
   const navigate = useNavigate();
-  const [addressList, setAddressList] = useState([]);
-  const userToken = localStorage.getItem("user_token");
-  const [selectedAddress, setSelectedAddress] = useState(null);
-
-  useEffect(() => {
-    fetchAddressData();
-  }, []);
-
-  const fetchAddressData = async () => {
-    try {
-      debugger;
-      const response = await Axios.get(
-        "http://localhost:8000/address/fetchMainAddress",
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      setAddressList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDeleteAddress = () => {
     Swal.fire("You can't delete the main address!");
@@ -49,7 +20,7 @@ function MainAddress() {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2 justify-start">
               <div className="text-base">{address.name}</div>
-              <div>{`(+62) ${address.phoneNumber.substring(1)}`}</div>
+              <div>{`(+62) ${address.phone_number.substring(1)}`}</div>
             </div>
           </div>
           <div className="py-2">
@@ -60,7 +31,7 @@ function MainAddress() {
             </div>
           </div>
           <div className="text-base text-blue-500 border  font-semibold w-44 py-2 pl-8">
-            alamat Utama
+            Main Address
           </div>
           <div className="flex items-center space-x-2 mt-4 mb-4">
             <button

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import logo from "../img/e-grocery-low-resolution-logo-white-on-transparent-background (1).png";
+import logo from "../img/logo-cut.png";
 import { useState } from "react";
 import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
 
