@@ -19,11 +19,8 @@ exports.runSeed = async function () {
     let isAdminExist = await query(getAdminquery);
 
     if (isAdminExist.length <= 0) {
-      // Generate random 10 characters for password
       const randomstring = Math.random().toString(36).slice(-10);
       const hashPass = await bcrypt.hash(randomstring, 10);
-
-      console.log(randomstring);
 
       const addAdminQuery = `INSERT INTO admins VALUES (null, ${db.escape(
         userSeed.name
@@ -35,7 +32,6 @@ exports.runSeed = async function () {
 
       let payload = { id: addUserResult.insertId };
       const token = jwt.sign(payload, "six6", { expiresIn: "5m" });
-      console.log(token);
 
       console.log("create user:", addAdminResult);
 

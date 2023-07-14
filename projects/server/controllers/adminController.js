@@ -51,7 +51,6 @@ module.exports = {
       const admins = await query(
         `SELECT * FROM admins WHERE id_admin = ${db.escape(req.user.id)}`
       );
-      console.log(admins);
       return res.status(200).send({
         data: {
           id: admins[0].id_admin,
@@ -108,7 +107,7 @@ module.exports = {
         success: true,
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).send({ message: "Internal server error" });
     }
   },
@@ -224,7 +223,7 @@ module.exports = {
       );
       res.status(200).send("Category Updated Successfully");
     } catch (error) {
-      console.error(error);
+      console.log(error);
       res.status(500).send(error.message || "Internal Server Error");
     }
   },
@@ -309,9 +308,7 @@ module.exports = {
       const idProduct = req.params.id;
 
       const { file } = req;
-      console.log(file);
       const filepath = file ? "/" + file.filename : null;
-      console.log(filepath);
       const updateProductQuery = `
         UPDATE products SET
         name = COALESCE(${db.escape(productName)}, name),
@@ -322,7 +319,6 @@ module.exports = {
         id_category = COALESCE(${db.escape(id_category)}, id_category)
         WHERE id_product = ${db.escape(idProduct)}
       `;
-      console.log(updateProductQuery);
       const result = await query(updateProductQuery);
 
       if (result.affectedRows === 0) {
@@ -342,7 +338,7 @@ module.exports = {
       return res.status(200).send({
         data: result,
         message: "Product updated successfully!",
-        updatedImage: filepath, // Menggunakan nama properti "updatedImage" untuk menghindari kebingungan dengan properti "image" di objek "productData" yang dikirim sebagai respons.
+        updatedImage: filepath,
         success: true,
       });
     } catch (error) {
@@ -357,7 +353,6 @@ module.exports = {
       const admin = await query(
         `SELECT * FROM admins WHERE id_admin = ${db.escape(idAdmin)}`
       );
-      console.log(admin);
 
       let queryStr = `
         SELECT *

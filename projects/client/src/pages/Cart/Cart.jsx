@@ -59,7 +59,6 @@ function Cart() {
   };
 
   const handleIncreaseQuantity = (id) => {
-    // alert(id);
     dispatch(increaseQuantity(id));
   };
 

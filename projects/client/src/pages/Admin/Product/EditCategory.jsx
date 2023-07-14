@@ -53,7 +53,6 @@ function EditCategory() {
 
   const handleSaveEdit = async (categoryId) => {
     try {
-      // Make the API call to update the category with the new name
       const response = await Axios.patch(
         `http://localhost:8000/admin/editCategory/${categoryId}`,
         {

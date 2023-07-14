@@ -5,7 +5,6 @@ const upload = require("../middleware/multer");
 
 const router = express.Router();
 
-// router.get("/", categoryController.fetchAllCategories);
 router.post("/login", adminController.login);
 router.post("/check-login", verifyToken, adminController.checkLoginAdmin);
 router.get("/branch", adminController.fetchAllBranch);

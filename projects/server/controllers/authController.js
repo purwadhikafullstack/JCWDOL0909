@@ -41,7 +41,7 @@ module.exports = {
         message: `Registration success! Please check your email to verify your account within 5 minutes `,
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).send({ message: "Internal Server Error", error });
     }
   },
@@ -73,8 +73,6 @@ module.exports = {
       let isEmailExist = await query(
         `SELECT * FROM users WHERE email=${db.escape(email)}`
       );
-      console.log(isEmailExist);
-
       if (isEmailExist.length == 0) {
         return res
           .status(200)
@@ -142,26 +140,6 @@ module.exports = {
       );
 
       return res.status(200).send("Password updated successfully");
-    } catch (error) {
-      res.status(error.status || 500).send(error);
-    }
-  },
-  fetchAllUser: async (req, res) => {
-    try {
-      const users = await query(`SELECT * FROM users`);
-      return res.status(200).send(users);
-    } catch (error) {
-      res.status(error.status || 500).send(error);
-    }
-  },
-  fetchUser: async (req, res) => {
-    try {
-      const idParams = parseInt(req.params.id);
-
-      const users = await query(
-        `SELECT * FROM users WHERE id_user = ${db.escape(idParams)}`
-      );
-      return res.status(200).send(users);
     } catch (error) {
       res.status(error.status || 500).send(error);
     }
@@ -237,7 +215,7 @@ module.exports = {
             token,
           });
         } catch (error) {
-          console.error(error);
+          console.log(error);
           return res.status(500).json({
             success: false,
             message: "Failed to send email",
@@ -250,7 +228,7 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return res.status(500).json({
         success: false,
         message: "Server Error",

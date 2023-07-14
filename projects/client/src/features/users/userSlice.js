@@ -17,7 +17,6 @@ export const usersSlice = createSlice({
     },
   },
   reducers: {
-    // Function untuk memasukkan data dari login ke global state
     setUser: (state, action) => {
       state.user = action.payload;
     },
@@ -44,10 +43,9 @@ export function fetchUsersData() {
   return async (dispatch) => {
     try {
       let response = await Axios.get("http://localhost:8000/users");
-      console.log(response.data);
       dispatch(setUser(response.data));
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 }
@@ -59,12 +57,11 @@ export function registerUser(data) {
         "http://localhost:8000/auth/register",
         data
       );
-      console.log(response);
       if (response) {
         Swal.fire(response.data.message);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       if (error.response && error.response.data) {
         Swal.fire("Error", error.response.data.message, "error");
       } else {
@@ -156,7 +153,7 @@ export function verifyEmail(data) {
       }
     } catch (error) {
       Swal.fire(error);
-      console.error(error);
+      console.log(error);
     }
   };
 }
@@ -196,7 +193,7 @@ export function resetPassword(data, token) {
         Swal.fire("Password Anda berhasil diganti.");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       Swal.fire(error.message);
     }
   };
@@ -207,7 +204,7 @@ export function editProfile(data) {
     try {
       const userToken = localStorage.getItem("user_token");
       const response = await Axios.patch(
-        `http://localhost:8000/user/edit`, // Ubah endpoint sesuai kebutuhan
+        `http://localhost:8000/user/edit`,
         data,
         {
           headers: {
@@ -215,10 +212,9 @@ export function editProfile(data) {
           },
         }
       );
-      // Dispatch action untuk memperbarui data pengguna di Redux state
-      Swal.fire("Profile updated successfully"); // Menampilkan notifikasi sukses
+      Swal.fire("Profile updated successfully");
     } catch (error) {
-      Swal.fire(error.message); // Menampilkan notifikasi error
+      Swal.fire(error.message);
     }
   };
 }

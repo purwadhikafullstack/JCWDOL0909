@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, endOfDay, addDays } from "date-fns";
@@ -70,10 +70,10 @@ function OrderList() {
         );
       }
       if (endDate) {
-        const endOfDayUTC = endOfDay(addDays(endDate, 1)); // Tambahkan 1 hari pada endDate
+        const endOfDayUTC = endOfDay(addDays(endDate, 1));
         formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
       }
-      const response = await axios.get(
+      const response = await Axios.get(
         "http://localhost:8000/admin/fetchTransactionByBranch",
         {
           headers: {
@@ -87,18 +87,18 @@ function OrderList() {
       );
       setTransactions(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
   const fetchTransactionStatus = async () => {
     try {
-      const response = await axios.get(
+      const response = await Axios.get(
         "http://localhost:8000/transactions/fetchTransactionStatus"
       );
       setTransactionStatus(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -148,7 +148,7 @@ function OrderList() {
       });
 
       if (result.isConfirmed) {
-        const response = await axios.patch(
+        const response = await Axios.patch(
           `http://localhost:8000/admin/cancelTransaction/${transactionId}`,
           {
             headers: {
@@ -182,7 +182,7 @@ function OrderList() {
       });
 
       if (result.isConfirmed) {
-        const response = await axios.patch(
+        const response = await Axios.patch(
           `http://localhost:8000/admin/sendTransaction/${transactionId}`,
           {
             headers: {

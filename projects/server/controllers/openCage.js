@@ -1,5 +1,5 @@
 const express = require("express");
-const axios = require("axios");
+const Axios = require("axios");
 const app = express();
 const api_key = "daeea4a5ce8a4985acd17b66e72a7530";
 
@@ -8,8 +8,7 @@ module.exports = {
     const { province, city } = req.params;
     const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}, ${province}&key=${api_key}`;
 
-    axios
-      .get(url)
+    Axios.get(url)
       .then((response) => {
         const data = response.data;
         if (data.total_results > 0) {

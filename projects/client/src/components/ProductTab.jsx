@@ -5,7 +5,7 @@ import ProductForm from "../pages/Admin/Product/ProductForm";
 import ProductStock from "../pages/Products/productStock";
 
 function ProductTab() {
-  const [activeTab, setActiveTab] = useState("addProduct"); // Ubah nilai awal menjadi "addProduct"
+  const [activeTab, setActiveTab] = useState("addProduct");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);

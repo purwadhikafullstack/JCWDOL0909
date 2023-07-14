@@ -26,8 +26,6 @@ export const cartSlice = createSlice({
     removeItem: (state, action) => {
       const index = state.items.findIndex((item) => item.id === action.payload);
       const item = state.items[index];
-      console.log(action.payload);
-      // state.total -= item.p * item.quantity;
       state.items.splice(index, 1);
     },
     decreaseQuantity: (state, action) => {

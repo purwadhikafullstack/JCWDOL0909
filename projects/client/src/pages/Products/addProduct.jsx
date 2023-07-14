@@ -14,8 +14,6 @@ const AddProduct = () => {
 
   const HandleSubmit = async (event) => {
     event.preventDefault();
-    console.log(category);
-
     const formData = new FormData();
     formData.append("productName", name);
     formData.append("productPrice", price);

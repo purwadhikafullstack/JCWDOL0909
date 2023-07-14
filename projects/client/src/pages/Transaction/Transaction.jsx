@@ -31,7 +31,6 @@ function Transaction() {
     0
   );
   const userToken = localStorage.getItem("user_token");
-  // const shippingCost = 15000;
   const transactionDate = moment().format("YYYY-MM-DD");
   const total = parseInt(subtotal) + parseInt(selectedShippingCost);
   const orderId = useSelector((state) => state.transaction.orderId);
@@ -48,7 +47,7 @@ function Transaction() {
         setSelectedShippingCost(response.data[0].shipping_cost);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -103,7 +102,6 @@ function Transaction() {
         title: "Success",
         text: `Your order has been placed successfully with ORDER ID: ${orderId}`,
       });
-      // setIsModalOpen(true); // Setelah berhasil mengirim data, buka modal
       dispatch(resetCart());
       dispatch(resetTransaction());
       navigate("/product");
