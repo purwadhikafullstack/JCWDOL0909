@@ -11,6 +11,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function AddCategory() {
+  debugger;
   const addCategory = (values, { resetForm }) => {
     Axios.post(
       "http://localhost:8000/admin/addCategory",

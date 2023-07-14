@@ -1,5 +1,9 @@
 const express = require("express");
-const { adminController } = require("../controllers");
+const {
+  adminController,
+  adminCategoryController,
+  adminProductController,
+} = require("../controllers");
 const { verifyToken } = require("../middleware/auth");
 const upload = require("../middleware/multer");
 
@@ -11,29 +15,33 @@ router.get("/branch", adminController.fetchAllBranch);
 router.post("/createAdmin", adminController.createAdminBranch);
 
 // Product Route
-router.get("/getProduct/:id", adminController.fetchProductByBranchId);
+router.get("/getProduct/:id", adminProductController.fetchProductByBranchId);
 router.post(
   "/addProduct",
   verifyToken,
   upload.single("file"),
-  adminController.addProduct
+  adminProductController.addProduct
 );
-router.get("/product/:id", adminController.fetchProductById);
+router.get("/product/:id", adminProductController.fetchProductById);
 router.patch(
   "/editProduct/:id",
   verifyToken,
   upload.single("file"),
-  adminController.editProduct
+  adminProductController.editProduct
 );
-router.delete("/deleteProduct/:id", adminController.deleteProduct);
+router.delete("/deleteProduct/:id", adminProductController.deleteProduct);
 
 // Category Route
-router.get("/getCategory", adminController.fetchAllCategories);
-router.post("/addCategory", verifyToken, adminController.addCategory);
-router.delete("/deleteCategory/:id", adminController.deleteCategory);
-router.patch("/editCategory/:id", verifyToken, adminController.editCategory);
+router.get("/getCategory", adminCategoryController.fetchAllCategories);
+router.post("/addCategory", verifyToken, adminCategoryController.addCategory);
+router.delete("/deleteCategory/:id", adminCategoryController.deleteCategory);
+router.patch(
+  "/editCategory/:id",
+  verifyToken,
+  adminCategoryController.editCategory
+);
+router.get("/getCategory/:id", adminCategoryController.fetchCategoryById);
 
-router.get("/getCategory/:id", adminController.fetchCategoryById);
 router.get(
   "/fetchTransactionByBranch",
   verifyToken,
