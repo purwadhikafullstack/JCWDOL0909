@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
+import { FaTimes, FaCheck, FaEdit } from "react-icons/fa";
 
 function EditCategory() {
   const [categories, setCategories] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editValue, setEditValue] = useState("");
   const [editCategoryId, setEditCategoryId] = useState(null);
-
   const adminToken = localStorage.getItem("admin_token");
-
   const dispatch = useDispatch();
 
   const handleDeleteCategory = async (categoryId) => {
@@ -127,7 +126,6 @@ function EditCategory() {
             <span>{category.category_name}</span>
           )}
         </td>
-
         <td className="flex items-center px-6 py-4 space-x-3">
           {editMode && category.id_category === editCategoryId ? (
             <>
@@ -135,41 +133,14 @@ function EditCategory() {
                 className="flex p-2.5 bg-green-500 rounded-xl hover:rounded-3xl hover:bg-green-600 transition-all duration-300 text-white"
                 onClick={() => handleSaveEdit(category.id_category)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
+                <FaCheck className="h-6 w-6" />
                 <span className="ml-2">Save</span>
               </button>
-
               <button
                 className="flex p-2.5 bg-red-500 rounded-xl hover:rounded-3xl hover:bg-red-600 transition-all duration-300 text-white"
                 onClick={() => setEditMode(false)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <FaTimes className="h-6 w-6" />
                 <span className="ml-2">Cancel</span>
               </button>
             </>
@@ -184,41 +155,14 @@ function EditCategory() {
                   )
                 }
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
+                <FaEdit className="h-6 w-6" />
                 <span className="ml-2">Edit</span>
               </button>
-
               <button
                 className="flex p-2.5 bg-red-500 rounded-xl hover:rounded-3xl hover:bg-red-600 transition-all duration-300 text-white"
                 onClick={() => handleDeleteCategory(category.id_category)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <FaTimes className="h-6 w-6" />
                 <span className="ml-2">Delete</span>
               </button>
             </>

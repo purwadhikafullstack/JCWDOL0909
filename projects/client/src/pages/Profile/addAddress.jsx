@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2";
-import Axios from "axios";
 import { fetchProvinces, fetchCities, fetchGeolocation } from "./fetchLocation";
+import { saveAddress } from "./addressUtils";
 
 function AddressForm({ closeModal, fetchAddressData }) {
   const [provinces, setProvinces] = useState([]);
@@ -16,12 +15,11 @@ function AddressForm({ closeModal, fetchAddressData }) {
   const [postalCode, setPostalCode] = useState("");
   const userToken = localStorage.getItem("user_token");
 
-  const handleSaveAddress = async () => {
+  const handleSaveAddress = () => {
     const selectedProvince = provinces.find(
       (province) => province.province_id === selectedProvinceId
     );
     const selectedCity = cities.find((city) => city.city_id === selectedCityId);
-
     const data = {
       name: fullName,
       phoneNumber,
@@ -33,28 +31,7 @@ function AddressForm({ closeModal, fetchAddressData }) {
       province: selectedProvince ? selectedProvince.province : "",
       city: selectedCity ? selectedCity.city_name : "",
     };
-
-    try {
-      const response = await Axios.post(
-        "http://localhost:8000/address/addAddress",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      fetchAddressData();
-      closeModal();
-      if (!response.data.success) {
-        Swal.fire(response.data.message);
-      } else {
-        Swal.fire(response.data.message);
-      }
-    } catch (error) {
-      Swal.fire(error.message);
-      console.log(error.message);
-    }
+    saveAddress(data, userToken, fetchAddressData, closeModal);
   };
 
   useEffect(() => {
@@ -66,7 +43,6 @@ function AddressForm({ closeModal, fetchAddressData }) {
         console.log(error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -101,7 +77,6 @@ function AddressForm({ closeModal, fetchAddressData }) {
 
     handleSaveAddress();
   };
-
   const handleCancel = () => {
     closeModal();
   };
@@ -123,7 +98,7 @@ function AddressForm({ closeModal, fetchAddressData }) {
           </div>
           <div className="w-1/2 ml-2">
             <input
-              type="text"
+              type="number"
               placeholder="Phone Number"
               className="border border-gray-300 p-2 rounded-md w-full"
               autoComplete="user-address-phone"
@@ -170,7 +145,7 @@ function AddressForm({ closeModal, fetchAddressData }) {
         )}
         <div className="mb-4 w-full max-w-md">
           <input
-            type="text"
+            type="number"
             placeholder="Postal Code"
             className="border border-gray-300 p-2 rounded-md w-full"
             autoComplete="postal-code"
@@ -200,7 +175,6 @@ function AddressForm({ closeModal, fetchAddressData }) {
             onChange={(e) => setAdditionalDetails(e.target.value)}
           />
         </div>
-
         <div className="flex justify-end w-full">
           <button
             onClick={handleCancel}

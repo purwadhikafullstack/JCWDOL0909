@@ -1,6 +1,5 @@
 import Swal from "sweetalert2";
 import Axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const handleCancelTransaction = async (transactionId, fetchData) => {
   const userToken = localStorage.getItem("user_token");
