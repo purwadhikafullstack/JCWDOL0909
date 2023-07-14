@@ -6,12 +6,16 @@ import { format, endOfDay, addDays } from "date-fns";
 import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";
-import Swal from "sweetalert2";
+import {
+  handleCancelTransaction,
+  handleConfirmTransaction,
+  handleOrderClick,
+} from "./handleActions";
+import { fetchTransactions, fetchTransactionStatus } from "./api";
 
 function OrderList() {
   const [transactions, setTransactions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(0);
-  const [selectedOrder, setSelectedOrder] = useState(null);
   const [transactionStatus, setTransactionStatus] = useState([]);
   const userToken = localStorage.getItem("user_token");
   const pageSize = 5;
@@ -26,11 +30,11 @@ function OrderList() {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchTransactions();
+    fetchData();
   }, [startDate, endDate, currentPage, selectedStatus]);
 
   useEffect(() => {
-    fetchTransactionStatus();
+    fetchTransactionStatusData();
   }, []);
 
   useEffect(() => {
@@ -63,56 +67,27 @@ function OrderList() {
     setGroupedTransactions(grouped);
   }, [transactions]);
 
-  const fetchTransactions = async () => {
+  const fetchData = async () => {
     try {
-      let formattedStartDate = null;
-      let formattedEndDate = null;
-      let selectedTransactionStatus = "";
-      if (selectedStatus !== 0) {
-        selectedTransactionStatus = selectedStatus;
-      }
-
-      if (startDate) {
-        const startOfDayUTC = endOfDay(startDate);
-        formattedStartDate = format(
-          startOfDayUTC,
-          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        );
-      }
-      if (endDate) {
-        const endOfDayUTC = endOfDay(addDays(endDate, 1));
-        formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-      }
-      const response = await Axios.get(
-        "http://localhost:8000/transactions/fetchTransaction",
-        {
-          params: {
-            startDate: formattedStartDate,
-            endDate: formattedEndDate,
-            page: currentPage,
-            pageSize: pageSize,
-            status: selectedTransactionStatus,
-          },
-
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
+      const { transactions, totalPages } = await fetchTransactions(
+        selectedStatus,
+        startDate,
+        endDate,
+        currentPage,
+        pageSize,
+        userToken
       );
-      const { totalCount } = response.data;
-      setTransactions(response.data.transactions);
-      setTotalPages(Math.ceil(totalCount / pageSize));
+      setTransactions(transactions);
+      setTotalPages(totalPages);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchTransactionStatus = async () => {
+  const fetchTransactionStatusData = async () => {
     try {
-      const response = await Axios.get(
-        "http://localhost:8000/transactions/fetchTransactionStatus"
-      );
-      setTransactionStatus(response.data);
+      const data = await fetchTransactionStatus();
+      setTransactionStatus(data);
     } catch (error) {
       console.log(error);
     }
@@ -124,81 +99,16 @@ function OrderList() {
     setCurrentPage(1);
   };
 
-  const handleOrderClick = async (transactionId) => {
-    try {
-      setSelectedOrder(transactionId);
-      navigate(`/payment/${transactionId}`);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleOrderClickInternal = (transactionId) => {
+    handleOrderClick(transactionId, navigate);
   };
 
-  const handleCancelTransaction = async (transactionId) => {
-    const userToken = localStorage.getItem("user_token");
-
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "This order will be canceled.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, cancel it!",
-        cancelButtonText: "Cancel",
-      });
-
-      if (result.isConfirmed) {
-        const response = await Axios.patch(
-          `http://localhost:8000/transactions/cancelTransaction/${transactionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-        fetchTransactions();
-        if (!response.data.success) {
-          Swal.fire(response.data);
-        } else {
-          Swal.fire("Success", response.data.message, "success");
-        }
-      }
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
+  const handleCancelTransactionInternal = (transactionId) => {
+    handleCancelTransaction(transactionId, fetchData);
   };
 
-  const handleConfirmTransaction = async (transactionId) => {
-    const userToken = localStorage.getItem("user_token");
-
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "Confirm your order.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, confirm!",
-        cancelButtonText: "Cancel",
-      });
-
-      if (result.isConfirmed) {
-        const response = await Axios.patch(
-          `http://localhost:8000/transactions/confirmTransaction/${transactionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-        fetchTransactions();
-        if (!response.data.success) {
-          Swal.fire(response.data);
-        } else {
-          Swal.fire("Success", response.data.message, "success");
-        }
-      }
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
+  const handleConfirmTransactionInternal = (transactionId) => {
+    handleConfirmTransaction(transactionId, fetchData);
   };
 
   const handlePageChange = (page) => {
@@ -217,6 +127,7 @@ function OrderList() {
     setEndDate(range[1]);
     setShowCalendar(false);
   };
+
   const toggleCalendar = () => {
     setShowCalendar(!showCalendar);
   };
@@ -263,9 +174,9 @@ function OrderList() {
             <TransactionItem
               key={group.id_transaction}
               group={group}
-              handleOrderClick={handleOrderClick}
-              handleCancelTransaction={handleCancelTransaction}
-              handleConfirmTransaction={handleConfirmTransaction}
+              handleOrderClick={handleOrderClickInternal}
+              handleCancelTransaction={handleCancelTransactionInternal}
+              handleConfirmTransaction={handleConfirmTransactionInternal}
             />
           ))}
           <div className="flex justify-center mt-8 mb-10">

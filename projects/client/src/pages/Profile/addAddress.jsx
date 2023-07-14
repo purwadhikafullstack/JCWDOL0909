@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
 import Swal from "sweetalert2";
+import Axios from "axios";
+import { fetchProvinces, fetchCities, fetchGeolocation } from "./fetchLocation";
 
-function AddressForm({ closeModal }) {
+function AddressForm({ closeModal, fetchAddressData }) {
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedProvinceId, setSelectedProvinceId] = useState("");
@@ -43,6 +44,8 @@ function AddressForm({ closeModal }) {
           },
         }
       );
+      fetchAddressData();
+      closeModal();
       if (!response.data.success) {
         Swal.fire(response.data.message);
       } else {
@@ -54,61 +57,43 @@ function AddressForm({ closeModal }) {
     }
   };
 
-  const fetchProvinces = async () => {
-    try {
-      const response = await Axios.get(
-        "http://localhost:8000/rajaongkir/province"
-      );
-      const provinces = response.data.rajaongkir.results;
-      setProvinces(provinces);
-    } catch (error) {
-      console.log("Error fetching provinces:", error);
-    }
-  };
-
-  const fetchCities = async (provinceId) => {
-    try {
-      const response = await Axios.get(
-        `http://localhost:8000/rajaongkir/city?provinceId=${provinceId}`
-      );
-      const cities = response.data.rajaongkir.results;
-      setCities(cities);
-    } catch (error) {
-      console.log("Error fetching cities:", error);
-    }
-  };
-
-  const fetchGeolocation = async (cityId) => {
-    try {
-      const selectedCity = cities.find((city) => city.city_id === cityId);
-
-      if (selectedCity) {
-        const { province, city_name } = selectedCity;
-        const url = `http://localhost:8000/opencage/geolocation/${province}/${city_name}`;
-
-        const response = await Axios.get(url);
-        const location = response.data;
-        setGeolocation(location);
-      }
-    } catch (error) {
-      console.log("Error fetching geolocation:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchProvinces();
+    const fetchData = async () => {
+      try {
+        const provincesData = await fetchProvinces();
+        setProvinces(provincesData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleProvinceChange = (e) => {
+  const handleProvinceChange = async (e) => {
     const provinceId = e.target.value;
     setSelectedProvinceId(provinceId);
-    fetchCities(provinceId);
+    try {
+      const citiesData = await fetchCities(provinceId);
+      setCities(citiesData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleCityChange = (e) => {
+  const handleCityChange = async (e) => {
     const cityId = e.target.value;
     setSelectedCityId(cityId);
-    fetchGeolocation(cityId);
+    const selectedCity = cities.find((city) => city.city_id === cityId);
+    if (selectedCity) {
+      const { province, city_name } = selectedCity;
+      try {
+        const geolocationData = await fetchGeolocation(province, city_name);
+        setGeolocation(geolocationData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleSubmit = (e) => {

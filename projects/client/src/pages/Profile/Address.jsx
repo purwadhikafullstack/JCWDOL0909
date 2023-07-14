@@ -196,7 +196,10 @@ function Address() {
 
       {showModal && (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <AddressForm closeModal={handleCloseModal} />{" "}
+          <AddressForm
+            closeModal={handleCloseModal}
+            fetchAddressData={fetchAddressData}
+          />
           {/* Passing prop handleCloseModal */}
         </div>
       )}
