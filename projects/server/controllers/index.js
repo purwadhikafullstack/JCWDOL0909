@@ -11,6 +11,7 @@ const adminController = require("./adminController");
 const stockController = require("./stockController");
 const adminCategoryController = require("./adminCategoryController");
 const adminProductController = require("./adminProductController");
+const resetPasswordController = require("./resetPasswordController");
 
 module.exports = {
   authController,
@@ -26,4 +27,5 @@ module.exports = {
   stockController,
   adminCategoryController,
   adminProductController,
+  resetPasswordController,
 };

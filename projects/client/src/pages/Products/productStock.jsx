@@ -32,13 +32,13 @@ function ProductStock() {
             <thead>
               <tr>
                 <th class="py-4 px-6 bg-gray-200 text-left">Date</th>
-                <th class="py-4 px-6 bg-gray-200 text-left">product name</th>
+                <th class="py-4 px-6 bg-gray-200 text-left">Product Name</th>
                 <th class="py-4 px-6 bg-gray-200 text-left">Store</th>
                 <th class="py-4 px-6 bg-gray-200 text-left">Reason</th>
                 <th class="py-4 px-6 bg-gray-200 text-left">
-                  udjustment stock
+                  Adjustment Stock
                 </th>
-                <th class="py-4 px-6 bg-gray-200 text-left">stock after</th>
+                <th class="py-4 px-6 bg-gray-200 text-left">Stock After</th>
               </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@ function ProductStock() {
                   </td>
                   <td class="py-4 px-6 border-b border-gray-300">
                     {history.adjustment}
-                    {history.udjustment_stock}
+                    {history.adjustment_stock}
                   </td>
                   <td class="py-4 px-6 border-b border-gray-300">
                     {history.stock_after}

@@ -95,22 +95,4 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
-  createTransaction: async (req, res) => {
-    try {
-      const idParams = parseInt(req.params.id);
-
-      const product = await query(
-        `SELECT * FROM products WHERE id_product = ${db.escape(idParams)}`
-      );
-
-      if (product.length === 0) {
-        return res.status(404).send("Product not found");
-      }
-
-      return res.status(200).send(product[0]);
-    } catch (error) {
-      res.status(error.status || 500).send(error);
-    }
-  },
 };
