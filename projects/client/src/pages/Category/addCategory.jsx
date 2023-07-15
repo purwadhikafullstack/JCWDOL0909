@@ -4,15 +4,13 @@ import * as Yup from "yup";
 import Axios from "axios";
 import Swal from "sweetalert2";
 
-const adminToken = localStorage.getItem("admin_token");
-
 const validationSchema = Yup.object().shape({
   categoryName: Yup.string().required("Category Name is required"),
 });
 
 function AddCategory() {
-  debugger;
   const addCategory = (values, { resetForm }) => {
+    const adminToken = localStorage.getItem("admin_token");
     Axios.post(
       "http://localhost:8000/admin/addCategory",
       {
