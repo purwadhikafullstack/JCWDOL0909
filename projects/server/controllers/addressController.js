@@ -34,16 +34,13 @@ module.exports = {
         idUser
       )}`;
       let checkUserResult = await query(checkUserQuery);
-      let updateAddressQuery = "";
 
-      if (checkUserResult.length <= 0) {
+      if (checkUserResult.length !== 0) {
         let updateAddressQuery = `UPDATE users SET id_address = ${db.escape(
           addAddressResult.insertId
         )} WHERE id_user = ${db.escape(idUser)}`;
         await query(updateAddressQuery);
       }
-      console.log(updateAddressQuery);
-
       res
         .status(200)
         .send({ data: addAddressResult, message: "Add Address Success" });
@@ -51,6 +48,7 @@ module.exports = {
       console.log(error);
     }
   },
+
   addMainAddress: async (req, res) => {
     try {
       const idUser = req.user.id;

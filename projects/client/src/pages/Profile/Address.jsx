@@ -136,7 +136,7 @@ function Address() {
             </button>
           </div>
 
-          {userGlobal.address > 0 ? (
+          {mainAddress.length > 0 ? (
             <div>
               <MainAddress addressList={mainAddress} />
               {addressList.map((address) => (
