@@ -10,10 +10,17 @@ module.exports = {
       if (!file) {
         return res.status(400).send({ message: "Please upload a file." });
       }
+
       if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
         return res
           .status(400)
           .send({ message: "Please choose a JPEG or PNG file." });
+      }
+
+      if (file.size > 1024 * 1024) {
+        return res
+          .status(400)
+          .send({ message: "File size should not exceed 1MB." });
       }
 
       const addPaymentResult = await query(

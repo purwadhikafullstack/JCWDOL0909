@@ -15,7 +15,7 @@ function Login() {
 
   useEffect(() => {
     if (userGlobal.id > 0) {
-      navigate("/product");
+      navigate("/");
     }
   }, [userGlobal, navigate]);
 

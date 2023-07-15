@@ -14,9 +14,10 @@ function Tab() {
   };
 
   const dispatch = useDispatch();
+  const userToken = localStorage.getItem("user_token");
 
   const handleChangePassword = async (value) => {
-    dispatch(changePassword(value));
+    dispatch(changePassword(value, userToken));
   };
 
   return (

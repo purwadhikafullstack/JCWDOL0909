@@ -20,7 +20,7 @@ module.exports = {
       const updateQuery = `
         UPDATE users SET
           email = COALESCE(${db.escape(email)}, email),
-          name = COALESCE(${db.escape(name)}, name),
+          fullname = COALESCE(${db.escape(name)}, fullname),
           phone_number = COALESCE(${db.escape(phone_number)}, phone_number),
           gender = COALESCE(${db.escape(gender)}, gender),
           birthday = COALESCE(STR_TO_DATE(${db.escape(
@@ -47,10 +47,17 @@ module.exports = {
       if (!file) {
         return res.status(400).send({ message: "Please upload a file." });
       }
+
       if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
         return res
           .status(400)
           .send({ message: "Please choose a JPEG or PNG file." });
+      }
+
+      if (file.size > 1024 * 1024) {
+        return res
+          .status(400)
+          .send({ message: "File size should not exceed 1MB." });
       }
       await query(
         `UPDATE users SET profile_picture = ${db.escape(

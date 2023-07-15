@@ -16,7 +16,7 @@ module.exports = {
           id: isEmailExist[0].id_user,
           email: isEmailExist[0].email,
         };
-        const token = jwt.sign(payload, "six6", { expiresIn: "4h" });
+        const token = jwt.sign(payload, "six6", { expiresIn: "1m" });
         let mail = {
           from: `Admin <eric.vianto.k7@gmail.com>`,
           to: `${email}`,

@@ -48,17 +48,17 @@ module.exports = {
   verification: async (req, res) => {
     try {
       const id = req.user.id;
-      let checkStatusQuery = `SELECT isVerified FROM users WHERE id_user=${db.escape(
+      let checkStatusQuery = `SELECT is_verified FROM users WHERE id_user=${db.escape(
         id
       )}`;
       const result = await query(checkStatusQuery);
-      if (result.length > 0 && result[0].isVerified) {
+      if (result.length > 0 && result[0].is_verified) {
         return res.status(400).send({
           success: false,
           message: "link is invalid or expired!",
         });
       }
-      let updateIsActiveQuery = `UPDATE users SET isVerified = true WHERE id_user=${db.escape(
+      let updateIsActiveQuery = `UPDATE users SET is_verified = true WHERE id_user=${db.escape(
         id
       )}`;
       await query(updateIsActiveQuery);

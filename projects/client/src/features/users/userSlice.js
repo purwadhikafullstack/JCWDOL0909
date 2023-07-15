@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export const usersSlice = createSlice({
   name: "users",
@@ -75,7 +76,7 @@ export function registerUser(data) {
   };
 }
 
-export function changePassword(data) {
+export function changePassword(data, userToken) {
   return async (dispatch) => {
     try {
       let response = await Axios.post(
@@ -149,7 +150,9 @@ export function verifyEmail(data) {
         { data }
       );
       if (response.data.success) {
-        Swal.fire("Kami telah mengirim link untuk aktivasi akun Anda.");
+        Swal.fire(
+          "We've send link verification to your email to activate your account."
+        );
       }
     } catch (error) {
       Swal.fire(error);
@@ -166,17 +169,17 @@ export function confirmEmail(data) {
         data
       );
       if (response.data.success) {
-        Swal.fire("Kami telah mengirim link untuk me-reset password Anda.");
+        Swal.fire(
+          "We've send link verification to your email to reset your password."
+        );
       }
     } catch (error) {
-      Swal.fire(
-        "Masukkan email yang Anda gunakan ketika melakukan registrasi."
-      );
+      Swal.fire("Please enter the email that you used to register.");
     }
   };
 }
 
-export function resetPassword(data, token) {
+export function resetPassword(data, token, navigate) {
   return async (dispatch) => {
     try {
       const response = await Axios.post(
@@ -190,7 +193,8 @@ export function resetPassword(data, token) {
       );
 
       if (response) {
-        Swal.fire("Password Anda berhasil diganti.");
+        Swal.fire("Your password has been changed.");
+        navigate("/user/login");
       }
     } catch (error) {
       console.log(error);

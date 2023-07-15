@@ -28,13 +28,13 @@ module.exports = {
         ${db.escape(longitude)},
         ${db.escape(latitude)}
       )`;
-
       let addAddressResult = await query(addAddressQuery);
 
       let checkUserQuery = `SELECT id_address FROM users WHERE id_user = ${db.escape(
         idUser
       )}`;
       let checkUserResult = await query(checkUserQuery);
+      let updateAddressQuery = "";
 
       if (checkUserResult.length <= 0) {
         let updateAddressQuery = `UPDATE users SET id_address = ${db.escape(
@@ -42,6 +42,7 @@ module.exports = {
         )} WHERE id_user = ${db.escape(idUser)}`;
         await query(updateAddressQuery);
       }
+      console.log(updateAddressQuery);
 
       res
         .status(200)
