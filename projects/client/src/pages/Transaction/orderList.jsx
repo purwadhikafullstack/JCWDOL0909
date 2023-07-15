@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { format, endOfDay, addDays } from "date-fns";
 import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";

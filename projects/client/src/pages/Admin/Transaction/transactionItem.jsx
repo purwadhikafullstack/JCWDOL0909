@@ -10,8 +10,10 @@ function TransactionItem({ group, handleOrderClick }) {
         <div>
           <h3 className="text-base font-semibold">Invoice number</h3>
           <p className="text-gray-600 text-sm">
-            {group.items[0].invoiceNumber}
+            {group.items[0].invoice_number}
           </p>
+          <h3 className="text-base font-semibold">Buyer</h3>
+          <p className="text-gray-600 text-sm">{group.items[0].fullname}</p>
         </div>
         <div className="flex items-center">
           <p className="text-base font-semibold text-right bg-yellow-200 text-yellow-800 px-2 py-1 rounded">
@@ -85,21 +87,6 @@ function TransactionItem({ group, handleOrderClick }) {
           <h3 className="text-sm font-semibold text-red-400">
             {group.items[0].date.substring(0, 10)}
           </h3>
-        </div>
-        <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 1 && (
-            <>
-              <button
-                onClick={() => handleOrderClick(group.items[0].id_transaction)}
-                className="bg-yellow-200 border-2 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded"
-              >
-                Pay Now
-              </button>
-              <button className="bg-yellow-200 border-2 mx-10 hover:bg-sky-900 hover:text-white font-semibold py-1 px-2 rounded">
-                Cancel
-              </button>
-            </>
-          )}
         </div>
       </div>
     </div>

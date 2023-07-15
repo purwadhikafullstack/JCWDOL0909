@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
-import { format, endOfDay, addDays } from "date-fns";
 import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";
 import AdminLayout from "../../../components/AdminLayout";
+import {
+  fetchTransactions,
+  fetchTransactionStatus,
+} from "../Transaction/fetchApi";
 
 function OrderListAdmin() {
   const [transactions, setTransactions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(0);
-  const [selectedOrder, setSelectedOrder] = useState(null);
   const [transactionStatus, setTransactionStatus] = useState([]);
   const adminToken = localStorage.getItem("admin_token");
   const pageSize = 5;
@@ -22,15 +21,14 @@ function OrderListAdmin() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
-  const navigate = useNavigate();
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchTransactions();
+    fetchData();
   }, [startDate, endDate, currentPage, selectedStatus]);
 
   useEffect(() => {
-    fetchTransactionStatus();
+    fetchTransactionStatusData();
   }, []);
 
   useEffect(() => {
@@ -63,56 +61,27 @@ function OrderListAdmin() {
     setGroupedTransactions(grouped);
   }, [transactions]);
 
-  const fetchTransactions = async () => {
+  const fetchData = async () => {
     try {
-      let formattedStartDate = null;
-      let formattedEndDate = null;
-      let selectedTransactionStatus = "";
-      if (selectedStatus !== 0) {
-        selectedTransactionStatus = selectedStatus;
-      }
-
-      if (startDate) {
-        const startOfDayUTC = endOfDay(startDate);
-        formattedStartDate = format(
-          startOfDayUTC,
-          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        );
-      }
-      if (endDate) {
-        const endOfDayUTC = endOfDay(addDays(endDate, 1));
-        formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-      }
-      const response = await Axios.get(
-        "http://localhost:8000/transactions/fetchTransactions",
-        {
-          params: {
-            startDate: formattedStartDate,
-            endDate: formattedEndDate,
-            page: currentPage,
-            pageSize: pageSize,
-            status: selectedTransactionStatus,
-          },
-
-          headers: {
-            Authorization: `Bearer ${adminToken}`,
-          },
-        }
+      const { transactions, totalPages } = await fetchTransactions(
+        selectedStatus,
+        startDate,
+        endDate,
+        currentPage,
+        pageSize,
+        adminToken
       );
-      const { totalCount } = response.data;
-      setTransactions(response.data.transactions);
-      setTotalPages(Math.ceil(totalCount / pageSize));
+      setTransactions(transactions);
+      setTotalPages(totalPages);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchTransactionStatus = async () => {
+  const fetchTransactionStatusData = async () => {
     try {
-      const response = await Axios.get(
-        "http://localhost:8000/transactions/fetchTransactionStatus"
-      );
-      setTransactionStatus(response.data);
+      const data = await fetchTransactionStatus();
+      setTransactionStatus(data);
     } catch (error) {
       console.log(error);
     }
@@ -122,15 +91,6 @@ function OrderListAdmin() {
     const selectedStatusNumber = parseInt(statusId);
     setSelectedStatus(selectedStatusNumber);
     setCurrentPage(1);
-  };
-
-  const handleOrderClick = async (transactionId) => {
-    try {
-      setSelectedOrder(transactionId);
-      navigate(`/payment/${transactionId}`);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handlePageChange = (page) => {
@@ -196,11 +156,7 @@ function OrderListAdmin() {
           {transactions.length > 0 ? (
             <>
               {filteredTransactions.map((group) => (
-                <TransactionItem
-                  key={group.id_transaction}
-                  group={group}
-                  handleOrderClick={handleOrderClick}
-                />
+                <TransactionItem key={group.id_transaction} group={group} />
               ))}
               <div className="flex justify-center mt-8 mb-10">
                 <Pagination

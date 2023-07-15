@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
-import { format, endOfDay, addDays } from "date-fns";
 import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";
 import AdminLayout from "../../../components/AdminLayout";
-import Swal from "sweetalert2";
+import { fetchTransactions, fetchTransactionStatus } from "./fetchApi";
+import { handleCancelTransaction, handleSendTransaction } from "./handleAction";
 
 function OrderList() {
   const [transactions, setTransactions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(0);
-  const [selectedOrder, setSelectedOrder] = useState(null);
   const [transactionStatus, setTransactionStatus] = useState([]);
   const adminToken = localStorage.getItem("admin_token");
-  const itemsPerPage = 5;
+  const pageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [groupedTransactions, setGroupedTransactions] = useState({});
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -23,21 +19,26 @@ function OrderList() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
-  const navigate = useNavigate();
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchTransactions();
-    fetchTransactionStatus();
-  }, [startDate, endDate]);
+    fetchData();
+  }, [startDate, endDate, currentPage, selectedStatus]);
+
+  useEffect(() => {
+    fetchTransactionStatusData();
+  }, []);
 
   useEffect(() => {
     const filtered = Object.values(groupedTransactions).filter((group) => {
       const transactionStatusMatch =
         selectedStatus === 0 ||
-        group.items[0].id_transaction_status === selectedStatus;
+        group.items.some(
+          (item) => item.id_transaction_status === selectedStatus
+        );
       const invoiceNumberMatch =
         searchQuery === "" ||
-        group.items[0].invoiceNumber.toUpperCase().includes(searchQuery);
+        group.items[0].invoice_number.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
     });
     setFilteredTransactions(filtered);
@@ -58,67 +59,43 @@ function OrderList() {
     setGroupedTransactions(grouped);
   }, [transactions]);
 
-  const fetchTransactions = async () => {
+  const fetchData = async () => {
     try {
-      let formattedStartDate = null;
-      let formattedEndDate = null;
-      if (startDate) {
-        const startOfDayUTC = endOfDay(startDate);
-        formattedStartDate = format(
-          startOfDayUTC,
-          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        );
-      }
-      if (endDate) {
-        const endOfDayUTC = endOfDay(addDays(endDate, 1));
-        formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-      }
-      const response = await Axios.get(
-        "http://localhost:8000/admin/fetchTransactionByBranch",
-        {
-          headers: {
-            Authorization: `Bearer ${adminToken}`,
-          },
-          params: {
-            startDate: formattedStartDate,
-            endDate: formattedEndDate,
-          },
-        }
+      const { transactions, totalPages } = await fetchTransactions(
+        selectedStatus,
+        startDate,
+        endDate,
+        currentPage,
+        pageSize,
+        adminToken
       );
-      setTransactions(response.data);
+      setTransactions(transactions);
+      setTotalPages(totalPages);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchTransactionStatus = async () => {
+  const fetchTransactionStatusData = async () => {
     try {
-      const response = await Axios.get(
-        "http://localhost:8000/transactions/fetchTransactionStatus"
-      );
-      setTransactionStatus(response.data);
+      const data = await fetchTransactionStatus();
+      setTransactionStatus(data);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleStatusChange = (statusId) => {
-    setSelectedStatus(parseInt(statusId));
+    const selectedStatusNumber = parseInt(statusId);
+    setSelectedStatus(selectedStatusNumber);
     setCurrentPage(1);
   };
 
-  const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
-
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedTransactions = filteredTransactions.slice(
-    startIndex,
-    endIndex
-  );
 
   const handleSearch = (e) => {
     const query = e.target.value.toUpperCase();
@@ -134,72 +111,12 @@ function OrderList() {
     setShowCalendar(!showCalendar);
   };
 
-  const handleCancelTransaction = async (transactionId) => {
-    const adminToken = localStorage.getItem("admin_token");
-
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "This order will be canceled.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, cancel it!",
-        cancelButtonText: "Cancel",
-      });
-
-      if (result.isConfirmed) {
-        const response = await Axios.patch(
-          `http://localhost:8000/admin/cancelTransaction/${transactionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${adminToken}`,
-            },
-          }
-        );
-        fetchTransactions();
-        if (!response.data.success) {
-          Swal.fire(response.data);
-        } else {
-          Swal.fire("Success", response.data.message, "success");
-        }
-      }
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
+  const handleCancelTransactionInternal = (transactionId) => {
+    handleCancelTransaction(transactionId, fetchData);
   };
 
-  const handleSendTransaction = async (transactionId) => {
-    const userToken = localStorage.getItem("user_token");
-
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "Confirm user order.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, confirm!",
-        cancelButtonText: "Cancel",
-      });
-
-      if (result.isConfirmed) {
-        const response = await Axios.patch(
-          `http://localhost:8000/admin/sendTransaction/${transactionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-        fetchTransactions();
-        if (!response.data.success) {
-          Swal.fire(response.data);
-        } else {
-          Swal.fire("Success", response.data.message, "success");
-        }
-      }
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
+  const handleSendTransactionInternal = (transactionId) => {
+    handleSendTransaction(transactionId, fetchData);
   };
 
   return (
@@ -239,21 +156,29 @@ function OrderList() {
           showCalendar={showCalendar}
           toggleCalendar={toggleCalendar}
         />
-        {displayedTransactions.map((group) => (
-          <TransactionItem
-            key={group.id_transaction}
-            group={group}
-            handleCancelTransaction={handleCancelTransaction}
-            handleSendTransaction={handleSendTransaction}
-          />
-        ))}
-        <div className="flex justify-center mt-8 mb-10">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            handlePageChange={handlePageChange}
-          />
-        </div>
+        {transactions.length > 0 ? (
+          <>
+            {filteredTransactions.map((group) => (
+              <TransactionItem
+                key={group.id_transaction}
+                group={group}
+                handleCancelTransaction={handleCancelTransactionInternal}
+                handleSendTransaction={handleSendTransactionInternal}
+              />
+            ))}
+            <div className="flex justify-center mt-8 mb-10">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                handlePageChange={handlePageChange}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="flex justify-center my-52">
+            <p className="text-gray-500 text-lg">No order recorded</p>
+          </div>
+        )}
       </div>
     </AdminLayout>
   );

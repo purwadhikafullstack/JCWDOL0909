@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import Axios from "axios";
 
 const handleCancelTransaction = async (transactionId, fetchData) => {
-  const userToken = localStorage.getItem("user_token");
+  const adminToken = localStorage.getItem("admin_token");
 
   try {
     const result = await Swal.fire({
@@ -16,10 +16,10 @@ const handleCancelTransaction = async (transactionId, fetchData) => {
 
     if (result.isConfirmed) {
       const response = await Axios.patch(
-        `http://localhost:8000/transactions/cancelTransaction/${transactionId}`,
+        `http://localhost:8000/admin/cancelTransaction/${transactionId}`,
         {
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${adminToken}`,
           },
         }
       );
@@ -35,8 +35,8 @@ const handleCancelTransaction = async (transactionId, fetchData) => {
   }
 };
 
-const handleConfirmTransaction = async (transactionId, fetchData) => {
-  const userToken = localStorage.getItem("user_token");
+const handleSendTransaction = async (transactionId, fetchData) => {
+  const adminToken = localStorage.getItem("admin_token");
 
   try {
     const result = await Swal.fire({
@@ -50,10 +50,10 @@ const handleConfirmTransaction = async (transactionId, fetchData) => {
 
     if (result.isConfirmed) {
       const response = await Axios.patch(
-        `http://localhost:8000/transactions/confirmTransaction/${transactionId}`,
+        `http://localhost:8000/admin/sendTransaction/${transactionId}`,
         {
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${adminToken}`,
           },
         }
       );
@@ -69,8 +69,4 @@ const handleConfirmTransaction = async (transactionId, fetchData) => {
   }
 };
 
-const handleOrderClick = (transactionId, navigate) => {
-  navigate(`/payment/${transactionId}`);
-};
-
-export { handleCancelTransaction, handleConfirmTransaction, handleOrderClick };
+export { handleCancelTransaction, handleSendTransaction };
