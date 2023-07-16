@@ -1,4 +1,5 @@
 const { db, query } = require("../database");
+const moment = require("moment");
 
 module.exports = {
   fetchTransaction: async (req, res) => {
@@ -13,7 +14,6 @@ module.exports = {
           startDate
         )} AND ${db.escape(endDate)}`;
       }
-
       if (status) {
         queryWhereHead += ` ${
           queryWhereHead ? "AND" : "where"
@@ -40,7 +40,6 @@ module.exports = {
           totalWhereCountQuery ? "AND" : "where"
         } transactions.id_transaction_status = ${db.escape(status)}`;
       }
-
       let totalCountQuery = `SELECT COUNT(*) AS totalCount FROM transactions ${
         totalWhereCountQuery ? ` ${totalWhereCountQuery} AND` : "WHERE"
       } id_user = ${db.escape(idUser)}`;
@@ -150,7 +149,6 @@ module.exports = {
       )}, ${db.escape(total_price)}, ${db.escape(
         id_shipping
       )}, null, ${db.escape(date)}, ${db.escape(invoice_number)}, 1, null)`;
-
       const createTransactionResult = await query(createTransaction);
       const id_transaction = createTransactionResult.insertId;
       const insertTransactionProducts = productData.map(
@@ -160,7 +158,6 @@ module.exports = {
             product.id_product
           )}, ${db.escape(product.quantity)})`
       );
-
       for (const queryStr of insertTransactionProducts) {
         await query(queryStr);
       }
@@ -170,10 +167,38 @@ module.exports = {
             product.quantity
           )} WHERE id_product = ${db.escape(product.id_product)}`
       );
-
       for (const queryStr of updateProductStocks) {
         await query(queryStr);
       }
+      const stockHistoryQueries = productData.map(async (product) => {
+        const adminQuery = `
+          SELECT admins.id_branch, admins.name, products.stock
+          FROM products
+          INNER JOIN admins ON products.id_branch = admins.id_branch
+          WHERE products.id_product = ${db.escape(product.id_product)}
+        `;
+        const adminResult = await query(adminQuery);
+        const adminName = adminResult[0].name;
+        const productStock = adminResult[0].stock;
+
+        const currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
+
+        const stockHistoryQuery = `
+          INSERT INTO stock_histories
+          VALUES (
+            null,
+            ${db.escape(currentDate)},
+            ${db.escape(adminName)},
+            'sale',
+            '-',
+            ${db.escape(product.quantity)},
+            ${db.escape(productStock)},
+            ${db.escape(product.id_product)}
+          )
+        `;
+        await query(stockHistoryQuery);
+      });
+      await Promise.all(stockHistoryQueries);
 
       return res.status(200).send("Transaction created successfully");
     } catch (error) {

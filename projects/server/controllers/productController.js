@@ -40,6 +40,18 @@ module.exports = {
     )},null,null,${db.escape(id_admin)})`;
     let addProductResult = await query(addProductQuery);
 
+    const productId = addProductResult.insertId;
+    const currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
+    const adminName = admin[0].name;
+
+    const stockHistoryQuery = `INSERT INTO stock_histories VALUES(null, ${db.escape(
+      currentDate
+    )}, ${db.escape(adminName)}, "Initial Stock", "+", ${db.escape(
+      productStock
+    )}", ${db.escape(productStock)}, ${db.escape(productId)})`;
+
+    let addHistoryResult = await query(stockHistoryQuery);
+
     return res.status(200).send({
       data: addProductResult,
       message: "product created!",

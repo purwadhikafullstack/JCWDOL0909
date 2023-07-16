@@ -34,13 +34,13 @@ module.exports = {
         idUser
       )}`;
       let checkUserResult = await query(checkUserQuery);
-
-      if (checkUserResult.length !== 0) {
+      if (checkUserResult[0].id_address === null) {
         let updateAddressQuery = `UPDATE users SET id_address = ${db.escape(
           addAddressResult.insertId
         )} WHERE id_user = ${db.escape(idUser)}`;
         await query(updateAddressQuery);
       }
+      console.log(checkUserResult[0].id_address === null);
       res
         .status(200)
         .send({ data: addAddressResult, message: "Add Address Success" });
