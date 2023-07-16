@@ -27,7 +27,6 @@ module.exports = {
           INNER JOIN transactions_status ON transactions.id_transaction_status = transactions_status.id_transaction_status
           WHERE transactions.id_user = ${db.escape(idUser)}
           `;
-
       const transactions = await query(queryStr);
       let totalWhereCountQuery = "";
       if (startDate && endDate) {
@@ -61,7 +60,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   cancelTransaction: async (req, res) => {
     try {
       const idTransaction = parseInt(req.params.id);
@@ -75,7 +73,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   confirmTransaction: async (req, res) => {
     try {
       const idTransaction = parseInt(req.params.id);
@@ -89,7 +86,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   fetchTransactions: async (req, res) => {
     try {
       const { startDate, endDate, page = 1, pageSize = 5, status } = req.query;
@@ -138,7 +134,6 @@ module.exports = {
       res.status(error.status || 500).send(error);
     }
   },
-
   createTransaction: async (req, res) => {
     try {
       const idUser = req.user.id;
@@ -180,9 +175,7 @@ module.exports = {
         const adminResult = await query(adminQuery);
         const adminName = adminResult[0].name;
         const productStock = adminResult[0].stock;
-
         const currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
-
         const stockHistoryQuery = `
           INSERT INTO stock_histories
           VALUES (
@@ -199,7 +192,6 @@ module.exports = {
         await query(stockHistoryQuery);
       });
       await Promise.all(stockHistoryQueries);
-
       return res.status(200).send("Transaction created successfully");
     } catch (error) {
       console.log(error);
