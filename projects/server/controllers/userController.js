@@ -71,4 +71,30 @@ module.exports = {
       console.log(error);
     }
   },
+  cancelTransaction: async (req, res) => {
+    try {
+      const idTransaction = parseInt(req.params.id);
+      await query(
+        `UPDATE transactions
+        SET id_transaction_status = 6
+        WHERE id_transaction = ${db.escape(idTransaction)};`
+      );
+      return res.status(200).send("Transaction has been canceled.");
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
+  },
+  confirmTransaction: async (req, res) => {
+    try {
+      const idTransaction = parseInt(req.params.id);
+      await query(
+        `UPDATE transactions
+        SET id_transaction_status = 5
+        WHERE id_transaction = ${db.escape(idTransaction)};`
+      );
+      return res.status(200).send("Transaction has been confirmed.");
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
+  },
 };

@@ -12,5 +12,7 @@ router.post(
   upload.single("file"),
   userController.uploadProfilePic
 );
+router.patch("/cancelTransaction/:id", userController.cancelTransaction);
+router.patch("/confirmTransaction/:id", userController.confirmTransaction);
 
 module.exports = router;

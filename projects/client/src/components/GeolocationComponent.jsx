@@ -22,7 +22,7 @@ const GeolocationComponent = () => {
 
   return (
     <div>
-      <h1>Geolocation Component</h1>
+      {/* <h1>Geolocation Component</h1>
       {latitude && longitude ? (
         <div>
           <p>Latitude: {latitude}</p>
@@ -30,7 +30,7 @@ const GeolocationComponent = () => {
         </div>
       ) : (
         <p>Loading location...</p>
-      )}
+      )} */}
     </div>
   );
 };

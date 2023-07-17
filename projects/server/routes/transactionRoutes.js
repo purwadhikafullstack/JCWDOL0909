@@ -11,11 +11,6 @@ router.get(
 );
 router.get("/fetchTransactions", transactionController.fetchTransactions);
 router.get(
-  "/fetchTransactions",
-  verifyToken,
-  transactionController.fetchTransactions
-);
-router.get(
   "/fetchTransactionStatus",
   transactionController.fetchTransactionStatus
 );
@@ -28,10 +23,10 @@ router.get(
   "/fetchTransactionShipping",
   transactionController.fetchTransactionShipping
 );
-router.patch("/cancelTransaction/:id", transactionController.cancelTransaction);
-router.patch(
-  "/confirmTransaction/:id",
-  transactionController.confirmTransaction
-);
+// router.patch("/cancelTransaction/:id", transactionController.cancelTransaction);
+// router.patch(
+//   "/confirmTransaction/:id",
+//   transactionController.confirmTransaction
+// );
 
 module.exports = router;
