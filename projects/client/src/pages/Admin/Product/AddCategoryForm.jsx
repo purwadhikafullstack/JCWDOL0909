@@ -9,9 +9,6 @@ function AddCategoryForm() {
       <div>
         <CategoryTab />
       </div>
-      <div>
-        <AddCategory />
-      </div>
     </AdminLayout>
   );
 }

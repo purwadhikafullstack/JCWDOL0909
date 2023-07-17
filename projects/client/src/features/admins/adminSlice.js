@@ -10,6 +10,7 @@ export const adminSlice = createSlice({
       name: "",
       email: "",
       id_role: "",
+      id_branch: "",
     },
   },
   reducers: {
@@ -22,6 +23,7 @@ export const adminSlice = createSlice({
         name: "",
         email: "",
         id_role: "",
+        id_branch: "",
       };
     },
   },
@@ -29,7 +31,7 @@ export const adminSlice = createSlice({
 
 export const { setAdmin, resetAdmin } = adminSlice.actions;
 export default adminSlice.reducer;
-const userToken = localStorage.getItem("user_token");
+const userToken = localStorage.getItem("admin_token");
 
 export function loginAdmin(data) {
   return async (dispatch) => {
@@ -49,7 +51,7 @@ export function loginAdmin(data) {
       }
     } catch (error) {
       alert(error);
-      console.error(error);
+      console.log(error);
     }
   };
 }
@@ -73,9 +75,7 @@ export function checkLoginAdmin(token) {
         throw new Error("Failed to check login status.");
       }
     } catch (error) {
-      // Error handling
       console.log("Error checking login status:", error.message);
-      // Tambahkan kode untuk memberikan umpan balik yang sesuai kepada pengguna
     }
   };
 }

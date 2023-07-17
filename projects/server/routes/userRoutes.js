@@ -5,8 +5,6 @@ const upload = require("../middleware/multer");
 
 const router = express.Router();
 
-router.get("/:id", verifyToken, userController.fetchUser);
-// router.get("/", userController.fetchProduct);
 router.patch("/edit", verifyToken, userController.editProfile);
 router.post(
   "/uploadProfilePicture",
@@ -14,5 +12,7 @@ router.post(
   upload.single("file"),
   userController.uploadProfilePic
 );
+router.patch("/cancelTransaction/:id", userController.cancelTransaction);
+router.patch("/confirmTransaction/:id", userController.confirmTransaction);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <div className="relative mt-16 w-full bg-[#003F62]">
+    <div className="relative mt-16 w-screen bg-[#003F62]">
       <svg
         className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-[#003F62]"
         preserveAspectRatio="none"
@@ -11,7 +11,7 @@ export const Footer = () => {
           d="M0 22L120 16.7C240 11 480 1.00001 720 0.700012C960 1.00001 1200 11 1320 16.7L1440 22V54H1320C1200 54 960 54 720 54C480 54 240 54 120 54H0V22Z"
         />
       </svg>
-      <div className="px-4 pt-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+      <div className="px-4 pt-12 mx-auto sm:max-w-xl md:max-w-full md:px-24 lg:px-8 lg:w-full">
         <div className="grid gap-5 row-gap-10 mb-8 lg:grid-cols-6">
           <div className="md:max-w-md lg:col-span-2">
             <a

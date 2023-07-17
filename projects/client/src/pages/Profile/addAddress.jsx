@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { fetchProvinces, fetchCities, fetchGeolocation } from "./fetchLocation";
+import { saveAddress } from "./addressUtils";
 
-function AddressForm({ closeModal }) {
+function AddressForm({ closeModal, fetchAddressData }) {
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedProvinceId, setSelectedProvinceId] = useState("");
@@ -15,12 +15,11 @@ function AddressForm({ closeModal }) {
   const [postalCode, setPostalCode] = useState("");
   const userToken = localStorage.getItem("user_token");
 
-  const handleSaveAddress = async () => {
+  const handleSaveAddress = () => {
     const selectedProvince = provinces.find(
       (province) => province.province_id === selectedProvinceId
     );
     const selectedCity = cities.find((city) => city.city_id === selectedCityId);
-
     const data = {
       name: fullName,
       phoneNumber,
@@ -32,83 +31,45 @@ function AddressForm({ closeModal }) {
       province: selectedProvince ? selectedProvince.province : "",
       city: selectedCity ? selectedCity.city_name : "",
     };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/address/addAddress",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      if (!response.data.success) {
-        Swal.fire(response.data.message);
-      } else {
-        Swal.fire(response.data.message);
-      }
-    } catch (error) {
-      Swal.fire(error.message);
-      console.error(error.message);
-    }
-  };
-
-  const fetchProvinces = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8000/rajaongkir/province"
-      );
-      const provinces = response.data.rajaongkir.results;
-      setProvinces(provinces);
-    } catch (error) {
-      console.error("Error fetching provinces:", error);
-    }
-  };
-
-  const fetchCities = async (provinceId) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/rajaongkir/city?provinceId=${provinceId}`
-      );
-      const cities = response.data.rajaongkir.results;
-      setCities(cities);
-    } catch (error) {
-      console.error("Error fetching cities:", error);
-    }
-  };
-
-  const fetchGeolocation = async (cityId) => {
-    try {
-      const selectedCity = cities.find((city) => city.city_id === cityId);
-
-      if (selectedCity) {
-        const { province, city_name } = selectedCity;
-        const url = `http://localhost:8000/opencage/geolocation/${province}/${city_name}`;
-
-        const response = await axios.get(url);
-        const location = response.data;
-        setGeolocation(location);
-      }
-    } catch (error) {
-      console.error("Error fetching geolocation:", error);
-    }
+    saveAddress(data, userToken, fetchAddressData, closeModal);
   };
 
   useEffect(() => {
-    fetchProvinces();
+    const fetchData = async () => {
+      try {
+        const provincesData = await fetchProvinces();
+        setProvinces(provincesData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
   }, []);
 
-  const handleProvinceChange = (e) => {
+  const handleProvinceChange = async (e) => {
     const provinceId = e.target.value;
     setSelectedProvinceId(provinceId);
-    fetchCities(provinceId);
+    try {
+      const citiesData = await fetchCities(provinceId);
+      setCities(citiesData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleCityChange = (e) => {
+  const handleCityChange = async (e) => {
     const cityId = e.target.value;
     setSelectedCityId(cityId);
-    fetchGeolocation(cityId);
+    const selectedCity = cities.find((city) => city.city_id === cityId);
+    if (selectedCity) {
+      const { province, city_name } = selectedCity;
+      try {
+        const geolocationData = await fetchGeolocation(province, city_name);
+        setGeolocation(geolocationData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleSubmit = (e) => {
@@ -116,9 +77,8 @@ function AddressForm({ closeModal }) {
 
     handleSaveAddress();
   };
-
   const handleCancel = () => {
-    closeModal(); // Memanggil closeModal untuk menutup modal
+    closeModal();
   };
 
   return (
@@ -138,7 +98,7 @@ function AddressForm({ closeModal }) {
           </div>
           <div className="w-1/2 ml-2">
             <input
-              type="text"
+              type="number"
               placeholder="Phone Number"
               className="border border-gray-300 p-2 rounded-md w-full"
               autoComplete="user-address-phone"
@@ -185,7 +145,7 @@ function AddressForm({ closeModal }) {
         )}
         <div className="mb-4 w-full max-w-md">
           <input
-            type="text"
+            type="number"
             placeholder="Postal Code"
             className="border border-gray-300 p-2 rounded-md w-full"
             autoComplete="postal-code"
@@ -215,7 +175,6 @@ function AddressForm({ closeModal }) {
             onChange={(e) => setAdditionalDetails(e.target.value)}
           />
         </div>
-
         <div className="flex justify-end w-full">
           <button
             onClick={handleCancel}

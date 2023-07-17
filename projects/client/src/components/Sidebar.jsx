@@ -12,13 +12,11 @@ import {
   FaSignOutAlt,
   FaShoppingBasket,
 } from "react-icons/fa";
-import { RiMessage2Line } from "react-icons/ri";
 
 function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const adminGlobal = useSelector((state) => state.admins.admin);
-  console.log(adminGlobal);
 
   const handleLogout = () => {
     Swal.fire({
@@ -45,12 +43,12 @@ function Sidebar() {
   };
 
   return (
-    <div className="border w-80">
+    <div className="border w-80 h-screen">
       <div
         id="Main"
-        className="xl:rounded-r transform  xl:translate-x-0  ease-in-out transition duration-500 flex justify-start items-start w-80 bg-gray-900 flex-col py-14 px-8"
+        className="xl:rounded-r transform xl:translate-x-0 ease-in-out transition duration-500 flex justify-start items-start w-80 bg-gray-900 flex-col py-14 px-8"
       >
-        <div className="flex justify-between  items-center space-x-3 pl-4 mb-10">
+        <div className="flex justify-between items-center space-x-3 pl-4 mb-10">
           <img
             id="imagepreview"
             className="w-12 h-12 rounded-full object-cover border-4"
@@ -60,46 +58,56 @@ function Sidebar() {
           <p className="text-2xl leading-6 text-white">E-Grocery</p>
         </div>
 
-        <div className="flex flex-col justify-start items-center px-6 border-t border-gray-600 w-full pt-10 ">
+        <div className="flex flex-col justify-start items-center px-6 border-t border-gray-600 w-full pt-10">
           <div
             id="menu1"
-            className="flex justify-start  flex-col w-full md:w-auto items-start pb-1 pt-10"
+            className="flex justify-start flex-col w-full md:w-auto items-start pb-1 pt-10"
           >
             <button
               onClick={() => {
                 navigate("/dashboard");
               }}
-              className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52"
+              className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52"
             >
               <FaChartBar className="text-xl" />
-              <p className="text-2xl leading-8   ">Dashboard</p>
+              <p className="text-2xl leading-8">Dashboard</p>
             </button>
-            {adminGlobal.id_role === 2 && ( // Conditionally render the button based on the admin's id_role
+            {adminGlobal.id_role === 2 && (
               <>
                 <button
                   onClick={() => {
                     navigate("/admin/addProduct");
                   }}
-                  className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52"
+                  className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52"
                 >
                   <FaShoppingBasket className="text-xl" />
-                  <p className="text-2xl leading-8   ">Product</p>
+                  <p className="text-2xl leading-8">Product</p>
                 </button>
                 <button
                   onClick={() => {
                     navigate("/admin/addCategory");
                   }}
-                  className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52"
+                  className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52"
                 >
                   <FaTags className="text-xl" />
-                  <p className="text-2xl leading-8   ">Category</p>
+                  <p className="text-2xl leading-8">Category</p>
                 </button>
               </>
             )}
-            <button className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2  w-full md:w-52">
+            <button
+              onClick={() => {
+                if (adminGlobal.id_role === 1) {
+                  navigate("/admin/order");
+                } else {
+                  navigate("/branch-admin/order");
+                }
+              }}
+              className="flex justify-start items-center space-x-6 hover:text-white focus:bg-gray-700 focus:text-white hover:bg-gray-700 text-gray-400 rounded px-3 py-2 w-full md:w-52"
+            >
               <FaFileInvoice className="text-xl" />
-              <p className="text-2xl leading-8   ">Transaction</p>
+              <p className="text-2xl leading-8">Transaction</p>
             </button>
+
             {adminGlobal.id_role === 1 && (
               <button
                 onClick={() => {
@@ -118,7 +126,8 @@ function Sidebar() {
               </p>
             </button>
           </div>
-          <div className="flex justify-center items-center  space-x-2 my-32">
+
+          <div className="flex justify-center items-center space-x-2 my-40">
             <div>
               <img
                 className="rounded-full"
@@ -126,6 +135,7 @@ function Sidebar() {
                 alt="avatar"
               />
             </div>
+
             <div className="flex justify-start flex-col items-start">
               <p className="cursor-pointer text-lg leading-5 text-white">
                 {adminGlobal.name}

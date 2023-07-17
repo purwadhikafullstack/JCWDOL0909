@@ -2,7 +2,6 @@ import React from "react";
 
 function Category() {
   return (
-    // <!-- component -->
     <>
       <div className="flex flex-row w-full justify-around bg-slate-500">
         <div className="h-32 w-32 rounded-xl flex flex-col justify-center border-solid border-black shadow-lg duration-300 hover:bg-white hover:shadow-xl">

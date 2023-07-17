@@ -82,7 +82,13 @@ function LoginForm({ handleLoginUser }) {
           don't have an account? register here
         </span>
       </button>
-      <p className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4 hover:text-blue-400">
+
+      <p
+        onClick={() => {
+          navigate("/user/confirmEmail");
+        }}
+        className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4 hover:text-blue-400"
+      >
         Forgot password?
       </p>
     </div>

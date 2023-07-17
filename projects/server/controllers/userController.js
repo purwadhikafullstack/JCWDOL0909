@@ -9,7 +9,6 @@ module.exports = {
       const user = await query(
         `SELECT * FROM users WHERE id_user = ${db.escape(idUser)}`
       );
-      console.log(idUser);
       if (user.length <= 0) {
         return res.status(404).send("User not found");
       }
@@ -21,8 +20,8 @@ module.exports = {
       const updateQuery = `
         UPDATE users SET
           email = COALESCE(${db.escape(email)}, email),
-          name = COALESCE(${db.escape(name)}, name),
-          phoneNumber = COALESCE(${db.escape(phoneNumber)}, phoneNumber),
+          fullname = COALESCE(${db.escape(name)}, fullname),
+          phone_number = COALESCE(${db.escape(phone_number)}, phone_number),
           gender = COALESCE(${db.escape(gender)}, gender),
           birthday = COALESCE(STR_TO_DATE(${db.escape(
             formattedBirthday
@@ -37,7 +36,7 @@ module.exports = {
 
       return res.status(200).send(updatedUser);
     } catch (error) {
-      console.error(error); // Tambahkan ini untuk melihat kesalahan pada server
+      console.log(error);
       res.status(500).send(error.message || "Internal Server Error");
     }
   },
@@ -45,18 +44,57 @@ module.exports = {
     try {
       const { file } = req;
       const filepath = file ? "/" + file.filename : null;
+      if (!file) {
+        return res.status(400).send({ message: "Please upload a file." });
+      }
 
+      if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
+        return res
+          .status(400)
+          .send({ message: "Please choose a JPEG or PNG file." });
+      }
+
+      if (file.size > 1024 * 1024) {
+        return res
+          .status(400)
+          .send({ message: "File size should not exceed 1MB." });
+      }
       await query(
-        `UPDATE users SET profilePicture = ${db.escape(
+        `UPDATE users SET profile_picture = ${db.escape(
           filepath
         )} WHERE id_user = ${db.escape(req.user.id)}`
       );
-
       res
         .status(200)
         .send({ filepath, message: "Profile picture uploaded successfully." });
     } catch (error) {
       console.log(error);
+    }
+  },
+  cancelTransaction: async (req, res) => {
+    try {
+      const idTransaction = parseInt(req.params.id);
+      await query(
+        `UPDATE transactions
+        SET id_transaction_status = 6
+        WHERE id_transaction = ${db.escape(idTransaction)};`
+      );
+      return res.status(200).send("Transaction has been canceled.");
+    } catch (error) {
+      res.status(error.status || 500).send(error);
+    }
+  },
+  confirmTransaction: async (req, res) => {
+    try {
+      const idTransaction = parseInt(req.params.id);
+      await query(
+        `UPDATE transactions
+        SET id_transaction_status = 5
+        WHERE id_transaction = ${db.escape(idTransaction)};`
+      );
+      return res.status(200).send("Transaction has been confirmed.");
+    } catch (error) {
+      res.status(error.status || 500).send(error);
     }
   },
 };
