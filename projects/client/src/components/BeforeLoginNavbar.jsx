@@ -11,7 +11,7 @@ function BeforeLoginNavbar() {
 
   return (
     <div>
-      <nav className="flex items-center relative justify-between bg-[#EDA415] px-5 py-2 w-full">
+      <nav className="flex items-center relative justify-between bg-slate-300 px-5 py-2 w-full">
         <div>
           <div>
             <img src={logo} alt="Logo" className="w-20 h-16 ml-5" />

@@ -71,7 +71,7 @@ function EditCategory() {
       }
       fetchCategoryData(); // Refresh the category data
     } catch (error) {
-      Swal.fire("Error", error.message, "error");
+      Swal.fire("category is already exist");
     }
   };
 

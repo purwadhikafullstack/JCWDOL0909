@@ -55,15 +55,6 @@ function TransactionItem({
 
       <div>
         <div className="flex justify-between">
-          <h3 className="text-sm font-semibold">Subtotal</h3>
-          <p className="font-semibold">
-            {group.items[0].total_price.toLocaleString("id-ID", {
-              style: "currency",
-              currency: "IDR",
-            })}
-          </p>
-        </div>
-        <div className="flex justify-between">
           <h3 className="text-sm font-semibold">Shipping</h3>
           <p className="font-semibold">
             {group.items[0].shipping_cost.toLocaleString("id-ID", {
@@ -79,11 +70,8 @@ function TransactionItem({
         <hr />
         <div className="flex justify-between">
           <h3 className="text-sm font-semibold">Total</h3>
-          <p className="text-sm font-semibold">
-            {(
-              Number(group.items[0].total_price) +
-              Number(group.items[0].shipping_cost)
-            ).toLocaleString("id-ID", {
+          <p className="font-semibold">
+            {Number(group.items[0].total_price).toLocaleString("id-ID", {
               style: "currency",
               currency: "IDR",
             })}
