@@ -2,7 +2,7 @@ require("dotenv/config");
 const express = require("express");
 const cors = require("cors");
 const { join } = require("path");
-const { db, query } = require("../database");
+const { db, query } = require("./database");
 const {
   authRoutes,
   productRoutes,
@@ -15,8 +15,8 @@ const {
   paymentRoutes,
   adminRoutes,
   stockRoutes,
-} = require("../routes");
-const { runSeed } = require("../helpers/runSeed");
+} = require("./routes");
+const { runSeed } = require("./helpers/runSeed");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -25,7 +25,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(express.static("public"));
+app.use(express.static("src/public"));
 
 //#region API ROUTES
 
