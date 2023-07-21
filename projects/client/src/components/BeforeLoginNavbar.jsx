@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import logo from "../img/logo-cut.png";
+import logo from "../img/logogrocery.png";
 import { useState } from "react";
 import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
 
@@ -14,7 +14,7 @@ function BeforeLoginNavbar() {
       <nav className="flex items-center relative justify-between bg-slate-300 px-5 py-2 w-full">
         <div>
           <div>
-            <img src={logo} alt="Logo" className="w-20 h-16 ml-5" />
+            <img src={logo} alt="Logo" className="w-20 h-14 ml-5" />
           </div>
         </div>
 

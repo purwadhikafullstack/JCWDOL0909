@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaHome, FaCube, FaUser, FaShoppingBag, FaCogs } from "react-icons/fa";
 import Swal from "sweetalert2";
-import logoo from "../img/logo-cut.png";
+import logoo from "../img/logogrocery.png";
 import carts from "../img/shopping-cart.png";
 import CartModal from "./cartModal";
 
@@ -69,7 +69,7 @@ function Navbar() {
       <nav className="flex items-center relative justify-between w-screen bg-slate-300 px-5 py-2">
         <div>
           <div>
-            <img src={logoo} alt="Logo" className="w-20 h-16 ml-5" />
+            <img src={logoo} alt="Logo" className="w-20 h-14 ml-5" />
           </div>
         </div>
         <ul
