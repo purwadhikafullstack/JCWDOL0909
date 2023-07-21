@@ -8,7 +8,6 @@ import { handleAddToCart } from "./handleProduct";
 function ProductDetailPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [adminData, setAdminData] = useState(null);
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
@@ -22,12 +21,6 @@ function ProductDetailPage() {
         );
         const selectedProduct = productResponse.data;
         setProduct(selectedProduct);
-
-        const adminResponse = await Axios.get(
-          `http://localhost:8000/auth/user/${selectedProduct.id_admin}`
-        );
-        const adminData = adminResponse.data;
-        setAdminData(adminData[0]);
       } catch (error) {
         console.log(error);
       }
@@ -80,29 +73,7 @@ function ProductDetailPage() {
               <h4 className="mb-1">Description</h4>
               <p className="text-justify">{product.description}</p>
             </div>
-            <div className="flex items-center">
-              <div className="w-10 h-10 overflow-hidden bg-white rounded-full">
-                <svg
-                  className="w-12 h-12 text-white-400 -left-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-              {adminData && (
-                <div className="ml-3">
-                  <div className="text-[#EDA415]">{adminData.name}</div>
-                  <div className="text-[#EDA415]">{adminData.profile}</div>
-                </div>
-              )}
-            </div>
-            <div className="mt-10">
+            <div className="flex items-center mt-10">
               <button
                 onClick={() => handleAddToCartClick(product)}
                 type="submit"
