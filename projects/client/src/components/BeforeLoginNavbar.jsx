@@ -20,7 +20,7 @@ function BeforeLoginNavbar() {
 
         <div className="flex items-center space-x-2">
           <button
-            className="flex items-center px-4 py-2 text-blue-100 bg-sky-700 hover:bg-sky-800 rounded-md transition-colors duration-300"
+            className="flex items-center px-4 py-2 text-blue-100 bg-slate-800 hover:bg-sky-800 rounded-md transition-colors duration-300"
             onClick={() => {
               navigate("/user/register");
             }}

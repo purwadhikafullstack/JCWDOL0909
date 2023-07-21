@@ -111,7 +111,7 @@ function Navbar() {
             </button>
           </li>
         </ul>
-        <div className="flex gap-3 items-center text-red-500">
+        <div className="flex gap-3 items-center">
           <button onClick={openCart}>
             <img src={carts} alt="Shopping Cart" />
           </button>
