@@ -19,6 +19,14 @@ const adminProductController = {
       if (admin.length === 0) {
         return res.status(404).send("Admin not found");
       }
+      const getProductQuery = `SELECT * FROM products WHERE name = ${db.escape(
+        productName
+      )}`;
+      const productExist = await query(getProductQuery);
+      if (productExist.length > 0) {
+        return res.status(400).send("Product is already exist!");
+      }
+
       const { file } = req;
       const filepath = file ? "/" + file.filename : null;
       const addProductQuery = `INSERT INTO products VALUES (null, ${db.escape(

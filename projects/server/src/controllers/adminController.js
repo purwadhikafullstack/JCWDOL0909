@@ -122,14 +122,12 @@ module.exports = {
       const limitStr = ` LIMIT ${offset}, ${pageSize}`;
       let queryWhereHead = "";
       if (startDate && endDate) {
-        queryWhereHead += ` AND transactions.date BETWEEN ${db.escape(
+        queryWhereHead += ` AND t.date BETWEEN ${db.escape(
           startDate
         )} AND ${db.escape(endDate)}`;
       }
       if (status) {
-        queryWhereHead += ` AND transactions.id_transaction_status = ${db.escape(
-          status
-        )}`;
+        queryWhereHead += ` AND t.id_transaction_status = ${db.escape(status)}`;
       }
       let queryStr = `
         SELECT * FROM transactions AS t

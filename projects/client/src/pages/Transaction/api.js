@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { format, endOfDay, addDays } from "date-fns";
 
-export const fetchTransactions = async (
+export const fetchTransaction = async (
   selectedStatus,
   startDate,
   endDate,

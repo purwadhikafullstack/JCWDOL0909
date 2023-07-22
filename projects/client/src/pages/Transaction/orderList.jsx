@@ -9,7 +9,7 @@ import {
   handleConfirmTransaction,
   handleOrderClick,
 } from "./handleActions";
-import { fetchTransactions, fetchTransactionStatus } from "./api";
+import { fetchTransaction, fetchTransactionStatus } from "./api";
 
 function OrderList() {
   const [transactions, setTransactions] = useState([]);
@@ -67,7 +67,7 @@ function OrderList() {
 
   const fetchData = async () => {
     try {
-      const { transactions, totalPages } = await fetchTransactions(
+      const { transactions, totalPages } = await fetchTransaction(
         selectedStatus,
         startDate,
         endDate,
