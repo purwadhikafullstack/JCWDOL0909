@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";
+import moment from "moment";
 import {
   handleCancelTransaction,
   handleConfirmTransaction,
@@ -47,19 +48,28 @@ function OrderList() {
         group.items[0].invoiceNumber.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
     });
+    filtered.sort((a, b) => {
+      const dateA = moment(a.date);
+      const dateB = moment(b.date);
+
+      return dateA - dateB;
+    });
     setFilteredTransactions(filtered);
+    console.log(filteredTransactions);
   }, [selectedStatus, groupedTransactions, searchQuery]);
 
   useEffect(() => {
     const grouped = transactions.reduce((result, transaction) => {
-      const { id_transaction } = transaction;
+      const { id_transaction, date } = transaction;
       if (!result[id_transaction]) {
         result[id_transaction] = {
           id_transaction,
+
           items: [],
         };
       }
       result[id_transaction].items.push(transaction);
+      result[id_transaction]["date"] = date;
       return result;
     }, {});
     setGroupedTransactions(grouped);

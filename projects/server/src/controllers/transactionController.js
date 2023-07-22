@@ -8,25 +8,27 @@ module.exports = {
       const { startDate, endDate, page = 1, pageSize = 5, status } = req.query;
       const offset = (page - 1) * pageSize;
       const limitStr = ` LIMIT ${offset}, ${pageSize}`;
-      let queryWhereHead = `WHERE transactions.id_user = ${db.escape(idUser)}
+      let queryWhereHead = `WHERE firstlevel.id_user = ${db.escape(idUser)}
       `;
       if (startDate && endDate) {
-        queryWhereHead += ` transactions.date BETWEEN ${db.escape(
-          startDate
-        )} AND ${db.escape(endDate)}`;
+        queryWhereHead += ` AND firstlevel.date BETWEEN ${db.escape(
+          moment(startDate).toISOString()
+        )} AND ${db.escape(moment(endDate).toISOString())}`;
       }
       if (status) {
         queryWhereHead += ` ${
           queryWhereHead ? "AND" : ""
-        } transactions.id_transaction_status = ${db.escape(status)}`;
+        } firstlevel.id_transaction_status = ${db.escape(status)}`;
       }
       let queryStr = `
-      SELECT * FROM (SELECT * from transactions  ${queryWhereHead} ${limitStr}) as transactions 
+      SELECT * FROM (SELECT transactions.*,shippings.shipping_cost, shippings.shipping_method,  transaction_products.id_product, transaction_products.quantity, products.name, products.price, products.image, transactions_status.status_name FROM (SELECT * from transactions as firstlevel    ${queryWhereHead} 
+        ${limitStr}) as transactions 
          INNER JOIN shippings ON transactions.id_shipping = shippings.id_shipping
          INNER JOIN transaction_products ON transactions.id_transaction = transaction_products.id_transaction
          INNER JOIN products ON transaction_products.id_product = products.id_product
-         INNER JOIN transactions_status ON transactions.id_transaction_status = transactions_status.id_transaction_status
-          `;
+         INNER JOIN transactions_status ON transactions.id_transaction_status = transactions_status.id_transaction_status) AS toplevel
+         ORDER BY toplevel.date ASC`;
+      console.log(queryStr);
       const transactions = await query(queryStr);
       let totalWhereCountQuery = "";
       if (startDate && endDate) {
@@ -46,7 +48,6 @@ module.exports = {
       const totalCount = totalCountResult[0].totalCount;
 
       res.status(200).send({ transactions, totalCount });
-      console.log(transactions);
     } catch (error) {
       res.status(error.status || 500).send(error);
     }

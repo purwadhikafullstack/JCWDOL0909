@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import Axios from "axios";
+import moment from "moment";
 
 function TransactionItem({
   group,
@@ -79,7 +80,7 @@ function TransactionItem({
         </div>
         <div className="flex justify-between mt-2">
           <h3 className="text-sm font-semibold text-red-400">
-            {group.items[0].date.substring(0, 10)}
+            {moment(group.items[0].date).add(7, "hours").format("YYYY DD MM")}
           </h3>
         </div>
         <div className="flex justify-center items-center mt-4">
