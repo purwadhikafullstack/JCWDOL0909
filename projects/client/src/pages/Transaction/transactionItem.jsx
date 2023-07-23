@@ -85,7 +85,7 @@ function TransactionItem({
           </h3>
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === "1" && (
+          {group.items[0].id_transaction_status.toString() === "1" && (
             <>
               <button
                 onClick={() => handleOrderClick(group.items[0].id_transaction)}
@@ -105,7 +105,7 @@ function TransactionItem({
           )}
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === "2" && (
+          {group.items[0].id_transaction_status.toString() === "2" && (
             <>
               <button
                 onClick={() =>
@@ -119,7 +119,7 @@ function TransactionItem({
           )}
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === "4" && (
+          {group.items[0].id_transaction_status.toString() === "4" && (
             <>
               <button
                 onClick={() =>
