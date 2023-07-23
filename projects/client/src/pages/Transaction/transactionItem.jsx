@@ -9,6 +9,7 @@ function TransactionItem({
   handleCancelTransaction,
   handleConfirmTransaction,
 }) {
+  console.log("group prop:", group);
   return (
     <div
       key={group.id_transaction}
@@ -84,7 +85,7 @@ function TransactionItem({
           </h3>
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 1 && (
+          {group.items[0].id_transaction_status === "1" && (
             <>
               <button
                 onClick={() => handleOrderClick(group.items[0].id_transaction)}
@@ -104,7 +105,7 @@ function TransactionItem({
           )}
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 2 && (
+          {group.items[0].id_transaction_status === "2" && (
             <>
               <button
                 onClick={() =>
@@ -118,7 +119,7 @@ function TransactionItem({
           )}
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 4 && (
+          {group.items[0].id_transaction_status === "4" && (
             <>
               <button
                 onClick={() =>
