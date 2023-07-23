@@ -96,7 +96,7 @@ module.exports = {
       let queryWhereHead = "";
 
       if (startDate && endDate) {
-        queryWhereHead += ` AND firstlevel.date BETWEEN ${db.escape(
+        queryWhereHead += ` where firstlevel.date BETWEEN ${db.escape(
           moment(startDate).toISOString()
         )} AND ${db.escape(moment(endDate).toISOString())}`;
       }

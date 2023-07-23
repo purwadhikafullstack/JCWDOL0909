@@ -55,7 +55,7 @@ function OrderListAdmin() {
 
   useEffect(() => {
     const grouped = transactions.reduce((result, transaction) => {
-      const { id_transaction } = transaction;
+      const { id_transaction, date } = transaction;
       if (!result[id_transaction]) {
         result[id_transaction] = {
           id_transaction,
@@ -63,6 +63,7 @@ function OrderListAdmin() {
         };
       }
       result[id_transaction].items.push(transaction);
+      result[id_transaction]["date"] = date;
       return result;
     }, {});
     setGroupedTransactions(grouped);
