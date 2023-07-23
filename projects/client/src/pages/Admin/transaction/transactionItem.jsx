@@ -1,6 +1,7 @@
 import React from "react";
+import moment from "moment";
 
-function TransactionItem({ group, handleOrderClick }) {
+function TransactionItem({ group }) {
   return (
     <div
       key={group.id_transaction}
@@ -73,7 +74,7 @@ function TransactionItem({ group, handleOrderClick }) {
         </div>
         <div className="flex justify-between mt-2">
           <h3 className="text-sm font-semibold text-red-400">
-            {group.items[0].date.substring(0, 10)}
+            {moment(group.items[0].date).add(7, "hours").format("YYYY DD MM")}
           </h3>
         </div>
       </div>

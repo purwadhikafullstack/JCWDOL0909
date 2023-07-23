@@ -17,14 +17,11 @@ function Transaction() {
   const dispatch = useDispatch();
   const [shippingList, setShippingList] = useState([]);
   const [selectedShippingId, setSelectedShippingId] = useState("");
-  const [shippingCost, setShippingCost] = useState(0);
   const [fixedShippingCost, setFixedShippingCost] = useState(0);
   const [selectedShippingCost, setSelectedShippingCost] = useState(0);
   const [selectedShippingMethod, setSelectedShippingMethod] = useState("");
-  const [shippingMethod, setShippingMethod] = useState("");
 
   const cartItems = useSelector((state) => state.cart.items);
-  const orderDetails = useSelector((state) => state.transaction.orderDetails);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
