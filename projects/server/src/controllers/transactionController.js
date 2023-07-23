@@ -196,7 +196,6 @@ module.exports = {
         await query(stockHistoryQuery);
       });
       await Promise.all(stockHistoryQueries);
-      npm;
       return res.status(200).send("Transaction created successfully");
     } catch (error) {
       console.log(error);
