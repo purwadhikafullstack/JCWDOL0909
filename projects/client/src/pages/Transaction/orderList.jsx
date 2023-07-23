@@ -37,17 +37,21 @@ function OrderList() {
   }, []);
 
   useEffect(() => {
+    // console.log("grouped", Object.values(groupedTransactions));
     const filtered = Object.values(groupedTransactions).filter((group) => {
+      console.log("group", group);
+      console.log("select", selectedStatus);
       const transactionStatusMatch =
         selectedStatus === 0 ||
         group.items.some(
-          (item) => item.id_transaction_status === selectedStatus
+          (item) => parseInt(item.id_transaction_status) === selectedStatus
         );
       const invoiceNumberMatch =
         searchQuery === "" ||
         group.items[0].invoiceNumber.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
     });
+    console.log("filter", filtered);
     filtered.sort((a, b) => {
       const dateA = moment(a.date);
       const dateB = moment(b.date);
