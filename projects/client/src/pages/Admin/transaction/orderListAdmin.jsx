@@ -41,7 +41,7 @@ function OrderListAdmin() {
         );
       const invoiceNumberMatch =
         searchQuery === "" ||
-        group.items[0].invoice_number.toUpperCase().includes(searchQuery);
+        group.items[0]?.invoice_number?.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
     });
     filtered.sort((a, b) => {
