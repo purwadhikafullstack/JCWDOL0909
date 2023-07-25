@@ -31,6 +31,7 @@ const ProfileForm = () => {
   const handleEditProfile = async (values) => {
     const formattedValues = {
       id: user.id,
+      imagePath: user.imagePath,
       ...values,
       birthday: moment(values.birthday).format("YYYY-MM-DD"),
     };
