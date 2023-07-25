@@ -58,6 +58,7 @@ function UpdateProfile() {
       } catch (error) {
         console.log(error);
         Swal.fire("Error", error.response.data.message, "error");
+        setShowButtons(true);
       }
     } else {
       Swal.fire("Select an image first!");
