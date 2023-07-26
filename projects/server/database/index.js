@@ -2,10 +2,10 @@ const mysql = require("mysql2");
 const util = require("util");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "db_final_project",
+  host: "purwadhikabootcamp.com",
+  user: "user0909",
+  password: "group09",
+  database: "jcwdol0909",
   port: 3306,
 });
 
