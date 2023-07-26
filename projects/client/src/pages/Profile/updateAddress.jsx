@@ -222,7 +222,7 @@ function UpdateAddress({ editAddressData }) {
             ))}
           </select>
         </div>
-        {JSON.stringify(geolocation) && (
+        {/* {JSON.stringify(geolocation) && (
           <div>
             <p>
               Latitude:{" "}
@@ -233,7 +233,7 @@ function UpdateAddress({ editAddressData }) {
               {geolocation?.longitude || (address && address?.longitude) || ""}
             </p>
           </div>
-        )}
+        )} */}
         <div className="mb-4 w-full max-w-md">
           <input
             type="text"

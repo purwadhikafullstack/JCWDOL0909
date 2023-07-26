@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 
 export const usersSlice = createSlice({
   name: "users",

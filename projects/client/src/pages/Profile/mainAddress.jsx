@@ -27,7 +27,7 @@ function MainAddress({ addressList }) {
             <div className="text-sm mb-2">{address.address}</div>
             <div className="text-sm">
               {address.city.toUpperCase()}, {address.province.toUpperCase()},{" "}
-              {address.postalCode}
+              {address.postal_code}
             </div>
           </div>
           <div className="text-base text-blue-500 border  font-semibold w-44 py-2 pl-8">

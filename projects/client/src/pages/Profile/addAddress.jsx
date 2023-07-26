@@ -137,12 +137,12 @@ function AddressForm({ closeModal, fetchAddressData }) {
             ))}
           </select>
         </div>
-        {geolocation && (
+        {/* {geolocation && (
           <div>
             <p>Latitude: {geolocation.latitude}</p>
             <p>Longitude: {geolocation.longitude}</p>
           </div>
-        )}
+        )} */}
         <div className="mb-4 w-full max-w-md">
           <input
             type="number"
