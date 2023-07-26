@@ -114,8 +114,12 @@ function EditCategory() {
             <input
               type="text"
               onChange={(e) => setEditValue(e.target.value)}
-              value={editValue || ""}
-              onBlur={() => setEditMode(false)}
+              value={
+                editMode && category.id_category === editCategoryId
+                  ? editValue
+                  : category.category_name
+              }
+              // onBlur={() => setEditMode(false)}
               className={
                 editMode && category.id_category === editCategoryId
                   ? "text-black"
