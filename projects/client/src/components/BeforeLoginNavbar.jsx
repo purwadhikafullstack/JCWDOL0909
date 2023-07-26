@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../img/logogrocery.png";
-import { useState } from "react";
 import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
 
 function BeforeLoginNavbar() {
@@ -20,7 +19,7 @@ function BeforeLoginNavbar() {
 
         <div className="flex items-center space-x-2">
           <button
-            className="flex items-center px-4 py-2 text-blue-100 bg-slate-800 hover:bg-sky-800 rounded-md transition-colors duration-300"
+            className="flex items-center px-4 py-2 text-xs md:text-base text-blue-100 bg-slate-800 hover:bg-sky-800 rounded-md transition-colors duration-300 md:mr-2 md:mb-0"
             onClick={() => {
               navigate("/user/register");
             }}
@@ -29,7 +28,7 @@ function BeforeLoginNavbar() {
             Register
           </button>
           <button
-            className="flex items-center px-4 py-2 text-white bg-gray-500 hover:bg-gray-600 rounded-md transition-colors duration-300"
+            className="flex items-center px-4 py-2 text-xs md:text-base text-white bg-gray-500 hover:bg-gray-600 rounded-md transition-colors duration-300"
             onClick={() => {
               navigate("/user/login");
             }}

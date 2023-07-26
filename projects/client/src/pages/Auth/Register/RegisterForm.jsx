@@ -79,7 +79,7 @@ function RegisterForm({ handleRegisterUser }) {
             </div>
             <button
               type="submit"
-              className="text-xl text-center bg-[#EDA415] text-white py-1 rounded font-medium hover:bg-[#003F62]"
+              className="text-xl text-center bg-slate-400 text-white py-1 rounded font-medium hover:bg-[#003F62]"
             >
               Register
             </button>

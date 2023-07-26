@@ -16,7 +16,7 @@ function LoginForm({ handleLoginUser }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center my-10">
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={loginSchema}
@@ -45,7 +45,7 @@ function LoginForm({ handleLoginUser }) {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="currennt-password"
+                autoComplete="current-password"
                 className="text-xl w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                 placeholder="Password"
               />
@@ -57,7 +57,7 @@ function LoginForm({ handleLoginUser }) {
             </div>
             <button
               type="submit"
-              className="text-xl text-center bg-[#EDA415] text-white py-1 rounded font-medium hover:bg-[#003F62]"
+              className="text-xl text-center bg-slate-400 text-white py-1 rounded font-medium hover:bg-[#003F62]"
             >
               Sign In
             </button>
