@@ -16,7 +16,7 @@ function UpdateProfile() {
 
   useEffect(() => {
     if (user && user.imagePath) {
-      setImageSrc(`http://localhost:8000/${user.imagePath}`);
+      setImageSrc(`${process.env.REACT_APP_API_IMG_URL}/${user.imagePath}`);
     } else {
       setImageSrc(
         "https://i.pinimg.com/474x/c6/e9/ed/c6e9ed167165ca99c4d428426e256fae.jpg"
@@ -40,7 +40,7 @@ function UpdateProfile() {
 
       try {
         const response = await Axios.post(
-          "http://localhost:8000/user/uploadProfilePicture",
+          `${process.env.REACT_APP_API_BASE_URL}/user/uploadProfilePicture`,
           formData,
           {
             headers: {
@@ -49,7 +49,7 @@ function UpdateProfile() {
           }
         );
         if (!response.error) {
-          setImageSrc(`http://localhost:8000/${response.data.filepath}`);
+          setImageSrc(`${process.env.REACT_APP_API_BASE_URL}/${response.data.filepath}`);
           Swal.fire("Upload success!");
           dispatch(setUser({ ...user, imagePath: response.data.filepath }));
         } else {
@@ -70,7 +70,7 @@ function UpdateProfile() {
     setFile(null);
     setShowButtons(false);
     if (user && user.imagePath) {
-      setImageSrc(`http://localhost:8000/${user.imagePath}`);
+      setImageSrc(`${process.env.REACT_APP_API_IMG_URL}/${user.imagePath}`);
     } else {
       setImageSrc(
         "https://i.pinimg.com/474x/c6/e9/ed/c6e9ed167165ca99c4d428426e256fae.jpg"

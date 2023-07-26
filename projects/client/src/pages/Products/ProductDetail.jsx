@@ -18,13 +18,13 @@ function ProductDetailPage() {
     const fetchProductData = async () => {
       try {
         const productResponse = await Axios.get(
-          `http://localhost:8000/products/${id}`
+          `${process.env.REACT_APP_API_BASE_URL}/products/${id}`
         );
         const selectedProduct = productResponse.data;
         setProduct(selectedProduct);
 
         const adminResponse = await Axios.get(
-          `http://localhost:8000/auth/user/${selectedProduct.id_admin}`
+          `${process.env.REACT_APP_API_BASE_URL}/auth/user/${selectedProduct.id_admin}`
         );
         const adminData = adminResponse.data;
         setAdminData(adminData[0]);
@@ -58,7 +58,7 @@ function ProductDetailPage() {
         <div className="flex">
           <div className="w-1/2">
             <img
-              src={`http://localhost:8000/${product.image}`}
+              src={`${process.env.REACT_APP_API_IMG_URL}/${product.image}`}
               alt="Back angled view with bag open and handles to the side."
               className="w-full"
             />

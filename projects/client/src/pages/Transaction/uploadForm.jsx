@@ -33,7 +33,7 @@ function UploadForm() {
         formData.append("file", file);
 
         const response = await Axios.post(
-          `http://localhost:8000/payments/addPayment?id_transaction=${idTransaction}`,
+          `${process.env.REACT_APP_API_BASE_URL}/payments/addPayment?id_transaction=${idTransaction}`,
           formData,
           {
             headers: {

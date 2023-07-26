@@ -16,7 +16,7 @@ const registerSchema = Yup.object().shape({
     .required("phone number cannot be empty"),
 });
 const registerUser = async (value) => {
-  let response = await Axios.post("http://localhost:8000/auth/register", value);
+  let response = await Axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/register`, value);
 };
 
 function RegisterForm({ handleRegisterUser }) {

@@ -35,7 +35,7 @@ function TransactionItem({
             className="flex items-center mb-4"
           >
             <img
-              src={`http://localhost:8000/${item.image}`}
+              src={`${process.env.REACT_APP_API_IMG_URL}/${item.image}`}
               alt="Product"
               className="w-20 h-16 mr-4"
             />

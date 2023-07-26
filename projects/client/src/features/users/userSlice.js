@@ -43,7 +43,7 @@ const userToken = localStorage.getItem("user_token");
 export function fetchUsersData() {
   return async (dispatch) => {
     try {
-      let response = await Axios.get("http://localhost:8000/users");
+      let response = await Axios.get(`${process.env.REACT_APP_API_BASE_URL}/users`);
       dispatch(setUser(response.data));
     } catch (error) {
       console.log(error);
@@ -55,7 +55,7 @@ export function registerUser(data) {
   return async (dispatch) => {
     try {
       let response = await Axios.post(
-        "http://localhost:8000/auth/register",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/register`,
         data
       );
       if (response) {
@@ -80,7 +80,7 @@ export function changePassword(data, userToken) {
   return async (dispatch) => {
     try {
       let response = await Axios.post(
-        "http://localhost:8000/auth/changePassword",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/changePassword`,
         data,
         {
           headers: {
@@ -102,7 +102,7 @@ export function checkLogin(token) {
   return async (dispatch) => {
     try {
       let response = await Axios.post(
-        "http://localhost:8000/auth/check-login",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/check-login`,
         {},
         {
           headers: {
@@ -123,7 +123,7 @@ export function loginUser(data) {
   return async (dispatch) => {
     try {
       const response = await Axios.post(
-        "http://localhost:8000/auth/login",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/login`,
         data
       );
       if (response.data.success) {
@@ -146,7 +146,7 @@ export function verifyEmail(data) {
   return async (dispatch) => {
     try {
       const response = await Axios.post(
-        "http://localhost:8000/auth/verifyEmail",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/verifyEmail`,
         { data }
       );
       if (response.data.success) {
@@ -165,7 +165,7 @@ export function confirmEmail(data) {
   return async (dispatch) => {
     try {
       const response = await Axios.post(
-        "http://localhost:8000/auth/confirmEmail",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/confirmEmail`,
         data
       );
       if (response.data.success) {
@@ -183,7 +183,7 @@ export function resetPassword(data, token, navigate) {
   return async (dispatch) => {
     try {
       const response = await Axios.post(
-        "http://localhost:8000/auth/resetPassword",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/resetPassword`,
         data,
         {
           headers: {
@@ -208,7 +208,7 @@ export function editProfile(data) {
     try {
       const userToken = localStorage.getItem("user_token");
       const response = await Axios.patch(
-        `http://localhost:8000/user/edit`,
+        `${process.env.REACT_APP_API_BASE_URL}/user/edit`,
         data,
         {
           headers: {

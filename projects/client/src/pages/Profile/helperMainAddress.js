@@ -4,7 +4,7 @@ export const fetchMainAddressData = async () => {
   const userToken = localStorage.getItem("user_token");
   try {
     const response = await Axios.get(
-      "http://localhost:8000/address/fetchMainAddress",
+      `${process.env.REACT_APP_API_BASE_URL}/address/fetchMainAddress`,
       {
         headers: {
           Authorization: `Bearer ${userToken}`,

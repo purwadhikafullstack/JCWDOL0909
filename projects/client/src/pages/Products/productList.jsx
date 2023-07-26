@@ -11,7 +11,7 @@ function ProductList({ products, handleProductClick, handleAddToCart }) {
           >
             <div className="relative flex flex-col overflow-hidden rounded-lg border">
               <img
-                src={`http://localhost:8000/${product.image}`}
+                src={`${process.env.REACT_APP_API_IMG_URL}/${product.image}`}
                 alt={product.name}
                 className="w-full h-60 md:h-72 object-cover "
                 onClick={() => handleProductClick(product)}
