@@ -119,7 +119,6 @@ function EditCategory() {
                   ? editValue
                   : category.category_name
               }
-              // onBlur={() => setEditMode(false)}
               className={
                 editMode && category.id_category === editCategoryId
                   ? "text-black"
