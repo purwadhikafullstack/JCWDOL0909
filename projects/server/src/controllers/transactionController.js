@@ -28,7 +28,6 @@ module.exports = {
          INNER JOIN products ON transaction_products.id_product = products.id_product
          INNER JOIN transactions_status ON transactions.id_transaction_status = transactions_status.id_transaction_status) AS toplevel
          ORDER BY toplevel.date ASC`;
-      console.log(queryStr);
       const transactions = await query(queryStr);
       let totalWhereCountQuery = "";
       if (startDate && endDate) {

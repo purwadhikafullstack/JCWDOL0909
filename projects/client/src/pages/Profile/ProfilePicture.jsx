@@ -54,6 +54,7 @@ function UpdateProfile() {
           dispatch(setUser({ ...user, imagePath: response.data.filepath }));
         } else {
           Swal.fire(response.data.message);
+          setShowButtons(true);
         }
       } catch (error) {
         console.log(error);
