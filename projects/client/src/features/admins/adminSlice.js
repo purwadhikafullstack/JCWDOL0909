@@ -37,7 +37,7 @@ export function loginAdmin(data) {
   return async (dispatch) => {
     try {
       const response = await Axios.post(
-        "http://localhost:8000/admin/login",
+        `${process.env.REACT_APP_API_BASE_URL}/admin/login`,
         data
       );
       if (response.data.success) {
@@ -60,7 +60,7 @@ export function checkLoginAdmin(token) {
   return async (dispatch) => {
     try {
       let response = await Axios.post(
-        "http://localhost:8000/admin/check-login",
+        `${process.env.REACT_APP_API_IMG_URL}/admin/check-login`,
         {},
         {
           headers: {

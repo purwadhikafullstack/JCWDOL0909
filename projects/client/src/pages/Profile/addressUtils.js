@@ -9,7 +9,7 @@ export const saveAddress = async (
 ) => {
   try {
     const response = await Axios.post(
-      "http://localhost:8000/address/addAddress",
+      `${process.env.REACT_APP_API_BASE_URL}/address/addAddress`,
       data,
       {
         headers: {

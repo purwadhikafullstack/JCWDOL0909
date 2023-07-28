@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 export const fetchAddressData = async (id, userToken) => {
   try {
     const addressResponse = await Axios.get(
-      `http://localhost:8000/address/fetchAddressById?idAddress=${id}`,
+      `${process.env.REACT_APP_API_BASE_URL}/address/fetchAddressById?idAddress=${id}`,
       {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -23,7 +23,7 @@ export const fetchAddressData = async (id, userToken) => {
 export const editAddress = async (id, data, userToken) => {
   try {
     const response = await Axios.patch(
-      `http://localhost:8000/address/editAddress?id_address=${id}`,
+      `${process.env.REACT_APP_API_BASE_URL}/address/editAddress?id_address=${id}`,
       data,
       {
         headers: {
@@ -40,7 +40,7 @@ export const editAddress = async (id, data, userToken) => {
 export const fetchProvinces = async () => {
   try {
     const response = await Axios.get(
-      "http://localhost:8000/rajaongkir/province"
+      `${process.env.REACT_APP_API_BASE_URL}/rajaongkir/province`
     );
     const provinces = response.data.rajaongkir.results;
     return provinces;
@@ -52,7 +52,7 @@ export const fetchProvinces = async () => {
 export const fetchCities = async (provinceId) => {
   try {
     const response = await Axios.get(
-      `http://localhost:8000/rajaongkir/city?provinceId=${provinceId}`
+      `${process.env.REACT_APP_API_BASE_URL}/rajaongkir/city?provinceId=${provinceId}`
     );
     const cities = response.data.rajaongkir.results;
     return cities;
@@ -63,7 +63,7 @@ export const fetchCities = async (provinceId) => {
 
 export const fetchGeolocation = async (province, city_name) => {
   try {
-    const url = `http://localhost:8000/opencage/geolocation/${province}/${city_name}`;
+    const url = `${process.env.REACT_APP_API_BASE_URL}/opencage/geolocation/${province}/${city_name}`;
     const response = await Axios.get(url);
     const location = response.data;
     return location;

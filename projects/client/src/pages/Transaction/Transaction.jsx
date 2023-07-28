@@ -36,7 +36,7 @@ function Transaction() {
   const fetchShippingData = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:8000/transactions/fetchTransactionShipping"
+        `${process.env.REACT_APP_API_BASE_URL}/transactions/fetchTransactionShipping`
       );
       setShippingList(response.data);
       if (response.data.length > 0) {
@@ -85,7 +85,7 @@ function Transaction() {
 
     try {
       const response = await Axios.post(
-        "http://localhost:8000/transactions/createTransaction",
+        `${process.env.REACT_APP_API_BASE_URL}/transactions/createTransaction`,
         transactionData,
         {
           headers: {
@@ -210,7 +210,7 @@ function Transaction() {
               <div className="flex flex-col rounded-lg bg-white sm:flex-row">
                 <img
                   className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                  src={`http://localhost:8000/${item.image}`}
+                  src={`${process.env.REACT_APP_API_IMG_URL}/${item.image}`}
                   alt=""
                 />
                 <div className="flex w-full flex-col px-4 py-4">

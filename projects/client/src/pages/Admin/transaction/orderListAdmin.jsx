@@ -3,7 +3,6 @@ import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";
 import AdminLayout from "../../../components/AdminLayout";
-import moment from "moment";
 import {
   fetchTransactions,
   fetchTransactionStatus,
@@ -37,25 +36,19 @@ function OrderListAdmin() {
       const transactionStatusMatch =
         selectedStatus === 0 ||
         group.items.some(
-          (item) => parseInt(item.id_transaction_status) === selectedStatus
+          (item) => item.id_transaction_status === selectedStatus
         );
       const invoiceNumberMatch =
         searchQuery === "" ||
-        group.items[0]?.invoice_number?.toUpperCase().includes(searchQuery);
+        group.items[0].invoice_number.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
-    });
-    filtered.sort((a, b) => {
-      const dateA = moment(a.date);
-      const dateB = moment(b.date);
-
-      return dateA - dateB;
     });
     setFilteredTransactions(filtered);
   }, [selectedStatus, groupedTransactions, searchQuery]);
 
   useEffect(() => {
     const grouped = transactions.reduce((result, transaction) => {
-      const { id_transaction, date } = transaction;
+      const { id_transaction } = transaction;
       if (!result[id_transaction]) {
         result[id_transaction] = {
           id_transaction,
@@ -63,7 +56,6 @@ function OrderListAdmin() {
         };
       }
       result[id_transaction].items.push(transaction);
-      result[id_transaction]["date"] = date;
       return result;
     }, {});
     setGroupedTransactions(grouped);

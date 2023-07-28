@@ -23,7 +23,7 @@ function UpdateAddress({ editAddressData }) {
     const fetchAddressData = async () => {
       try {
         const addressResponse = await Axios.get(
-          `http://localhost:8000/address/fetchAddressById?idAddress=${id}`,
+          `${process.env.REACT_APP_API_BASE_URL}/address/fetchAddressById?idAddress=${id}`,
           {
             headers: {
               Authorization: `Bearer ${userToken}`,
@@ -84,7 +84,7 @@ function UpdateAddress({ editAddressData }) {
 
     try {
       const response = await Axios.patch(
-        `http://localhost:8000/address/editAddress?id_address=${id}`,
+        `${process.env.REACT_APP_API_BASE_URL}/address/editAddress?id_address=${id}`,
         data,
         {
           headers: {
@@ -106,7 +106,7 @@ function UpdateAddress({ editAddressData }) {
   const fetchProvinces = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:8000/rajaongkir/province"
+        `${process.env.REACT_APP_API_BASE_URL}/rajaongkir/province`
       );
       const provinces = response.data.rajaongkir.results;
       setProvinces(provinces);
@@ -118,7 +118,7 @@ function UpdateAddress({ editAddressData }) {
   const fetchCities = async (provinceId) => {
     try {
       const response = await Axios.get(
-        `http://localhost:8000/rajaongkir/city?provinceId=${provinceId}`
+        `${process.env.REACT_APP_API_BASE_URL}/rajaongkir/city?provinceId=${provinceId}`
       );
       const cities = response.data.rajaongkir.results;
       setCities(cities);
@@ -133,7 +133,7 @@ function UpdateAddress({ editAddressData }) {
 
       if (selectedCity) {
         const { province, city_name } = selectedCity;
-        const url = `http://localhost:8000/opencage/geolocation/${province}/${city_name}`;
+        const url = `${process.env.REACT_APP_API_BASE_URL}/opencage/geolocation/${province}/${city_name}`;
 
         const response = await Axios.get(url);
         const location = response.data;

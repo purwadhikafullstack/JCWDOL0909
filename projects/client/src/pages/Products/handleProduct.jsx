@@ -42,7 +42,7 @@ export const handleAddToCart = async (
 export const handleProductClick = async (product, navigate) => {
   try {
     const response = await Axios.get(
-      `http://localhost:8000/products/${product.id_product}`
+      `${process.env.REACT_APP_API_BASE_URL}/products/${product.id_product}`
     );
     const selectedProduct = response.data;
     navigate(`/product/${product.id_product}`);

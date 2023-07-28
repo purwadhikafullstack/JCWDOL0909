@@ -25,7 +25,7 @@ function EditCategory() {
 
       if (result.isConfirmed) {
         const response = await Axios.delete(
-          `http://localhost:8000/admin/deleteCategory/${categoryId}`,
+          `${process.env.REACT_APP_API_BASE_URL}/admin/deleteCategory/${categoryId}`,
           {
             headers: {
               Authorization: `Bearer ${adminToken}`,
@@ -53,7 +53,7 @@ function EditCategory() {
   const handleSaveEdit = async (categoryId) => {
     try {
       const response = await Axios.patch(
-        `http://localhost:8000/admin/editCategory/${categoryId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/admin/editCategory/${categoryId}`,
         {
           categoryName: editValue,
         },
@@ -82,7 +82,7 @@ function EditCategory() {
   const fetchCategoryData = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:8000/admin/getCategory"
+        `${process.env.REACT_APP_API_BASE_URL}/admin/getCategory`
       );
       setCategories(response.data);
     } catch (error) {

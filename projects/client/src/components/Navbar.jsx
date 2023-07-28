@@ -121,7 +121,7 @@ function Navbar() {
             <>
               {userGlobal.imagePath ? (
                 <img
-                  src={`http://localhost:8000/${userGlobal.imagePath}`}
+                  src={`${process.env.REACT_APP_API_IMG_URL}/${userGlobal.imagePath}`}
                   alt=""
                   className="w-8 h-8 rounded-full"
                   onClick={toggleDropdown}

@@ -29,17 +29,17 @@ app.use(express.static("src/public"));
 
 //#region API ROUTES
 
-app.use("/auth", authRoutes);
-app.use("/admin", adminRoutes);
-app.use("/products", productRoutes);
-app.use("/category", categoryRoutes);
-app.use("/user", userRoutes);
-app.use("/rajaOngkir", rajaongkirRoutes);
-app.use("/opencage", opencageRoutes);
-app.use("/address", addressRoutes);
-app.use("/transactions", transactionRoutes);
-app.use("/payments", paymentRoutes);
-app.use("/stock", stockRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/rajaOngkir", rajaongkirRoutes);
+app.use("/api/opencage", opencageRoutes);
+app.use("/api/address", addressRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/stock", stockRoutes);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);

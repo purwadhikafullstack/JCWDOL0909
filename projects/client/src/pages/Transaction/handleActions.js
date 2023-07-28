@@ -16,7 +16,7 @@ const handleCancelTransaction = async (transactionId, fetchData) => {
 
     if (result.isConfirmed) {
       const response = await Axios.patch(
-        `http://localhost:8000/user/cancelTransaction/${transactionId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/user/cancelTransaction/${transactionId}`,
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -50,7 +50,7 @@ const handleConfirmTransaction = async (transactionId, fetchData) => {
 
     if (result.isConfirmed) {
       const response = await Axios.patch(
-        `http://localhost:8000/user/confirmTransaction/${transactionId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/user/confirmTransaction/${transactionId}`,
         {
           headers: {
             Authorization: `Bearer ${userToken}`,

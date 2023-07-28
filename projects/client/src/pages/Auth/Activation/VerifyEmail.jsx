@@ -10,7 +10,7 @@ function Verification() {
   const tokenVerification = async () => {
     try {
       const response = await Axios.post(
-        "http://localhost:8000/auth/verification",
+        `${process.env.REACT_APP_API_BASE_URL}/auth/verification`,
         {},
         {
           headers: {

@@ -12,7 +12,7 @@ function AddCategory() {
   const addCategory = (values, { resetForm }) => {
     const adminToken = localStorage.getItem("admin_token");
     Axios.post(
-      "http://localhost:8000/admin/addCategory",
+      `${process.env.REACT_APP_API_BASE_URL}/admin/addCategory`,
       {
         categoryName: values.categoryName,
       },

@@ -23,7 +23,7 @@ function ProductForm() {
 
       if (result.isConfirmed) {
         const response = await Axios.delete(
-          `http://localhost:8000/admin/deleteProduct/${productId}`,
+          `${process.env.REACT_APP_API_BASE_URL}/admin/deleteProduct/${productId}`,
           {
             headers: {
               Authorization: `Bearer ${adminToken}`,
@@ -49,7 +49,7 @@ function ProductForm() {
   const fetchProductDataById = async () => {
     try {
       const response = await Axios.get(
-        `http://localhost:8000/admin/getProduct/${admin.id_branch}`,
+        `${process.env.REACT_APP_API_BASE_URL}/admin/getProduct/${admin.id_branch}`,
         {
           headers: {
             Authorization: `Bearer ${adminToken}`,
@@ -82,7 +82,7 @@ function ProductForm() {
         <td className="px-6 py-4 text-white ">
           <img
             className="w-40 h-32 object-cover"
-            src={`http://localhost:8000/${product.image}`}
+            src={`${process.env.REACT_APP_API_IMG_URL}/${product.image}`}
             alt="Product Image"
           />
         </td>
