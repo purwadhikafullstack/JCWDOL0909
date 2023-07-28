@@ -33,7 +33,7 @@ export const fetchTransaction = async (
     }
 
     const response = await Axios.get(
-      "http://localhost:8000/transactions/fetchTransaction",
+      `${process.env.REACT_APP_API_BASE_URL}/transactions/fetchTransaction`,
       {
         params: {
           startDate: formattedStartDate,
@@ -62,7 +62,7 @@ export const fetchTransaction = async (
 export const fetchTransactionStatus = async () => {
   try {
     const response = await Axios.get(
-      "http://localhost:8000/transactions/fetchTransactionStatus"
+      `${process.env.REACT_APP_API_BASE_URL}/transactions/fetchTransactionStatus`
     );
     return response.data;
   } catch (error) {

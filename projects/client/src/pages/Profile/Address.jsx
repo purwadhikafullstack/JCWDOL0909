@@ -27,7 +27,7 @@ function Address() {
   const fetchAddressData = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:8000/address/fetchAddress",
+        `${process.env.REACT_APP_API_BASE_URL}/address/fetchAddress`,
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -60,7 +60,7 @@ function Address() {
 
       if (result.isConfirmed) {
         const response = await Axios.delete(
-          `http://localhost:8000/address/deleteAddress?id_address=${addressId}`,
+          `${process.env.REACT_APP_API_BASE_URL}/address/deleteAddress?id_address=${addressId}`,
           {
             headers: {
               Authorization: `Bearer ${userToken}`,
@@ -94,7 +94,7 @@ function Address() {
 
       if (result.isConfirmed) {
         const response = await Axios.patch(
-          `http://localhost:8000/address/setMainAddress?id_address=${addressId}`,
+          `${process.env.REACT_APP_API_BASE_URL}/address/setMainAddress?id_address=${addressId}`,
           {},
           {
             headers: {
@@ -172,7 +172,6 @@ function Address() {
             closeModal={handleCloseModal}
             fetchAddressData={fetchAddressData}
           />
-          {/* Passing prop handleCloseModal */}
         </div>
       )}
     </div>

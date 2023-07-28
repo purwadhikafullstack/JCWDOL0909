@@ -24,7 +24,7 @@ function ProductCard() {
   const itemsPerPage = 8;
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/category")
+    Axios.get(`${process.env.REACT_APP_API_BASE_URL}/category`)
       .then((response) => {
         setCategories(response.data);
       })
@@ -39,7 +39,7 @@ function ProductCard() {
 
   const fetchProductsData = async () => {
     try {
-      const response = await Axios.get("http://localhost:8000/products");
+      const response = await Axios.get(`${process.env.REACT_APP_API_BASE_URL}/products`);
       setProducts(response.data);
     } catch (error) {
       console.log(error);

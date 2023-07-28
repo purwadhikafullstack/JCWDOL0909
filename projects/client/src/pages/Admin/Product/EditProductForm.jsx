@@ -31,7 +31,7 @@ function EditProductForm({ editProductData }) {
 
     try {
       const response = await Axios.patch(
-        `http://localhost:8000/admin/editProduct/${id}`,
+        `${process.env.REACT_APP_API_BASE_URL}/admin/editProduct/${id}`,
         formData,
         {
           headers: {
@@ -76,7 +76,7 @@ function EditProductForm({ editProductData }) {
 
   useEffect(() => {
     if (product && product.image) {
-      setPreviewImage(`http://localhost:8000/${product.image}`);
+      setPreviewImage(`${process.env.REACT_APP_API_IMG_URL}/${product.image}`);
     } else {
       setPreviewImage("");
     }
@@ -86,7 +86,7 @@ function EditProductForm({ editProductData }) {
     const fetchProductData = async () => {
       try {
         const productResponse = await Axios.get(
-          `http://localhost:8000/admin/product/getProductById?idProduct=${id}`,
+          `${process.env.REACT_APP_API_BASE_URL}/admin/product/getProductById?idProduct=${id}`,
           {
             headers: {
               Authorization: `Bearer ${adminToken}`,
@@ -95,7 +95,7 @@ function EditProductForm({ editProductData }) {
         );
         const productData = productResponse.data;
         setProduct(productData);
-        setPreviewImage(`http://localhost:8000/${productData.image}`);
+        setPreviewImage(`${process.env.REACT_APP_API_IMG_URL}/${productData.image}`);
       } catch (error) {
         alert(error.message);
       }
@@ -116,7 +116,7 @@ function EditProductForm({ editProductData }) {
   }, [editProductData]);
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/category")
+    Axios.get(`${process.env.REACT_APP_API_BASE_URL}/category`)
       .then((response) => {
         setCategories(response.data);
       })

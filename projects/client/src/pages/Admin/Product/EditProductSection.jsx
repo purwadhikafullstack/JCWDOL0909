@@ -139,7 +139,7 @@ function EditProductSection({
                 />
               ) : (
                 <img
-                  src={`http://localhost:8000/${product && product.image}`}
+                  src={`${process.env.REACT_APP_API_IMG_URL}/${product && product.image}`}
                   alt="Product Preview"
                   className="mt-2 h-40 w-auto object-contain"
                 />

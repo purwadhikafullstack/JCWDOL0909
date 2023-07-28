@@ -24,7 +24,7 @@ const AddProduct = () => {
 
     try {
       const response = await Axios.post(
-        "http://localhost:8000/admin/addProduct",
+        `${process.env.REACT_APP_API_BASE_URL}/admin/addProduct`,
         formData,
         {
           headers: {
@@ -48,7 +48,7 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/category")
+    Axios.get(`${process.env.REACT_APP_API_BASE_URL}/category`)
       .then((response) => {
         setCategories(response.data);
       })

@@ -29,7 +29,7 @@ module.exports = {
                 </div>
                 <p>Thank you for using E-Grocery. Use the following Link to complete your Password Recovery Procedure. <br/>
                   Link is valid for 10 minutes</p>
-                <a href="http://localhost:3000/user/resetPassword/${token}" style="background: #00466a;margin: 0 auto;width: max-content;padding: 10px;color: #fff;border-radius: 4px;">Reset Password</a>
+                <a href="https://jcwdol0909.purwadhikabootcamp.com/user/resetPassword/${token}" style="background: #00466a;margin: 0 auto;width: max-content;padding: 10px;color: #fff;border-radius: 4px;">Reset Password</a>
                 <p style="font-size:0.9em;">Regards,<br />Alexa</p>
                 <hr style="border:none;border-top:1px solid #eee" />
                 <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">

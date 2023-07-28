@@ -15,7 +15,7 @@ function ProductStock() {
   const fetchHistoriesProduct = async () => {
     try {
       const response = await Axios.get(
-        `http://localhost:8000/stock/fetchStockHistories`,
+        `${process.env.REACT_APP_API_BASE_URL}/stock/fetchStockHistories`,
         {
           headers: {
             Authorization: `Bearer ${adminToken}`,

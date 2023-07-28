@@ -30,7 +30,7 @@ module.exports = {
         html: `
         <div>
         <p>Thanks for registering! You need to activate your account,</p>
-        <a href="http://localhost:3000/user/verifyEmail/${token}">Click Here</a>
+        <a href="https://jcwdol0909.purwadhikabootcamp.com/user/verifyEmail/${token}">Click Here</a>
         <span>to activate</span>
         </div>
         `,

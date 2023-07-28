@@ -30,7 +30,7 @@ const CreateAdmin = () => {
 
     try {
       const response = await Axios.post(
-        "http://localhost:8000/admin/createAdmin",
+        `${process.env.REACT_APP_API_BASE_URL}/admin/createAdmin`,
         requestData,
         {
           headers: {
@@ -53,7 +53,7 @@ const CreateAdmin = () => {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/admin/branch")
+    Axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin/branch`)
       .then((response) => {
         console.log(response.data);
         setBranches(response.data);
