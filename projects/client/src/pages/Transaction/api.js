@@ -1,7 +1,8 @@
 import Axios from "axios";
-import { format, endOfDay, addDays } from "date-fns";
+import { format, endOfDay, startOfDay } from "date-fns";
+import moment from "moment";
 
-export const fetchTransactions = async (
+export const fetchTransaction = async (
   selectedStatus,
   startDate,
   endDate,
@@ -18,15 +19,17 @@ export const fetchTransactions = async (
     }
 
     if (startDate) {
-      const startOfDayUTC = endOfDay(startDate);
-      formattedStartDate = format(
-        startOfDayUTC,
-        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-      );
+      const startOfDayUTC = startOfDay(startDate);
+      const startDatePlus7 = moment(startOfDayUTC).add(7, "hours");
+      formattedStartDate = startDatePlus7.toISOString();
     }
     if (endDate) {
-      const endOfDayUTC = endOfDay(addDays(endDate, 1));
-      formattedEndDate = format(endOfDayUTC, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      const endOfDayUTC = endOfDay(endDate);
+      console.log(endDate);
+      const endDatePlus7HoursAnd1Second = moment(endOfDayUTC).add({
+        hours: 7,
+      });
+      formattedEndDate = endDatePlus7HoursAnd1Second.toISOString();
     }
 
     const response = await Axios.get(

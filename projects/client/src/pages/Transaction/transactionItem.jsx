@@ -1,6 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
-import Axios from "axios";
+import moment from "moment";
 
 function TransactionItem({
   group,
@@ -8,6 +6,7 @@ function TransactionItem({
   handleCancelTransaction,
   handleConfirmTransaction,
 }) {
+  console.log("group prop:", group);
   return (
     <div
       key={group.id_transaction}
@@ -55,15 +54,6 @@ function TransactionItem({
 
       <div>
         <div className="flex justify-between">
-          <h3 className="text-sm font-semibold">Subtotal</h3>
-          <p className="font-semibold">
-            {group.items[0].total_price.toLocaleString("id-ID", {
-              style: "currency",
-              currency: "IDR",
-            })}
-          </p>
-        </div>
-        <div className="flex justify-between">
           <h3 className="text-sm font-semibold">Shipping</h3>
           <p className="font-semibold">
             {group.items[0].shipping_cost.toLocaleString("id-ID", {
@@ -79,11 +69,8 @@ function TransactionItem({
         <hr />
         <div className="flex justify-between">
           <h3 className="text-sm font-semibold">Total</h3>
-          <p className="text-sm font-semibold">
-            {(
-              Number(group.items[0].total_price) +
-              Number(group.items[0].shipping_cost)
-            ).toLocaleString("id-ID", {
+          <p className="font-semibold">
+            {Number(group.items[0].total_price).toLocaleString("id-ID", {
               style: "currency",
               currency: "IDR",
             })}
@@ -91,11 +78,11 @@ function TransactionItem({
         </div>
         <div className="flex justify-between mt-2">
           <h3 className="text-sm font-semibold text-red-400">
-            {group.items[0].date.substring(0, 10)}
+            {moment(group.items[0].date).add(7, "hours").format("YYYY DD MM")}
           </h3>
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 1 && (
+          {group.items[0].id_transaction_status.toString() === "1" && (
             <>
               <button
                 onClick={() => handleOrderClick(group.items[0].id_transaction)}
@@ -115,7 +102,7 @@ function TransactionItem({
           )}
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 2 && (
+          {group.items[0].id_transaction_status.toString() === "2" && (
             <>
               <button
                 onClick={() =>
@@ -129,7 +116,7 @@ function TransactionItem({
           )}
         </div>
         <div className="flex justify-center items-center mt-4">
-          {group.items[0].id_transaction_status === 4 && (
+          {group.items[0].id_transaction_status.toString() === "4" && (
             <>
               <button
                 onClick={() =>

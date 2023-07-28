@@ -4,12 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import TransactionItem from "./transactionItem";
 import Pagination from "./pagination";
 import SearchBar from "./searchBar";
+import moment from "moment";
 import {
   handleCancelTransaction,
   handleConfirmTransaction,
   handleOrderClick,
 } from "./handleActions";
-import { fetchTransactions, fetchTransactionStatus } from "./api";
+import { fetchTransaction, fetchTransactionStatus } from "./api";
 
 function OrderList() {
   const [transactions, setTransactions] = useState([]);
@@ -36,30 +37,43 @@ function OrderList() {
   }, []);
 
   useEffect(() => {
+    // console.log("grouped", Object.values(groupedTransactions));
     const filtered = Object.values(groupedTransactions).filter((group) => {
+      console.log("group", group);
+      console.log("select", selectedStatus);
       const transactionStatusMatch =
         selectedStatus === 0 ||
         group.items.some(
-          (item) => item.id_transaction_status === selectedStatus
+          (item) => parseInt(item.id_transaction_status) === selectedStatus
         );
       const invoiceNumberMatch =
         searchQuery === "" ||
-        group.items[0].invoiceNumber.toUpperCase().includes(searchQuery);
+        group.items[0]?.invoice_number?.toUpperCase().includes(searchQuery);
       return transactionStatusMatch && invoiceNumberMatch;
     });
+    console.log("filter", filtered);
+    filtered.sort((a, b) => {
+      const dateA = moment(a.date);
+      const dateB = moment(b.date);
+
+      return dateA - dateB;
+    });
     setFilteredTransactions(filtered);
+    console.log(filteredTransactions);
   }, [selectedStatus, groupedTransactions, searchQuery]);
 
   useEffect(() => {
     const grouped = transactions.reduce((result, transaction) => {
-      const { id_transaction } = transaction;
+      const { id_transaction, date } = transaction;
       if (!result[id_transaction]) {
         result[id_transaction] = {
           id_transaction,
+
           items: [],
         };
       }
       result[id_transaction].items.push(transaction);
+      result[id_transaction]["date"] = date;
       return result;
     }, {});
     setGroupedTransactions(grouped);
@@ -67,7 +81,7 @@ function OrderList() {
 
   const fetchData = async () => {
     try {
-      const { transactions, totalPages } = await fetchTransactions(
+      const { transactions, totalPages } = await fetchTransaction(
         selectedStatus,
         startDate,
         endDate,

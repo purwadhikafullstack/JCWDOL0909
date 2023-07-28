@@ -1,6 +1,4 @@
-const express = require("express");
 const Axios = require("axios");
-const app = express();
 const api_key = "daeea4a5ce8a4985acd17b66e72a7530";
 
 module.exports = {

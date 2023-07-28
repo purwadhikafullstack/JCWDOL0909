@@ -39,7 +39,7 @@ const AddProduct = () => {
         Swal.fire("Success", response.data.message, "success");
       }
     } catch (error) {
-      Swal.fire("Error", error.response.data.message, "error");
+      Swal.fire("Product Already Exist", error.response.data.message, "error");
     }
   };
 

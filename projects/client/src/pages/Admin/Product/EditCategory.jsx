@@ -71,7 +71,7 @@ function EditCategory() {
       }
       fetchCategoryData(); // Refresh the category data
     } catch (error) {
-      Swal.fire("Error", error.message, "error");
+      Swal.fire("Category is already exist");
     }
   };
 
@@ -114,8 +114,11 @@ function EditCategory() {
             <input
               type="text"
               onChange={(e) => setEditValue(e.target.value)}
-              value={editValue || ""}
-              onBlur={() => setEditMode(false)}
+              value={
+                editMode && category.id_category === editCategoryId
+                  ? editValue
+                  : category.category_name
+              }
               className={
                 editMode && category.id_category === editCategoryId
                   ? "text-black"

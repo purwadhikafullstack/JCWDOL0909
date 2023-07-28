@@ -119,7 +119,7 @@ function ProductCard() {
   };
 
   return (
-    <div className="w-full mx-auto ">
+    <div className="w-full ml-2 ">
       <CategoryList
         categories={categories}
         handleCategoryChange={handleCategoryChange}

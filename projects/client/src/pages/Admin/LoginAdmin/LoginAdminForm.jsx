@@ -16,7 +16,7 @@ function LoginAdminForm({ handleLoginAdmin }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mt-10">
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={loginSchema}
@@ -57,9 +57,9 @@ function LoginAdminForm({ handleLoginAdmin }) {
             </div>
             <button
               type="submit"
-              className="text-xl text-center bg-[#EDA415] text-white py-1 rounded font-medium hover:bg-[#003F62]"
+              className="text-xl text-center bg-slate-400 text-white py-1 rounded font-medium hover:bg-[#003F62]"
             >
-              Admin Sign In
+              Sign In
             </button>
           </Form>
         )}

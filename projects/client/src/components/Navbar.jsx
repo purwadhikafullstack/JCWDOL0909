@@ -4,16 +4,10 @@ import { resetUser } from "../features/users/userSlice";
 import { resetCart } from "../features/cart/cartSlice";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  FaHome,
-  FaCube,
-  FaShoppingCart,
-  FaUser,
-  FaShoppingBag,
-  FaCogs,
-} from "react-icons/fa";
+import { FaHome, FaCube, FaUser, FaShoppingBag, FaCogs } from "react-icons/fa";
 import Swal from "sweetalert2";
-import logoo from "../img/logo-cut.png";
+import logoo from "../img/logogrocery.png";
+import carts from "../img/shopping-cart.png";
 import CartModal from "./cartModal";
 
 function Navbar() {
@@ -72,10 +66,10 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="flex items-center relative justify-between w-screen bg-[#EDA415] px-5 py-2">
+      <nav className="flex items-center relative justify-between w-screen bg-slate-300 px-5 py-2">
         <div>
           <div>
-            <img src={logoo} alt="Logo" className="w-20 h-16 ml-5" />
+            <img src={logoo} alt="Logo" className="w-20 h-14 ml-5" />
           </div>
         </div>
         <ul
@@ -119,7 +113,7 @@ function Navbar() {
         </ul>
         <div className="flex gap-3 items-center">
           <button onClick={openCart}>
-            <FaShoppingCart />
+            <img src={carts} alt="Shopping Cart" />
           </button>
           {showCart && <CartModal closeModal={closeCart} />}
 
@@ -142,7 +136,7 @@ function Navbar() {
               )}
             </>
             {isOpen && (
-              <div className="userDropdown w-48 overflow-hidden bg-white rounded-md shadow absolute top-12 right-3">
+              <div className="userDropdown w-28 overflow-hidden bg-white rounded-md shadow absolute top-12 right-3">
                 <ul>
                   <li className="pl-4 py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
                     <button
@@ -154,8 +148,8 @@ function Navbar() {
                       Profile
                     </button>
                   </li>
-                  <li className="px-3 py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400 mr-1">
-                    <FaCogs className="inline-block align-middle mr-3.5" />
+                  <li className="pl-3 py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400 mr-1">
+                    <FaCogs className="inline-block align-middle mr-2.5" />
 
                     <button onClick={handleLogout}>Logout</button>
                   </li>
