@@ -172,7 +172,6 @@ function Address() {
             closeModal={handleCloseModal}
             fetchAddressData={fetchAddressData}
           />
-          {/* Passing prop handleCloseModal */}
         </div>
       )}
     </div>
