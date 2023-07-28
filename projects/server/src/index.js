@@ -25,7 +25,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(express.static("src/public"));
+app.use("/", express.static(__dirname + "/public"));
 
 //#region API ROUTES
 
